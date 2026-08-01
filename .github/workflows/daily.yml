@@ -1,0 +1,88 @@
+# Daily autorefresh (Phase 7). Fetch -> optional judgment layer -> build ->
+# constitutional gate -> tests -> commit snapshots + built page back to the
+# branch. GitHub Pages serves docs/ via deploy-from-branch (Phase 8), so the
+# commit-back IS the deploy: a run that fails the gate publishes nothing,
+# and the last green page keeps serving.
+#
+# The judgment layer is OFF by default (mechanical tape only). It turns on
+# only when the ANTHROPIC_API_KEY repository secret exists AND its output
+# survives schema + no-new-facts validation (tools/judgment.py). A rejected
+# or absent judgment never blocks the mechanical publish.
+
+name: daily-refresh
+
+on:
+  schedule:
+    # 12:30 UTC = 05:30 Pacific (PDT) — lands before the reader's morning.
+    - cron: "30 12 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        timeout-minutes: 5
+        run: pip install -r requirements.txt
+
+      - name: Fetch (live collectors, honest degradation)
+        timeout-minutes: 15
+        run: COLLECT=1 make fetch
+
+      - name: Judgment layer (only if secret present; validated or discarded)
+        timeout-minutes: 10
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            python3 tools/judgment.py || echo "judgment layer degraded to mechanical (see log above)"
+            make fetch   # re-materialize latest.json (SYNC rule) after any edit
+          else
+            echo "ANTHROPIC_API_KEY not set — shipping mechanical tape (designed default)"
+          fi
+
+      - name: Build page
+        timeout-minutes: 5
+        run: make build
+
+      - name: Constitutional gate (all 12 rules, HTML required)
+        timeout-minutes: 5
+        run: REQUIRE_HTML=1 make check
+
+      - name: Tests
+        timeout-minutes: 10
+        run: make test
+
+      - name: Commit snapshots + page back
+        timeout-minutes: 5
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/ docs/
+          if git diff --cached --quiet; then
+            echo "no changes to publish (sources unchanged)"
+            exit 0
+          fi
+          git commit -m "daily refresh: $(date -u +%F) snapshot + rebuilt page [skip ci]"
+          n=0
+          until git push origin HEAD; do
+            n=$((n+1)); [ $n -ge 4 ] && exit 1
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            sleep $((2 ** n))
+          done

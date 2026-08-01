@@ -1,0 +1,7 @@
+# Pipeline + test dependencies (CI installs exactly this file).
+# playwright is intentionally NOT listed: browser-gate tests skip cleanly when
+# it is absent, and the daily pipeline must stay lean. Install it locally with:
+#   pip install playwright   (browser is preinstalled in the dev sandbox)
+requests>=2.31
+PyYAML>=6.0
+pytest>=8.0
