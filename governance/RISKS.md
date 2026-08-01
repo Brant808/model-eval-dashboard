@@ -51,3 +51,14 @@ decisions, not omissions: each one traces to a gate objection.
   brant808/model-eval-dashboard via claude.ai/settings or GitHub App settings,
   then push from a fresh session).
 - Reversal trigger: first successful push closes this risk.
+
+## RISK-005 — Bash-tool writes bypass the PostToolUse edit guard
+- Status: ACCEPTED (Phase 0 gate, red-team M5)
+- Context: Claude Code PostToolUse hooks fire on Edit/Write tool calls; a file
+  written via Bash (sed/echo/redirect) skips the hook even on guarded paths.
+- Rationale: the hook is a fast local tripwire, not the enforcement authority.
+  The authority is `make check && make test`, which CI (Phase 7 workflow) runs
+  on every push and before every publish; nothing reaches the published page
+  without passing the linter in CI.
+- Reversal trigger: if a Bash-written violation ever reaches a pushed commit
+  without CI catching it, add a pre-commit git hook as a second tripwire.

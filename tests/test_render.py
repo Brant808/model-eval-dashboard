@@ -100,3 +100,79 @@ def test_stale_cell_renders_badge(seed, tmp_path):
     html = render(stale_snap)
     assert "STALE" in html
     assert 'data-cell-id="arena-elo.kimi-k3" data-tag="I" data-stale="1"' in html
+
+
+# ---------------------------------------------------------------------------
+# Phase 0 gate hardening: HTML forgeries the old regex checker missed.
+# ---------------------------------------------------------------------------
+
+
+def _check(html_text, seed, tmp_path, fname="f.html"):
+    p = tmp_path / fname
+    p.write_text(html_text, encoding="utf-8")
+    ledger = load_sources_ledger(REPO / "governance" / "SOURCES.md")
+    return check_html(p, seed, ledger)
+
+
+def test_gate_single_quoted_chip_forgery_caught(seed, tmp_path):
+    html = render(seed)
+    forged = html.replace(
+        'data-cell-id="swe-bench-pro.opus-5" data-tag="V" data-stale="0" data-warn="0" data-chip="0"',
+        "data-cell-id='swe-bench-pro.opus-5' data-tag='V' data-stale='0' data-warn='0' data-chip='1'",
+    )
+    assert forged != html
+    out = _check(forged, seed, tmp_path)
+    assert any(x.startswith("RULE10") for x in out)
+
+
+def test_gate_duplicate_cell_id_caught(seed, tmp_path):
+    html = render(seed)
+    dup = (
+        '<td data-cell-id="aa-index.fable-5" data-tag="I" data-stale="0" data-warn="0" '
+        'data-chip="1" data-set="aa-index-v4.1"><span class="val">60 index</span>'
+        '<span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span></td>'
+    )
+    forged = html.replace("<h2>Today's tape</h2>", dup + "<h2>Today's tape</h2>")
+    out = _check(forged, seed, tmp_path)
+    assert any("duplicate rendered cell id" in x for x in out)
+
+
+def test_gate_fabricated_cell_caught(seed, tmp_path):
+    html = render(seed)
+    fake = (
+        '<td data-cell-id="fake-bench.opus-5" data-tag="I" data-stale="0" data-warn="0" '
+        'data-chip="0" data-set="fake"><span class="val">99.9 %</span></td>'
+    )
+    forged = html.replace("<h2>Today's tape</h2>", fake + "<h2>Today's tape</h2>")
+    out = _check(forged, seed, tmp_path)
+    assert any("does not exist in the snapshot" in x for x in out)
+
+
+def test_gate_wrong_displayed_value_caught(seed, tmp_path):
+    html = render(seed)
+    forged = html.replace('<span class="val">60 index</span>', '<span class="val">82 index</span>')
+    assert forged != html
+    out = _check(forged, seed, tmp_path)
+    assert any("does not contain the snapshot value" in x for x in out)
+
+
+def test_gate_orphan_lead_visual_caught(seed, tmp_path):
+    """A visible LEAD badge inside a non-chip cell is visual forgery."""
+    html = render(seed)
+    forged = html.replace(
+        '<span class="val">79.2 %</span>',
+        '<span class="val">79.2 %</span><span class="chip"><span class="chip-glyph">▲</span>'
+        '<span class="chip-label">LEAD</span></span>',
+    )
+    assert forged != html
+    out = _check(forged, seed, tmp_path)
+    assert any("visual forgery" in x for x in out)
+
+
+def test_gate_lowercase_name_and_encoded_email_caught(seed, tmp_path):
+    html = render(seed)
+    forged = html.replace(
+        "</body>", "<p>brant&#39;s dashboard — mail me at foo&#64;bar-example.net</p></body>"
+    )
+    out = _check(forged, seed, tmp_path)
+    assert sum(x.startswith("RULE12") for x in out) >= 2

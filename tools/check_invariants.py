@@ -5,17 +5,37 @@ HTML page. `make check` runs this; the pipeline may not publish on violation.
 
 Never weaken a check to make a build pass. Fix the data or the renderer.
 
-Exit code 0 = green. Nonzero = violations printed one per line as
-  RULE<N> <where>: <what>
+Hardened after the Phase 0 red-team gate (governance/redteam/phase-0.md):
+- source-ledger independence is enforced against cell tags (a vendor source can
+  never yield an I-tagged cell), so rule 10 no longer trusts the tag alone;
+- non-finite numbers are rejected everywhere (strict JSON parse + isfinite);
+- rule 5 covers tape cell_ids and benchmark-name mentions in tape/implication
+  text, not just rows and citation sets;
+- a metric without a freshness SLA is itself a violation (rule 9 cannot be
+  disabled by omission);
+- the HTML checker parses with html.parser (quote-agnostic), rejects duplicate
+  or fabricated cell ids, and verifies displayed value text against the data;
+- chips require >=2 independent competitors; mixed numeric/text values in a
+  direction-bearing metric are a violation;
+- explainability covers removed and newly-appearing cells, not just changes;
+- in full-run mode latest.json older than MAX_LATEST_AGE_HOURS fails loudly
+  (set CHECK_ALLOW_OLD_LATEST=1 for deliberate offline replays);
+- malformed snapshots become SCHEMA violations instead of tracebacks.
+
+Exit code 0 = green. Nonzero = violations printed one per line.
 """
 
 from __future__ import annotations
 
 import argparse
+import html as html_lib
 import json
+import math
+import os
 import re
 import sys
 from datetime import datetime, timedelta, timezone
+from html.parser import HTMLParser
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -31,14 +51,17 @@ EMPTY_REASONS = {
 # Rule 7's named integrity conditions (substring match against cell flags).
 INTEGRITY_MARKERS = ("record gaming", "modified harness", "withheld disclosure")
 
-# Rule 5 families: these comparability-set prefixes may never meet.
+# Rule 5 families: these may never meet in a row, comparison, chip set, tape
+# entry, or implication sentence.
 PRO_PREFIX = "swe-bench-pro"
 VERIFIED_PREFIX = "swe-bench-verified"
+PRO_NAME_RE = re.compile(r"swe.?bench\s+pro", re.IGNORECASE)
+VERIFIED_NAME_RE = re.compile(r"swe.?bench\s+verified", re.IGNORECASE)
 
 # Rule 12 banned content. Name ban applies to the built page (RISK-001 covers
-# the commissioning brief in governance/). Credentials + email banned repo-wide.
+# the commissioning brief in governance/). Credentials banned repo-wide.
 PAGE_BANNED = [
-    re.compile(r"\bBrant\b"),
+    re.compile(r"\bbrant\b", re.IGNORECASE),
     re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"),
 ]
 REPO_BANNED = [
@@ -52,18 +75,39 @@ REPO_BANNED = [
 # Repo-wide personal-contact scan: any email address is banned unless the
 # domain is on the infrastructure allowlist. Deliberately generic so the
 # linter never has to contain the personal string it exists to keep out.
+# Applied to whitespace-collapsed text so line-split addresses are caught too.
 EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@([A-Za-z0-9.-]+\.[A-Za-z]{2,})")
 EMAIL_DOMAIN_ALLOWLIST = {"anthropic.com", "users.noreply.github.com", "example.com"}
 
-TAPE_WINDOW_HOURS = 78  # "~72 hours" with slack for date-granularity entries
+TAPE_WINDOW_HOURS = 78  # "~72 hours" back-window with slack for date-granularity entries
+MAX_LATEST_AGE_HOURS = 54  # full-run rot guard: daily cadence + slack
+
+# The linter itself is exempt from the credential-pattern scan (it contains the
+# patterns) — by exact repo-relative path only, so a stray copy elsewhere is
+# still scanned.
+HYGIENE_EXEMPT_PATHS = {"tools/check_invariants.py"}
 
 
 def parse_iso(ts: str) -> datetime:
     return datetime.fromisoformat(ts.replace("Z", "+00:00"))
 
 
+def _reject_nonfinite_const(name):
+    raise ValueError(f"non-finite JSON constant {name!r} is banned in snapshots")
+
+
+def load_json_strict(path: Path):
+    """JSON load that refuses NaN/Infinity (they silently corrupt chips)."""
+    return json.loads(path.read_text(encoding="utf-8"), parse_constant=_reject_nonfinite_const)
+
+
 def load_sources_ledger(path: Path):
-    """Parse SOURCES.md into {source_id: {url, method, retrieved}}."""
+    """Parse SOURCES.md into {source_id: {url, method, retrieved, independence}}.
+
+    The Independence: line is machine-read: a value starting with 'vendor'
+    marks a vendor source (cells citing it must be tagged V); 'independent'
+    marks an independent source; anything else is neutral (no tag constraint).
+    """
     ledger = {}
     if not path.exists():
         return ledger
@@ -72,12 +116,25 @@ def load_sources_ledger(path: Path):
         m = re.match(r"^###\s+(S\d+)\b", line)
         if m:
             current = m.group(1)
-            ledger[current] = {"url": None, "method": None, "retrieved": None}
+            ledger[current] = {"url": None, "method": None, "retrieved": None, "independence": "neutral"}
             continue
         if current:
-            lm = re.match(r"^-\s*(URL|Method|Retrieved-at):\s*(.+)$", line)
+            lm = re.match(r"^-\s*(URL|Method|Retrieved-at|Independence):\s*(.+)$", line)
             if lm:
-                ledger[current][lm.group(1).split("-")[0].lower()] = lm.group(2).strip()
+                key = lm.group(1).lower()
+                val = lm.group(2).strip()
+                if key == "retrieved-at":
+                    ledger[current]["retrieved"] = val
+                elif key == "independence":
+                    low = val.lower()
+                    if low.startswith("vendor"):
+                        ledger[current]["independence"] = "vendor"
+                    elif low.startswith("independent"):
+                        ledger[current]["independence"] = "independent"
+                    else:
+                        ledger[current]["independence"] = "neutral"
+                else:
+                    ledger[current][key] = val
     return ledger
 
 
@@ -99,14 +156,19 @@ def integrity_flags(cell):
     ]
 
 
+def _mentions_both_families(text: str) -> bool:
+    return bool(PRO_NAME_RE.search(text)) and bool(VERIFIED_NAME_RE.search(text))
+
+
 def compute_chips(snap):
     """Recompute which cells legitimately hold a lead chip.
 
-    Contract (rules 4 + 10, ratified in ADR-001): a chip marks the leader within
-    a single declared comparability set, computed ONLY over independent (I),
-    populated, non-stale numeric cells. Vendor-claimed values never compete.
-    Ties: all tied leaders chip (Phase 3 may tighten). Metrics with
-    direction "none" never chip.
+    Contract (rules 4 + 10, ADR-001): a chip marks the leader within a single
+    declared comparability set, computed ONLY over independent (I), populated,
+    non-stale, finite-numeric cells that share the metric's set. Vendor-claimed
+    values never compete. A lead requires COMPETITION: fewer than 2 eligible
+    candidates -> no chip. Ties: all tied leaders chip (Phase 3 may tighten).
+    Metrics with direction "none" never chip.
     """
     chips = set()
     for metric_id, meta in snap.get("metrics", {}).items():
@@ -119,13 +181,13 @@ def compute_chips(snap):
             if not is_populated(cell) or cell.get("tag") != "I" or cell.get("stale"):
                 continue
             v = cell.get("value")
-            if not isinstance(v, (int, float)):
+            if not isinstance(v, (int, float)) or isinstance(v, bool) or not math.isfinite(v):
                 continue
             if cell.get("comparability_set") != meta.get("comparability_set"):
                 continue  # off-set cells never compete (rule 4)
             candidates[model_id] = v
-        if not candidates:
-            continue
+        if len(candidates) < 2:
+            continue  # a "lead" over nobody is a misleading superlative
         best = max(candidates.values()) if direction == "higher" else min(candidates.values())
         for model_id, v in candidates.items():
             if v == best:
@@ -136,9 +198,20 @@ def compute_chips(snap):
 def check_snapshot(snap, snap_name, ledger):
     v = []
     gen = parse_iso(snap["generated_at"])
+    snap_date = snap.get("snapshot_date", "")
     metrics = snap.get("metrics", {})
     model_ids = set(snap.get("models", {}).keys())
     cell_ids = set()
+
+    # Rule 9 precondition: every metric must declare a positive freshness SLA —
+    # omission would silently disable staleness checking.
+    for metric_id, meta in metrics.items():
+        sla = meta.get("freshness_sla_hours")
+        if not isinstance(sla, (int, float)) or isinstance(sla, bool) or not math.isfinite(sla) or sla <= 0:
+            v.append(
+                f"RULE9 {snap_name}:{metric_id}: metric lacks a positive freshness_sla_hours "
+                f"(got {sla!r}) — staleness checking would be silently disabled"
+            )
 
     for metric_id, model_id, cell in iter_cells(snap):
         cid = f"{metric_id}.{model_id}"
@@ -157,6 +230,9 @@ def check_snapshot(snap, snap_name, ledger):
                 f"{meta.get('comparability_set')!r}"
             )
         if is_populated(cell):
+            val = cell.get("value")
+            if isinstance(val, float) and not math.isfinite(val):
+                v.append(f"SCHEMA {where}: non-finite value {val!r}")
             # Rule 1
             if cell.get("tag") not in ("I", "V"):
                 v.append(f"RULE1 {where}: populated cell lacks I/V provenance tag")
@@ -172,12 +248,20 @@ def check_snapshot(snap, snap_name, ledger):
                     v.append(
                         f"RULE2 {where}: ledger entry {sid} missing URL/method/retrieved-at"
                     )
+                # Rule 10 hardening: the tag must be consistent with the
+                # source's declared independence — a vendor source can never
+                # produce an I-tagged (chip-eligible) cell.
+                if entry.get("independence") == "vendor" and cell.get("tag") == "I":
+                    v.append(
+                        f"RULE10 {where}: cell cites vendor source {sid} but is tagged I "
+                        "(vendor values must be V and never compete for chips)"
+                    )
             if not cell.get("retrieved_at"):
                 v.append(f"RULE2 {where}: populated cell lacks retrieved_at")
             else:
                 # Rule 9 (data side): stale must be truthful vs the SLA
                 sla = meta.get("freshness_sla_hours")
-                if sla:
+                if isinstance(sla, (int, float)) and not isinstance(sla, bool) and sla > 0:
                     age = gen - parse_iso(cell["retrieved_at"])
                     if age > timedelta(hours=sla) and not cell.get("stale"):
                         v.append(
@@ -194,6 +278,24 @@ def check_snapshot(snap, snap_name, ledger):
                     f"RULE3 {where}: empty cell reason {reason!r} not in enum {sorted(EMPTY_REASONS)}"
                 )
 
+    # Rule 4: a direction-bearing metric must not mix numeric and text values —
+    # a lone parsed number among strings would win an uncontested chip.
+    for metric_id, meta in metrics.items():
+        if meta.get("direction") not in ("higher", "lower"):
+            continue
+        kinds = set()
+        for cell in snap.get("cells", {}).get(metric_id, {}).values():
+            if not is_populated(cell):
+                continue
+            val = cell.get("value")
+            numeric = isinstance(val, (int, float)) and not isinstance(val, bool)
+            kinds.add("numeric" if numeric else "text")
+        if kinds == {"numeric", "text"}:
+            v.append(
+                f"RULE4 {snap_name}:{metric_id}: direction-bearing metric mixes numeric and "
+                "text values — chip competition would be distorted"
+            )
+
     # Rule 5 (data side): no metric row mixes Pro and Verified sets
     for metric_id, meta in metrics.items():
         sets_in_row = {
@@ -205,24 +307,47 @@ def check_snapshot(snap, snap_name, ledger):
         if has_pro and has_ver:
             v.append(f"RULE5 {snap_name}:{metric_id}: row mixes SWE-bench Pro and Verified")
 
-    # Rule 8: tape entries dated, in-window, sourced
+    def cited_sets(ids):
+        out = set()
+        for c in ids:
+            m_id, _, mo_id = c.partition(".")
+            cell = snap.get("cells", {}).get(m_id, {}).get(mo_id)
+            if cell:
+                out.add(cell.get("comparability_set"))
+        return out
+
+    def mixes_families(sets_):
+        return any(s and s.startswith(PRO_PREFIX) for s in sets_) and any(
+            s and s.startswith(VERIFIED_PREFIX) for s in sets_
+        )
+
+    # Rule 8: tape entries dated, in-window, sourced; rule 5 on tape too
     for i, entry in enumerate(snap.get("tape", [])):
         where = f"{snap_name}:tape[{i}]"
         d = entry.get("date")
         if not d:
             v.append(f"RULE8 {where}: tape entry has no date")
         else:
-            day = datetime.fromisoformat(d).replace(tzinfo=timezone.utc)
-            if gen - day > timedelta(hours=TAPE_WINDOW_HOURS):
-                v.append(f"RULE8 {where}: tape entry dated {d} is outside ~72h of build time")
-            if day - gen > timedelta(hours=26):
-                v.append(f"RULE8 {where}: tape entry dated {d} is in the future")
+            try:
+                day = datetime.fromisoformat(d).replace(tzinfo=timezone.utc)
+            except ValueError:
+                v.append(f"RULE8 {where}: tape entry date {d!r} is not ISO formatted")
+                day = None
+            if day is not None:
+                if gen - day > timedelta(hours=TAPE_WINDOW_HOURS):
+                    v.append(f"RULE8 {where}: tape entry dated {d} is outside ~72h of build time")
+                if snap_date and d > snap_date:
+                    v.append(f"RULE8 {where}: tape entry dated {d} is after snapshot date {snap_date}")
         sid = entry.get("source_id")
         if not sid or sid not in ledger:
             v.append(f"RULE8 {where}: tape entry source id {sid!r} unresolved")
         for cid in entry.get("cell_ids", []):
             if cid not in cell_ids:
                 v.append(f"RULE8 {where}: tape cites unknown cell {cid}")
+        if mixes_families(cited_sets(entry.get("cell_ids", []))):
+            v.append(f"RULE5 {where}: tape entry cites both SWE-bench Pro and Verified cells")
+        if _mentions_both_families(entry.get("text", "")):
+            v.append(f"RULE5 {where}: tape entry text compares SWE-bench Pro with Verified")
 
     # Rule 11: implications
     for i, imp in enumerate(snap.get("implications", [])):
@@ -239,17 +364,11 @@ def check_snapshot(snap, snap_name, ledger):
             v.append(f"RULE11 {where}: confidence {imp.get('confidence')!r} invalid")
         if not (imp.get("falsifier") or "").strip():
             v.append(f"RULE11 {where}: implication states no falsifier")
-        # Rule 5 (implication side)
-        cited_sets = set()
-        for c in cites:
-            m_id, _, mo_id = c.partition(".")
-            cell = snap.get("cells", {}).get(m_id, {}).get(mo_id)
-            if cell:
-                cited_sets.add(cell.get("comparability_set"))
-        if any(s and s.startswith(PRO_PREFIX) for s in cited_sets) and any(
-            s and s.startswith(VERIFIED_PREFIX) for s in cited_sets
-        ):
+        # Rule 5 (implication side): citations AND sentence text
+        if mixes_families(cited_sets(cites)):
             v.append(f"RULE5 {where}: implication mixes SWE-bench Pro and Verified")
+        if _mentions_both_families(imp.get("text", "")):
+            v.append(f"RULE5 {where}: implication text compares SWE-bench Pro with Verified")
         # Rule 7 (propagation side): integrity flags on cited cells must be carried
         carried = set(imp.get("flags_carried", []))
         for c in cites:
@@ -264,51 +383,130 @@ def check_snapshot(snap, snap_name, ledger):
     return v
 
 
-TAG_RE = re.compile(r"<[a-zA-Z][^>]*>")
+def lint_snapshot(snap, snap_name, ledger):
+    """check_snapshot wrapped so malformed data becomes a violation, not a
+    traceback that aborts all remaining checks."""
+    try:
+        return check_snapshot(snap, snap_name, ledger)
+    except (KeyError, ValueError, TypeError, AttributeError) as e:
+        return [f"SCHEMA {snap_name}: snapshot malformed, checks aborted for this file ({type(e).__name__}: {e})"]
 
 
-def html_tag_attrs(tag_html):
-    return dict(re.findall(r'([a-zA-Z0-9_-]+)="([^"]*)"', tag_html))
+class PageIndexer(HTMLParser):
+    """Indexes the rendered page: cell elements (attrs + text + chip marks),
+    tape items, implication items, duplicate ids, and full visible text.
+    Parser-based, so attribute quoting style cannot be used to evade checks."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.cells = []  # {id, attrs, text, chip_glyphs, chip_labels}
+        self.cell_ids_seen = []
+        self.tape_items = []
+        self.imp_items = []
+        self.text_parts = []
+        self._open_cell = None
+        self._cell_depth = 0
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if self._open_cell is not None:
+            self._cell_depth += 1
+            klass = a.get("class", "")
+            if "chip-glyph" in klass:
+                self._open_cell["chip_glyphs"] += 1
+            if "chip-label" in klass:
+                self._open_cell["chip_labels"] += 1
+        if "data-cell-id" in a and self._open_cell is None:
+            self._open_cell = {
+                "id": a["data-cell-id"],
+                "attrs": a,
+                "text": [],
+                "chip_glyphs": 0,
+                "chip_labels": 0,
+            }
+            self._cell_depth = 0
+            self.cell_ids_seen.append(a["data-cell-id"])
+        if "data-tape-item" in a:
+            self.tape_items.append(a)
+        if "data-imp-id" in a:
+            self.imp_items.append(a)
+
+    def handle_endtag(self, tag):
+        if self._open_cell is not None:
+            if self._cell_depth == 0:
+                cell = self._open_cell
+                cell["text"] = "".join(cell["text"])
+                self.cells.append(cell)
+                self._open_cell = None
+            else:
+                self._cell_depth -= 1
+
+    def handle_data(self, data):
+        self.text_parts.append(data)
+        if self._open_cell is not None:
+            self._open_cell["text"].append(data)
 
 
-def check_html(html_path: Path, snap, ledger):
-    """HTML-side checks. The renderer's contract: every rendered cell element
-    carries data-cell-id / data-tag / data-stale / data-warn / data-chip /
-    data-set attributes; tape items carry data-tape-date / data-tape-src;
-    implications carry data-imp-tag / data-imp-conf / data-imp-falsifier."""
+def check_html(html_path: Path, snap, ledger, require=False):
+    """HTML-side checks against the renderer contract."""
     v = []
     if not html_path.exists():
-        return v  # build-time check runs after render; absence handled by make
-    html = html_path.read_text(encoding="utf-8")
+        if require:
+            return [f"BUILD {html_path.name}: built page missing but required (run make build first)"]
+        print(f"note: {html_path} absent — HTML-side checks skipped", file=sys.stderr)
+        return v
+    raw = html_path.read_text(encoding="utf-8")
     name = html_path.name
 
-    # Index rendered cell elements
-    rendered = {}
-    for tag in TAG_RE.findall(html):
-        attrs = html_tag_attrs(tag)
-        if "data-cell-id" in attrs:
-            rendered[attrs["data-cell-id"]] = attrs
+    parser = PageIndexer()
+    parser.feed(raw)
+
+    # Duplicate or fabricated cell ids
+    seen = set()
+    for cid in parser.cell_ids_seen:
+        if cid in seen:
+            v.append(f"SCHEMA {name}:{cid}: duplicate rendered cell id")
+        seen.add(cid)
+    snap_cell_ids = {f"{m}.{mo}" for m, mo, _ in iter_cells(snap)}
+    for cid in seen - snap_cell_ids:
+        v.append(f"SCHEMA {name}:{cid}: rendered cell does not exist in the snapshot")
 
     chips_expected = compute_chips(snap)
+    rendered = {c["id"]: c for c in parser.cells}
 
     for metric_id, model_id, cell in iter_cells(snap):
         cid = f"{metric_id}.{model_id}"
-        attrs = rendered.get(cid)
-        if attrs is None:
+        rc = rendered.get(cid)
+        if rc is None:
             continue  # not every cell must render (Phase 3 may cut rows)
+        attrs, text = rc["attrs"], rc["text"]
         where = f"{name}:{cid}"
         if is_populated(cell):
             if attrs.get("data-tag") != cell.get("tag"):
                 v.append(f"RULE1 {where}: rendered tag {attrs.get('data-tag')!r} != data tag")
+            # Displayed value must match the data (anti-forgery, anti-drift)
+            if str(cell.get("value")) not in text:
+                v.append(
+                    f"SCHEMA {where}: rendered text does not contain the snapshot value "
+                    f"{cell.get('value')!r}"
+                )
         else:
             if attrs.get("data-empty-reason") not in EMPTY_REASONS:
                 v.append(f"RULE3 {where}: rendered empty cell lacks enum reason (blank is silent)")
+            elif attrs["data-empty-reason"] not in text:
+                v.append(f"RULE3 {where}: empty reason not visible in cell text")
         # Rule 7: integrity-flagged cells must render a visible warning tag
-        if integrity_flags(cell) and attrs.get("data-warn") != "1":
-            v.append(f"RULE7 {where}: integrity-flagged cell rendered without warning tag")
-        # Rule 9: stale cells must render a staleness badge
-        if cell.get("stale") and attrs.get("data-stale") != "1":
-            v.append(f"RULE9 {where}: stale cell rendered without staleness badge")
+        if integrity_flags(cell):
+            if attrs.get("data-warn") != "1":
+                v.append(f"RULE7 {where}: integrity-flagged cell rendered without warning tag")
+            if "⚠" not in text:
+                v.append(f"RULE7 {where}: integrity-flagged cell has no visible warning marker")
+        # Rule 9: stale cells must render a visible staleness badge
+        if cell.get("stale"):
+            if attrs.get("data-stale") != "1":
+                v.append(f"RULE9 {where}: stale cell rendered without staleness attribute")
+            if "STALE" not in text:
+                v.append(f"RULE9 {where}: stale cell has no visible STALE badge")
         # Rules 4 + 10: chips
         if attrs.get("data-chip") == "1":
             if cid not in chips_expected:
@@ -319,37 +517,34 @@ def check_html(html_path: Path, snap, ledger):
             if attrs.get("data-set") != cell.get("comparability_set"):
                 v.append(f"RULE4 {where}: chip element set mismatch")
 
-    # Rule 4: chips must use shape + label, never color alone
-    for m in re.finditer(r'<[^>]*data-chip="1"[^>]*>', html):
-        seg = html[m.start() : m.start() + 600]
-        if "chip-glyph" not in seg or "chip-label" not in seg:
-            v.append(f"RULE4 {name}: chip without shape glyph + text label near byte {m.start()}")
-
-    # Rule 5 (render side): no single row element mixes the two families
-    for m in re.finditer(r'<tr[^>]*data-row-set="([^"]*)"[^>]*>', html):
-        s = m.group(1)
-        if PRO_PREFIX in s and VERIFIED_PREFIX in s:
-            v.append(f"RULE5 {name}: rendered row mixes Pro and Verified sets")
+    # Chip shape+label discipline, and no orphan chip visuals in non-chip cells
+    for rc in parser.cells:
+        where = f"{name}:{rc['id']}"
+        is_chip = rc["attrs"].get("data-chip") == "1"
+        if is_chip and (rc["chip_glyphs"] < 1 or rc["chip_labels"] < 1):
+            v.append(f"RULE4 {where}: chip without shape glyph + text label (color alone is banned)")
+        if not is_chip and (rc["chip_glyphs"] or rc["chip_labels"]):
+            v.append(f"RULE4 {where}: chip visuals present on a non-chip cell (visual forgery)")
 
     # Rule 8 (render side): tape items carry date + source
-    for m in re.finditer(r"<[^>]*data-tape-item[^>]*>", html):
-        attrs = html_tag_attrs(m.group(0))
-        if not attrs.get("data-tape-date"):
+    for a in parser.tape_items:
+        if not a.get("data-tape-date"):
             v.append(f"RULE8 {name}: tape item without date")
-        if not attrs.get("data-tape-src"):
+        if not a.get("data-tape-src"):
             v.append(f"RULE8 {name}: tape item without source id")
 
     # Rule 11 (render side)
-    for m in re.finditer(r"<[^>]*data-imp-id[^>]*>", html):
-        attrs = html_tag_attrs(m.group(0))
-        if attrs.get("data-imp-tag") != "X":
+    for a in parser.imp_items:
+        if a.get("data-imp-tag") != "X":
             v.append(f"RULE11 {name}: implication element not tagged X")
-        if not attrs.get("data-imp-conf"):
+        if not a.get("data-imp-conf"):
             v.append(f"RULE11 {name}: implication element without confidence")
 
-    # Rule 12 (page side)
+    # Rule 12 (page side): scan entity-decoded, whitespace-collapsed text so
+    # encodings and line splits cannot hide banned content.
+    flat = re.sub(r"\s+", " ", html_lib.unescape(raw))
     for pat in PAGE_BANNED + REPO_BANNED:
-        if pat.search(html):
+        if pat.search(flat):
             v.append(f"RULE12 {name}: banned pattern {pat.pattern!r} present in page")
     return v
 
@@ -361,27 +556,32 @@ def check_repo_hygiene():
     for p in REPO.rglob("*"):
         if p.is_dir() or any(part in skip_dirs for part in p.parts):
             continue
-        if p.suffix in {".png", ".jpg", ".woff", ".woff2", ".ico", ".gz", ".zip"}:
-            continue
+        rel = str(p.relative_to(REPO))
         try:
             text = p.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError):
             continue
-        for pat in REPO_BANNED:
-            if pat.search(text) and p.name != "check_invariants.py":
-                v.append(f"RULE12 {p.relative_to(REPO)}: banned pattern {pat.pattern!r}")
-        for m in EMAIL_RE.finditer(text):
-            if m.group(1).lower() not in EMAIL_DOMAIN_ALLOWLIST:
-                v.append(
-                    f"RULE12 {p.relative_to(REPO)}: personal email address present "
-                    f"(domain {m.group(1)})"
-                )
+        flat = re.sub(r"\s+", "", text)  # catch line-split addresses/keys
+        if rel not in HYGIENE_EXEMPT_PATHS:
+            for pat in REPO_BANNED:
+                if pat.search(text) or pat.search(flat):
+                    v.append(f"RULE12 {rel}: banned pattern {pat.pattern!r}")
+        for source in (text, flat):
+            for m in EMAIL_RE.finditer(source):
+                if m.group(1).lower() not in EMAIL_DOMAIN_ALLOWLIST:
+                    v.append(
+                        f"RULE12 {rel}: personal email address present (domain {m.group(1)})"
+                    )
+                    break
+            else:
+                continue
+            break
     return v
 
 
 def check_explainability(snapshots):
-    """Every changed cell between consecutive dated snapshots must appear in the
-    newer snapshot's tape cell_ids or changelog."""
+    """Every changed, removed, or newly-appearing cell between consecutive
+    dated snapshots must appear in the newer snapshot's tape or changelog."""
     v = []
     dated = sorted(
         (name, s) for name, s in snapshots.items() if re.match(r"\d{4}-\d{2}-\d{2}", name)
@@ -395,18 +595,50 @@ def check_explainability(snapshots):
                 explained.update(entry.get("cell_ids", []))
                 if "cell_id" in entry:
                     explained.add(entry["cell_id"])
-        for metric_id, model_id, cell in iter_cells(newer):
-            cid = f"{metric_id}.{model_id}"
-            old_cell = older.get("cells", {}).get(metric_id, {}).get(model_id)
-            if old_cell is None:
-                continue  # new row/model: noted via tape/watch conventions, checked elsewhere
-            if old_cell.get("value") != cell.get("value") and cid not in explained:
+        old_cells = {f"{m}.{mo}": c for m, mo, c in iter_cells(older)}
+        new_cells = {f"{m}.{mo}": c for m, mo, c in iter_cells(newer)}
+        for cid in sorted(set(old_cells) | set(new_cells)):
+            if cid in explained:
+                continue
+            if cid not in new_cells:
                 v.append(
-                    f"EXPLAIN {older_name}->{newer_name}:{cid}: value changed "
-                    f"({old_cell.get('value')!r} -> {cell.get('value')!r}) but appears in "
+                    f"EXPLAIN {older_name}->{newer_name}:{cid}: cell removed but appears in "
                     "neither tape nor changelog"
                 )
+            elif cid not in old_cells:
+                v.append(
+                    f"EXPLAIN {older_name}->{newer_name}:{cid}: cell newly appeared but appears "
+                    "in neither tape nor changelog"
+                )
+            elif old_cells[cid].get("value") != new_cells[cid].get("value"):
+                v.append(
+                    f"EXPLAIN {older_name}->{newer_name}:{cid}: value changed "
+                    f"({old_cells[cid].get('value')!r} -> {new_cells[cid].get('value')!r}) "
+                    "but appears in neither tape nor changelog"
+                )
     return v
+
+
+def check_latest_rot(latest, now=None):
+    """Full-run rot guard: a frozen pipeline must fail check, not republish
+    old data as fresh forever. CHECK_ALLOW_OLD_LATEST=1 permits deliberate
+    offline replays (documented in RUNBOOK)."""
+    if latest is None:
+        return []
+    if os.environ.get("CHECK_ALLOW_OLD_LATEST") == "1":
+        return []
+    now = now or datetime.now(timezone.utc)
+    try:
+        age = now - parse_iso(latest["generated_at"])
+    except (KeyError, ValueError):
+        return ["SCHEMA latest: generated_at missing or unparseable"]
+    if age > timedelta(hours=MAX_LATEST_AGE_HOURS):
+        return [
+            f"ROT latest: latest.json generated_at is {age} old (max {MAX_LATEST_AGE_HOURS}h) — "
+            "the pipeline has not produced fresh data; refusing to treat it as current "
+            "(set CHECK_ALLOW_OLD_LATEST=1 only for deliberate offline replays)"
+        ]
+    return []
 
 
 def main(argv=None):
@@ -422,26 +654,35 @@ def main(argv=None):
 
     if args.snapshot:
         p = Path(args.snapshot)
-        snap = json.loads(p.read_text(encoding="utf-8"))
-        violations += check_snapshot(snap, p.name, ledger)
+        try:
+            snap = load_json_strict(p)
+        except (json.JSONDecodeError, ValueError) as e:
+            violations.append(f"SCHEMA {p.name}: invalid JSON ({e})")
+            snap = None
+        if snap is not None:
+            violations += lint_snapshot(snap, p.name, ledger)
     else:
         snapshots = {}
         data_dir = Path(args.data_dir)
         for p in sorted(data_dir.glob("*.json")):
             try:
-                snapshots[p.stem.replace(".seed", "")] = json.loads(
-                    p.read_text(encoding="utf-8")
-                )
-            except json.JSONDecodeError as e:
+                snapshots[p.stem.replace(".seed", "")] = load_json_strict(p)
+            except (json.JSONDecodeError, ValueError) as e:
                 violations.append(f"SCHEMA {p.name}: invalid JSON ({e})")
         for name, snap in snapshots.items():
             if name == "latest":
                 continue  # copy of a dated snapshot; linted under its date
-            violations += check_snapshot(snap, name, ledger)
+            violations += lint_snapshot(snap, name, ledger)
         latest = snapshots.get("latest")
         if latest is not None:
-            violations += check_snapshot(latest, "latest", ledger)
-            violations += check_html(Path(args.html), latest, ledger)
+            violations += lint_snapshot(latest, "latest", ledger)
+            violations += check_html(
+                Path(args.html), latest, ledger,
+                require=os.environ.get("REQUIRE_HTML") == "1",
+            )
+            violations += check_latest_rot(latest)
+        elif os.environ.get("REQUIRE_HTML") == "1":
+            violations.append("BUILD latest.json missing — nothing to publish")
         violations += check_explainability(snapshots)
         violations += check_repo_hygiene()
 

@@ -7,9 +7,13 @@ set -uo pipefail
 payload="$(cat)"
 file_path="$(printf '%s' "$payload" | jq -r '.tool_input.file_path // empty' 2>/dev/null)"
 
-# Only guard the paths the brief names: collectors, renderer/template, tests.
+# Guard the brief's named paths (collectors, renderer/template, tests) plus the
+# enforcement surface itself (gate finding): the linter, snapshots, Makefile,
+# the sources ledger, and this hook's own config. Bash-tool writes bypass
+# PostToolUse hooks by design — CI runs the same checks on every push and is
+# the authority (see RISKS.md).
 case "$file_path" in
-  */collectors/*|*/site/*|*/tests/*) ;;
+  */collectors/*|*/site/*|*/tests/*|*/tools/*|*/data/*|*/Makefile|Makefile|*/governance/SOURCES.md|*/.claude/settings.json|*/.claude/hooks/*) ;;
   *) exit 0 ;;
 esac
 

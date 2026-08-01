@@ -23,7 +23,11 @@ test:
 
 # publish: gate for deploy — a fully built, linted page. The actual deploy is
 # GitHub Actions (Phase 7/8); locally this just proves the artifact is shippable.
-publish: build check
+# Recursive $(MAKE) calls guarantee build completes before check even under -j,
+# and REQUIRE_HTML=1 makes a missing page a hard violation (gate finding).
+publish:
+	$(MAKE) build
+	REQUIRE_HTML=1 $(MAKE) check
 	@echo "publish gate OK: $(OUT) is built and invariant-clean"
 
 all: fetch build check test

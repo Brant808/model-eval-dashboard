@@ -213,7 +213,11 @@ def main(argv=None):
     ap.add_argument("--data", required=True)
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
-    snap = json.loads(Path(args.data).read_text(encoding="utf-8"))
+    # Strict parse: NaN/Infinity must fail loudly, never render (gate finding).
+    snap = json.loads(
+        Path(args.data).read_text(encoding="utf-8"),
+        parse_constant=lambda c: (_ for _ in ()).throw(ValueError(f"non-finite constant {c!r}")),
+    )
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(render(snap), encoding="utf-8")

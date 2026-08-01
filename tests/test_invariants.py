@@ -196,3 +196,169 @@ def test_effort_tier_regex_scope():
     """Rule 6 guard applies to any arc-agi metric id, present or future."""
     assert re.search("arc-agi", "arc-agi-3")
     assert re.search("arc-agi", "arc-agi-4-preview")
+
+
+# ---------------------------------------------------------------------------
+# Phase 0 gate hardening (governance/redteam/phase-0.md): each red-team exploit
+# becomes a permanent regression test.
+# ---------------------------------------------------------------------------
+
+from datetime import datetime, timedelta, timezone
+
+from tools.check_invariants import check_latest_rot, lint_snapshot
+
+
+def test_gate_vendor_source_masquerading_as_I_caught(snap, ledger):
+    """BLOCKING: V value retagged I while citing vendor source S7 must fail."""
+    cell = snap["cells"]["swe-bench-pro"]["opus-5"]
+    cell["tag"] = "I"
+    cell["value"] = 99.9
+    out = violations(snap, ledger, "RULE10")
+    assert any("vendor source S7" in x for x in out)
+    # and it must not chip even before the violation is fixed
+    assert "swe-bench-pro.opus-5" not in compute_chips(snap) or out
+
+
+def test_gate_nonfinite_values_caught(snap, ledger):
+    snap["cells"]["aa-index"]["ds-v4-pro"]["value"] = float("inf")
+    assert violations(snap, ledger, "SCHEMA")
+    assert "aa-index.ds-v4-pro" not in compute_chips(snap)
+    snap["cells"]["aa-index"]["ds-v4-pro"]["value"] = float("nan")
+    assert violations(snap, ledger, "SCHEMA")
+    # NaN must not poison the row: the honest leader still chips
+    assert "aa-index.opus-5" in compute_chips(snap)
+
+
+def test_gate_strict_json_rejects_infinity(tmp_path):
+    from tools.check_invariants import load_json_strict
+    import pytest as _pytest
+
+    p = tmp_path / "bad.json"
+    p.write_text('{"value": Infinity}', encoding="utf-8")
+    with _pytest.raises(ValueError):
+        load_json_strict(p)
+
+
+def test_gate_tape_mixing_pro_and_verified_caught(snap, ledger):
+    snap["tape"].append(
+        {
+            "date": "2026-07-31",
+            "text": "dead heat between the two boards",
+            "source_id": "S6",
+            "cell_ids": ["swe-bench-pro.fable-5", "swe-bench-verified.ds-v4-pro"],
+        }
+    )
+    assert violations(snap, ledger, "RULE5")
+
+
+def test_gate_tape_text_comparing_families_caught(snap, ledger):
+    snap["tape"].append(
+        {
+            "date": "2026-07-31",
+            "text": "Fable 80.3 on SWE-bench Pro vs DeepSeek 80.6 on SWE-bench Verified",
+            "source_id": "S6",
+            "cell_ids": [],
+        }
+    )
+    assert violations(snap, ledger, "RULE5")
+
+
+def test_gate_implication_text_comparing_families_caught(snap, ledger):
+    snap["implications"] = [
+        {
+            "id": "imp-textmix",
+            "tag": "X",
+            "text": "SWE-bench Pro and SWE-bench Verified tell the same story",
+            "cites": ["swe-bench-pro.fable-5"],
+            "confidence": "low",
+            "falsifier": "boards diverge",
+            "flags_carried": [],
+        }
+    ]
+    assert violations(snap, ledger, "RULE5")
+
+
+def test_gate_missing_sla_is_a_violation(snap, ledger):
+    del snap["metrics"]["arena-elo"]["freshness_sla_hours"]
+    out = violations(snap, ledger, "RULE9")
+    assert any("freshness_sla_hours" in x for x in out)
+
+
+def test_gate_single_candidate_never_chips(seed):
+    # arena-elo has exactly one populated I cell (kimi-k3): no competition, no chip
+    assert not any(c.startswith("arena-elo.") for c in compute_chips(seed))
+
+
+def test_gate_mixed_numeric_text_metric_caught(snap, ledger):
+    snap["cells"]["api-price"]["ds-v4-pro"]["value"] = 0.44
+    snap["cells"]["api-price"]["ds-v4-pro"]["tag"] = "V"
+    out = violations(snap, ledger, "RULE4")
+    assert any("mixes numeric and text" in x for x in out)
+
+
+def test_gate_explainability_catches_removals_and_appearances(seed):
+    older = copy.deepcopy(seed)
+    newer = copy.deepcopy(seed)
+    newer["snapshot_date"] = "2026-08-01"
+    newer["generated_at"] = "2026-08-01T00:00:00Z"
+    del newer["cells"]["aa-index"]["ds-v4-pro"]
+    newer["tape"] = []
+    out = check_explainability({"2026-07-31": older, "2026-08-01": newer})
+    assert any("removed" in x and "aa-index.ds-v4-pro" in x for x in out)
+    # a whole vanished metric row is caught too
+    newer2 = copy.deepcopy(seed)
+    newer2["snapshot_date"] = "2026-08-01"
+    newer2["generated_at"] = "2026-08-01T00:00:00Z"
+    del newer2["cells"]["aa-index"]
+    del newer2["metrics"]["aa-index"]
+    newer2["tape"] = []
+    out2 = check_explainability({"2026-07-31": older, "2026-08-01": newer2})
+    assert sum("removed" in x for x in out2) == 5
+    # and an explained removal passes
+    newer["changelog"] = [
+        {"date": "2026-08-01", "note": "DS V4 Pro dropped from AA index page", "cell_ids": ["aa-index.ds-v4-pro"]}
+    ]
+    assert check_explainability({"2026-07-31": older, "2026-08-01": newer}) == []
+
+
+def test_gate_future_tape_entry_caught(snap, ledger):
+    snap["tape"].append(
+        {"date": "2026-08-01", "text": "news from tomorrow", "source_id": "S1", "cell_ids": []}
+    )
+    out = violations(snap, ledger, "RULE8")
+    assert any("after snapshot date" in x for x in out)
+
+
+def test_gate_malformed_snapshot_is_violation_not_crash(ledger):
+    out = lint_snapshot({"cells": {}}, "broken", ledger)
+    assert out and out[0].startswith("SCHEMA")
+    out2 = lint_snapshot(
+        {
+            "generated_at": "2026-07-31T00:00:00Z",
+            "snapshot_date": "2026-07-31",
+            "models": {},
+            "metrics": {},
+            "cells": {},
+            "tape": [{"date": "July 30", "text": "bad date", "source_id": "S1", "cell_ids": []}],
+        },
+        "baddate",
+        ledger,
+    )
+    assert any("not ISO formatted" in x for x in out2)
+
+
+def test_gate_latest_rot_guard():
+    latest = {"generated_at": "2026-07-31T00:00:00Z"}
+    fresh_now = datetime(2026, 7, 31, 12, 0, tzinfo=timezone.utc)
+    old_now = datetime(2026, 8, 10, 0, 0, tzinfo=timezone.utc)
+    assert check_latest_rot(latest, now=fresh_now) == []
+    rot = check_latest_rot(latest, now=old_now)
+    assert rot and rot[0].startswith("ROT")
+    # deliberate offline replay escape hatch
+    import os as _os
+
+    _os.environ["CHECK_ALLOW_OLD_LATEST"] = "1"
+    try:
+        assert check_latest_rot(latest, now=old_now) == []
+    finally:
+        del _os.environ["CHECK_ALLOW_OLD_LATEST"]

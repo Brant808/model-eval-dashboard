@@ -96,3 +96,15 @@ Anything not pushed does not exist.
   network items; morphllm.com rate-limits (429) — collector backoff noted.
   Notable: lmarena.ai redirects to arena.ai, confirming the brief's domain.
 - Gate: red-team + verifier subagents dispatched (results below).
+- Gate results: verifier countersigned YES unconditional (31/31 MATCH).
+  Red-team: 1 BLOCKING + 8 MAJOR + 4 MINOR, all demonstrated with exploits —
+  all fixed in code same-day with permanent `test_gate_*` regression tests
+  (provenance-vs-ledger enforcement, strict JSON/non-finite rejection, rule 5
+  on tape + sentence text, mandatory SLAs, parser-based HTML anti-forgery,
+  wider hook coverage, latest.json rot guard, removal-aware explainability,
+  competition-required chips). One residual accepted (RISK-005: Bash-write
+  hook bypass; CI is the authority). ADR-001 logged.
+- Phase 0 exit criteria met: `make all` green on seed alone, twice,
+  byte-identical (53 tests). Push blocked by RISK-004 (403) — commits local,
+  retrying each boundary.
+
