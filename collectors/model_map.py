@@ -38,7 +38,11 @@ ARC_TIER_DISPLAY = {"low": "Low", "medium": "Medium", "high": "High", "xhigh": "
 METR_KEYS = {
     "claude_mythos_preview_early_inspect": (
         "fable-5",
-        ["measured on Claude Mythos Preview (early), not Fable 5 itself"],
+        # exact snapshot flag: the "proxy-model measurement" integrity marker
+        # must survive collector rebuilds (verifier gate finding C.8 — the
+        # leaner collector flag would have silently dropped rule-7 propagation
+        # and the chip-exclusion disclaimer on the first COLLECT=1 overwrite)
+        ["proxy-model measurement: value is for Claude Mythos Preview (early), not Fable 5 itself"],
     ),
 }
 

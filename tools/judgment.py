@@ -4,9 +4,10 @@ default; this script upgrades tape/implications ONLY when every safeguard
 passes, and degrades to mechanical loudly otherwise.
 
 Safeguards, in order:
-1. Runs only when ANTHROPIC_API_KEY is set and the `claude` CLI exists.
-2. The prompt is LOCKED: its sha256 is pinned below. Editing the prompt
-   without re-pinning is a hard failure (tamper-evident in diff review).
+1. Runs only when ANTHROPIC_API_KEY is set (one Messages-API call).
+2. The prompt, model id and token cap are LOCKED: their combined sha256 is
+   pinned below. Editing any of them without re-pinning is a hard failure
+   (tamper-evident in diff review).
 3. Output must parse as JSON and match the narrow schema.
 4. No-new-facts validator: every cited cell must exist and be populated;
    every number in generated text must already exist in the cited cells
@@ -29,7 +30,6 @@ import json
 import os
 import re
 import shutil
-import subprocess
 import sys
 from pathlib import Path
 
@@ -41,6 +41,9 @@ from tools.check_invariants import integrity_flags, load_json_strict  # noqa: E4
 
 DATED_RE = re.compile(r"^\d{4}-\d{2}-\d{2}(\.seed)?\.json$")
 NUM_RE = re.compile(r"\d+(?:\.\d+)?")
+# Source-id citations ("S13") are references, not facts — scrubbed before the
+# number scan so "source S13" doesn't need 13 to be a cell value.
+SOURCE_ID_RE = re.compile(r"\bS\d+\b")
 CONFIDENCE = {"high", "med", "low"}
 
 # Metric-id prefix -> SWE family (rule 5: families never co-cited).
@@ -72,7 +75,13 @@ Rules you must obey (violations are discarded by a validator):
   implications only when the evidence supports rewriting the current set,
   else return an empty implications list.
 """
-PROMPT_SHA256 = "806440216fc603cc9fa68e06903cfa6da66c8b5d23f468d3976479334faae5ab"
+MODEL = "claude-opus-5"
+MAX_TOKENS = 4096
+# The pin covers transport parameters too, not just the prompt text — editing
+# the model or token cap without re-pinning is the same tamper as editing the
+# prompt (gate finding, innovator phases 6-8, defect D-1 rider).
+LOCKED_MATERIAL = f"model={MODEL}\nmax_tokens={MAX_TOKENS}\n{LOCKED_PROMPT}"
+PROMPT_SHA256 = "3351aa4557b55513a41c541ab2b95a36c7f698892c200532dacd9fc0d8b137c4"
 
 
 def newest_dated() -> Path:
@@ -88,10 +97,13 @@ def cell_number_vocabulary(cell: dict, prev: dict | None) -> set[str]:
 
     def add(x):
         if isinstance(x, (int, float)):
-            vocab.add(_norm(str(x)))
-            vocab.add(_norm(f"{x:.2f}"))
-            vocab.add(_norm(f"{x:.1f}"))
-            vocab.add(_norm(f"{round(x)}"))
+            # abs() because NUM_RE has no sign: text saying "10.02" must match
+            # a cell valued -10.02 (verifier gate finding, negative values).
+            for y in (x, abs(x)):
+                vocab.add(_norm(str(y)))
+                vocab.add(_norm(f"{y:.2f}"))
+                vocab.add(_norm(f"{y:.1f}"))
+                vocab.add(_norm(f"{round(y)}"))
 
     for c in (cell, prev or {}):
         add(c.get("value"))
@@ -126,6 +138,7 @@ def validate_entry(entry: dict, kind: str, snap: dict, prev_cells: dict) -> str 
     if not cites or not isinstance(cites, list):
         return f"{kind}: no cites"
     cells, vocab, families, source_ids, needed_flags = snap["cells"], set(), set(), set(), []
+    cited_flags = set()  # union of cited cells' flags: the only legal flags_carried pool
     # Digits that are names, not facts: model/metric display names ("Fable 5",
     # "GPT-5.6 Sol", "ARC-AGI-3") and the snapshot date itself.
     for tok in NUM_RE.findall(str(snap.get("snapshot_date") or "")):
@@ -136,6 +149,7 @@ def validate_entry(entry: dict, kind: str, snap: dict, prev_cells: dict) -> str 
         if cell is None or cell.get("value") is None:
             return f"{kind}: cite {cid} missing or empty"
         vocab |= cell_number_vocabulary(cell, prev_cells.get(metric_id, {}).get(model_id))
+        cited_flags.update(cell.get("flags", []))
         for label in (snap.get("metrics", {}).get(metric_id, {}).get("name", ""),
                       snap.get("models", {}).get(model_id, {}).get("name", "")):
             for tok in NUM_RE.findall(str(label)):
@@ -151,7 +165,7 @@ def validate_entry(entry: dict, kind: str, snap: dict, prev_cells: dict) -> str 
     text = str(entry.get("text") or "")
     if not text:
         return f"{kind}: empty text"
-    for tok in NUM_RE.findall(text):
+    for tok in NUM_RE.findall(SOURCE_ID_RE.sub(" ", text)):
         if _norm(tok) not in vocab:
             return f"{kind}: number {tok!r} not present in cited cells (no-new-facts)"
 
@@ -167,7 +181,17 @@ def validate_entry(entry: dict, kind: str, snap: dict, prev_cells: dict) -> str 
             return f"implication: bad confidence {entry.get('confidence')!r}"
         if not str(entry.get("falsifier") or "").strip():
             return "implication: falsifier required"
+        # Falsifier and flags_carried are rendered channels too — a fabricated
+        # number or a fabricated ⚠ accusation would ship looking validated
+        # (phase-7 red-team BLOCKING, demonstrated end-to-end).
+        for tok in NUM_RE.findall(SOURCE_ID_RE.sub(" ", str(entry.get("falsifier") or ""))):
+            if _norm(tok) not in vocab:
+                return (f"implication: falsifier number {tok!r} not present in "
+                        f"cited cells (no-new-facts)")
         carried = entry.get("flags_carried") or []
+        for f in carried:
+            if f not in cited_flags:
+                return f"implication: flags_carried contains a flag absent from cited cells: {f!r}"
         for f in needed_flags:
             if f not in carried:
                 return f"implication: integrity flag not carried verbatim: {f!r} (rule 7)"
@@ -175,20 +199,28 @@ def validate_entry(entry: dict, kind: str, snap: dict, prev_cells: dict) -> str 
 
 
 def run_model(payload: str) -> str:
-    proc = subprocess.run(
-        ["claude", "-p", LOCKED_PROMPT, "--output-format", "json"],
-        input=payload, capture_output=True, text=True, timeout=480,
+    """One Messages-API call over requests (already a pipeline dependency).
+    Gate finding (innovator D-1): the CLI transport was inert in CI — the
+    runner never installs it — so the upgrade path could never activate."""
+    import requests
+
+    resp = requests.post(
+        "https://api.anthropic.com/v1/messages",
+        headers={"x-api-key": os.environ["ANTHROPIC_API_KEY"],
+                 "anthropic-version": "2023-06-01"},
+        json={"model": MODEL, "max_tokens": MAX_TOKENS,
+              "system": LOCKED_PROMPT,
+              "messages": [{"role": "user", "content": payload}]},
+        timeout=480,
     )
-    if proc.returncode != 0:
-        raise RuntimeError(f"claude CLI failed: {proc.stderr[:400]}")
-    out = json.loads(proc.stdout)
-    result = out.get("result") if isinstance(out, dict) else None
-    if not isinstance(result, str):
-        raise RuntimeError("claude CLI: unexpected wrapper shape")
-    start, end = result.find("{"), result.rfind("}")
+    if resp.status_code != 200:
+        raise RuntimeError(f"messages API {resp.status_code}: {resp.text[:300]}")
+    text = "".join(b.get("text", "") for b in (resp.json().get("content") or [])
+                   if isinstance(b, dict))
+    start, end = text.find("{"), text.rfind("}")
     if start < 0 or end <= start:
-        raise RuntimeError("claude CLI: no JSON object in result")
-    return result[start : end + 1]
+        raise RuntimeError("model returned no JSON object")
+    return text[start : end + 1]
 
 
 def degrade(snap: dict, path: Path, reason: str):
@@ -203,15 +235,12 @@ def write_snapshot(snap: dict, path: Path):
 
 
 def main():
-    if hashlib.sha256(LOCKED_PROMPT.encode()).hexdigest() != PROMPT_SHA256:
-        sys.exit("judgment: prompt was edited without re-pinning PROMPT_SHA256")
+    if hashlib.sha256(LOCKED_MATERIAL.encode()).hexdigest() != PROMPT_SHA256:
+        sys.exit("judgment: prompt/model/max_tokens edited without re-pinning PROMPT_SHA256")
     path = newest_dated()
     snap = load_json_strict(path)
     if not os.environ.get("ANTHROPIC_API_KEY"):
         print("judgment: ANTHROPIC_API_KEY not set — mechanical mode stands")
-        return
-    if shutil.which("claude") is None:
-        degrade(snap, path, "claude CLI not installed")
         return
 
     dated = sorted(p for p in DATA.glob("*.json") if DATED_RE.match(p.name))
@@ -251,12 +280,21 @@ def main():
                 if rejected else "model returned no tape")
         return
 
-    snap["tape"] = tape + snap["tape"]
+    # A judged entry supersedes the mechanical line for the same cells —
+    # otherwise every move is reported twice while the header claims an
+    # editorial layer is on (gate finding). Uncovered mechanical entries stay
+    # for explainability.
+    covered = {cid for e in tape for cid in e.get("cell_ids", [])}
+    snap["tape"] = tape + [
+        e for e in snap["tape"]
+        if not (e.get("text", "").startswith("Mechanical tape")
+                and e.get("cell_ids") and set(e["cell_ids"]) <= covered)
+    ]
     # Implications are all-or-nothing: a partially valid set reads as complete.
     if imps and imp_ok:
         snap["implications"] = imps
     snap["health"]["judgment_layer"] = (
-        f"on (claude -p; prompt {PROMPT_SHA256[:12]}; input {input_sha[:12]}; "
+        f"on ({MODEL}; pin {PROMPT_SHA256[:12]}; input {input_sha[:12]}; "
         f"{len(rejected)} entries rejected by validator)"
     )
     write_snapshot(snap, path)

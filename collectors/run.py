@@ -49,8 +49,15 @@ DATED_RE = re.compile(r"^\d{4}-\d{2}-\d{2}(\.seed)?\.json$")
 SOURCE_DOWN_FLAG = "source down (last-good shown)"
 
 
-def newest_dated_snapshot() -> Path:
+def newest_dated_snapshot(before: str | None = None) -> Path:
+    """Newest dated snapshot; with `before`, newest strictly older than that
+    date. collect() diffs against `before=date_str` so a same-day re-run
+    (cron then manual dispatch) rebuilds the day against YESTERDAY instead of
+    diffing today-vs-today — which wiped tape/changelog and failed the
+    explainability gate (phase-7 red-team MAJOR, demonstrated)."""
     candidates = sorted(p for p in DATA.glob("*.json") if DATED_RE.match(p.name))
+    if before:
+        candidates = [p for p in candidates if p.name.split(".")[0] < before]
     if not candidates:
         print("fetch: no dated snapshots in data/", file=sys.stderr)
         sys.exit(1)
@@ -183,7 +190,7 @@ def mechanical_tape(prev, cells, date_str, metrics):
 
 
 def collect(date_str: str, now: datetime) -> Path:
-    prev_path = newest_dated_snapshot()
+    prev_path = newest_dated_snapshot(before=date_str)
     prev = load_json_strict(prev_path)
     fail_sources = set(filter(None, os.environ.get("FAIL_SOURCES", "").split(",")))
     offline = os.environ.get("OFFLINE") == "1"
@@ -262,6 +269,22 @@ def collect(date_str: str, now: datetime) -> Path:
             row[model_id] = cell
         cells[metric_id] = row
 
+    # Carried implications rot when cells move under them (gate BLOCKING):
+    # every implication pins the values it was stated against (cite_values);
+    # any drift flips it to the visible "under review" state. The linter
+    # enforces the same contract, so a pipeline that skipped this would fail
+    # the constitutional gate rather than publish a stale read as current.
+    implications = json.loads(json.dumps(prev.get("implications", [])))
+    for imp in implications:
+        pinned = imp.get("cite_values") or {}
+        moved = sorted(
+            c for c, pv in pinned.items()
+            if cells.get(c.partition(".")[0], {}).get(c.partition(".")[2], {}).get("value") != pv
+        )
+        if moved and imp.get("status") != "under review":
+            imp["status"] = "under review"
+            imp["moved_cites"] = moved
+
     snap = {
         "schema_version": 1,
         "kind": "collected",
@@ -275,7 +298,7 @@ def collect(date_str: str, now: datetime) -> Path:
         "watch": prev.get("watch", []),
         "changelog": [],
         "notes": [],
-        "implications": prev.get("implications", []),
+        "implications": implications,
         "health": {
             "run_status": "collected" + (" (degraded)" if any(v.startswith("DOWN") for v in health.values()) else ""),
             "judgment_layer": "off (mechanical)",
@@ -285,6 +308,19 @@ def collect(date_str: str, now: datetime) -> Path:
     }
 
     snap["tape"] = mechanical_tape(prev, cells, date_str, metrics_meta)
+    # The tape header promises ~72h of movement, but a fresh diff only covers
+    # since-yesterday: carry forward prior entries still inside the window so
+    # Thursday's move survives onto Friday's page (phase-7 red-team MAJOR).
+    seen_keys = {(e.get("date"), e.get("source_id"), e.get("text")) for e in snap["tape"]}
+    for e in prev.get("tape", []):
+        try:
+            age = now - parse_iso(str(e.get("date")) + "T00:00:00Z")
+        except ValueError:
+            continue
+        key = (e.get("date"), e.get("source_id"), e.get("text"))
+        if age <= timedelta(hours=72) and key not in seen_keys:
+            snap["tape"].append(e)
+            seen_keys.add(key)
     # Explainability: everything the tape didn't cover goes to the changelog.
     snap["changelog"] = diff_entries(prev, snap)
 

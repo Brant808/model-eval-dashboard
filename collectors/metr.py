@@ -49,8 +49,10 @@ class MetrCollector(Collector):
                 flags.append("METR: measurements above 16h are unreliable with the current task suite")
             if metrics.get("is_sota"):
                 flags.append("is_sota on TH-1.1")
+            disclaimed = any("proxy-model measurement" in f for f in flags)
             out.append(CellValue("metr-horizon", model_id, hours, "hours", "I", "S5",
-                                 "metr-50pct-horizon", self.fetched_at, flags=flags))
+                                 "metr-50pct-horizon", self.fetched_at, flags=flags,
+                                 value_disclaimed=disclaimed))
         if not out:
             raise ParseFailure("METR yaml: parsed but no mapped models found")
         return out

@@ -549,6 +549,67 @@ def check_snapshot(snap, snap_name, ledger):
                         v.append(
                             f"RULE7 {where}: cites flagged cell {c} without carrying flag {f!r}"
                         )
+        # Rot detection (phase-4/5/7 gate, red-team BLOCKING): a carried
+        # implication whose cited cells moved since it was stated is a stale
+        # editorial claim presented as current — the rule-9 sin at the X
+        # layer. Every implication pins the values it was stated against;
+        # any drift forces the visible "under review" state.
+        if snap_date and snap_date >= CAVEAT_ENFORCE_FROM:
+            pinned = imp.get("cite_values")
+            if not isinstance(pinned, dict):
+                v.append(f"RULE11 {where}: implication lacks cite_values pin (rot detection)")
+            else:
+                missing = [c for c in cites if c not in pinned]
+                if missing:
+                    v.append(f"RULE11 {where}: cite_values missing pins for {missing}")
+                moved = []
+                for c in cites:
+                    if c not in pinned or c not in cell_ids:
+                        continue
+                    m_id, _, mo_id = c.partition(".")
+                    cur = snap.get("cells", {}).get(m_id, {}).get(mo_id, {}).get("value")
+                    if cur != pinned[c]:
+                        moved.append(c)
+                if moved and imp.get("status") != "under review":
+                    v.append(
+                        f"RULE11 {where}: cited cells moved since stated ({moved}) "
+                        f"but status is {imp.get('status')!r}, not 'under review'"
+                    )
+    return v
+
+
+# Sentence boundaries for rule-5 prose scans. Semicolons and mid-dots split
+# too: enumerations ("TB: not published; SWE-bench Pro: not published; …")
+# are independent statements, while a genuine cross-scale comparison sits
+# inside one clause and still trips the check.
+_SENT_SPLIT_RE = re.compile(r"(?<=[.!?;])\s+|\s·\s")
+
+
+def check_briefs(briefs_path):
+    """Rule 5 on the third prose surface (phase-4/5 gate, red-team MAJOR):
+    briefs ship on the page, and authorial discipline is not a contract — a
+    Pro-vs-Verified comparison in brief prose rendered gate-green before this
+    check existed."""
+    if not briefs_path.exists():
+        return []
+    v = []
+    briefs = load_json_strict(briefs_path)
+
+    def walk(node, where):
+        if isinstance(node, dict):
+            for k, val in node.items():
+                walk(val, f"{where}.{k}")
+        elif isinstance(node, list):
+            for i, val in enumerate(node):
+                walk(val, f"{where}[{i}]")
+        elif isinstance(node, str):
+            for sent in _SENT_SPLIT_RE.split(node):
+                if _mentions_both_families(sent):
+                    v.append(
+                        f"RULE5 briefs{where}: sentence compares SWE-bench scales: {sent[:90]!r}"
+                    )
+
+    walk(briefs, "")
     return v
 
 
@@ -715,6 +776,23 @@ def check_html(html_path: Path, snap, ledger, require=False):
     for pat in PAGE_BANNED + REPO_BANNED:
         if pat.search(flat):
             v.append(f"RULE12 {name}: banned pattern {pat.pattern!r} present in page")
+
+    # Rule 5 (page prose side, phase-4/5 gate): no sentence on the page may
+    # co-mingle two SWE scales, whatever surface wrote it — brief prose
+    # demonstrated a gate-green bypass before this check. Script/style bodies
+    # are data (linted at the snapshot layer), and block-element boundaries
+    # count as sentence breaks so adjacent rows/labels can't concatenate into
+    # false positives.
+    prose = re.sub(r"<(script|style)\b.*?</\1>", " ", raw, flags=re.S | re.I)
+    prose = re.sub(
+        r"</(?:td|th|li|p|h[1-6]|tr|div|section|details|summary|button|figcaption|dd|dt|dl)>",
+        ".\n", prose, flags=re.I,
+    )
+    prose = html_lib.unescape(re.sub(r"<[^>]+>", " ", prose))
+    for sent in _SENT_SPLIT_RE.split(prose):
+        if _mentions_both_families(sent):
+            clean = " ".join(sent.split())[:90]
+            v.append(f"RULE5 {name}: page sentence compares SWE-bench scales: {clean!r}")
     return v
 
 
@@ -879,6 +957,7 @@ def main(argv=None):
             violations.append("BUILD latest.json missing — nothing to publish")
         violations += check_explainability(snapshots)
         violations += check_repo_hygiene()
+        violations += check_briefs(data_dir / "briefs.json")
 
     if violations:
         print(f"INVARIANT LINTER: {len(violations)} violation(s)", file=sys.stderr)

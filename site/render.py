@@ -515,11 +515,16 @@ def render(snap, history=None, briefs=None) -> str:
             else:
                 flags_txt = "".join(f'<span class="warn-tag">⚠ {esc(f)}</span>' for f in fl)
             lens = imp.get("lens", "")
-            open_badge = (
-                '<span class="claim-band-label" style="background:#555">OPEN</span> '
-                if imp.get("status") == "OPEN"
-                else ""
-            )
+            status = imp.get("status")
+            if status == "OPEN":
+                open_badge = '<span class="claim-band-label" style="background:#555">OPEN</span> '
+            elif status == "under review":
+                # rot state (gate rider): cited cells moved since this was
+                # stated; the read is suspect until re-adjudicated
+                open_badge = ('<span class="claim-band-label" style="background:#8a2b00">'
+                              "UNDER REVIEW — cited cells moved</span> ")
+            else:
+                open_badge = ""
             A(
                 f'<li data-imp-id="{esc(imp["id"])}" data-imp-tag="{esc(imp.get("tag", ""))}" '
                 f'data-imp-conf="{esc(imp.get("confidence", ""))}" '

@@ -5,7 +5,7 @@ snapshot — no CLI, no network."""
 
 import hashlib
 
-from tools.judgment import LOCKED_PROMPT, PROMPT_SHA256, validate_entry
+from tools.judgment import LOCKED_MATERIAL, PROMPT_SHA256, validate_entry
 
 SNAP = {
     "snapshot_date": "2026-08-01",
@@ -57,7 +57,20 @@ def imp(**kw):
 
 
 def test_prompt_pin_matches_source():
-    assert hashlib.sha256(LOCKED_PROMPT.encode()).hexdigest() == PROMPT_SHA256
+    # the pin covers prompt + model + max_tokens (transport tamper-evidence)
+    assert hashlib.sha256(LOCKED_MATERIAL.encode()).hexdigest() == PROMPT_SHA256
+
+
+def test_negative_cell_value_matches_unsigned_text():
+    snap = {"snapshot_date": "2026-08-01",
+            "metrics": {"aa-halluc": {"name": "AA Hallucination"}},
+            "models": {"ds-v4-pro": {"name": "DeepSeek V4 Pro"}},
+            "cells": {"aa-halluc": {"ds-v4-pro": {
+                "value": -10.02, "source_id": "S1", "flags": [], "unit": "index",
+                "comparability_set": "aa-halluc", "retrieved_at": "2026-08-01T09:00:00Z"}}}}
+    e = {"date": "2026-08-01", "text": "DeepSeek V4 Pro sits at 10.02 below zero",
+         "source_id": "S1", "cell_ids": ["aa-halluc.ds-v4-pro"]}
+    assert validate_entry(e, "tape", snap, {}) is None
 
 
 def test_grounded_tape_entry_accepted():
@@ -97,6 +110,21 @@ def test_rule7_integrity_flag_must_be_carried_verbatim():
     e = imp(cites=["swe-bench-pro.fable-5"], text="Fable 5 claims 80 on Pro.",
             flags_carried=["aggregated vendor self-reports (0 of 43 verified)"])
     assert validate_entry(e, "implication", SNAP, PREV) is None
+
+
+def test_fabricated_falsifier_number_rejected():
+    e = imp(falsifier="reverses if Fable 5 drops below 87.3 on the AA Intelligence Index")
+    assert "falsifier number" in validate_entry(e, "implication", SNAP, PREV)
+
+
+def test_fabricated_carried_flag_rejected():
+    e = imp(flags_carried=["record gaming: fabricated accusation against Fable 5"])
+    assert "absent from cited cells" in validate_entry(e, "implication", SNAP, PREV)
+
+
+def test_source_id_citations_are_not_numbers():
+    e = tape(text="AA Intelligence Index [Fable 5]: 59.86 per source S1")
+    assert validate_entry(e, "tape", SNAP, PREV) is None
 
 
 def test_implication_hygiene_fields():

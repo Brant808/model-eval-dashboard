@@ -113,11 +113,16 @@ class LiveBenchCollector(Collector):
             if not nums:
                 raise ParseFailure(f"livebench: no numeric columns for {r.get(name_col)!r}")
             avg = round(sum(nums) / len(nums), 1)
+            # retrieved_at = our fetch (same convention as Epoch): the board
+            # accrues late-launching models INTO a dated release, so the
+            # release date is a comparability label, not a datum vintage —
+            # gate finding: Opus 5 (launched 07-24) scored in the 06-25
+            # release read as fabricated provenance when shown "as of 06-25".
             out.append(CellValue("livebench", model_id, avg, "index", "I", "S12",
-                                 f"livebench-{self.release}",
-                                 f"{self.release}T00:00:00Z",
+                                 f"livebench-{self.release}", self.fetched_at,
                                  flags=[f"global average over {len(nums)} task columns, "
-                                        f"release {self.release}"]))
+                                        f"release {self.release} (board accrues "
+                                        f"later-launched models into the release)"]))
         if not out:
             raise ParseFailure("livebench: parsed but no mapped models found")
         return out

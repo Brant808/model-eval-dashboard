@@ -18,7 +18,7 @@
   "epoch-eci": {
    "what": "A second aggregate read of the frontier order, published by Epoch AI's Benchmarking Hub. It partially re-ingests boards this page already shows (GDPval, METR, Vals, ARC), so agreement with the AA index is weak corroboration — disagreement is the strong signal. At the 2026-08-01 source check its top order disagreed with AA's (Sol above Fable 5), which is exactly what the row exists to surface.",
    "harness": "Epoch publishes the index as a score file (eci_scores.csv) with a per-benchmark provenance file (eci_benchmarks.csv), both CC-BY (source S10). This page displays the index as published rather than recomputing it.",
-   "cadence": "The hub updates multiple times per month; this page treats the figure as stale after 14 days. Tracking on this page begins soon.",
+   "cadence": "The hub updates multiple times per month; this page treats the figure as stale after 14 days. Tracking on this page began 2026-08-01 (Phase 7 collector build).",
    "independence": "Independent nonprofit with disclosed lab entanglement: OpenAI funded FrontierMath — an ECI component — with dataset access and a January-2025 disclosure controversy, and the hub is supported by the UK AI Security Institute (source S10).",
    "integrity": [
     "Mixed-provenance composite: at the 2026-08-01 ledger check roughly 670 of the hub's data rows were Epoch-run evaluations, about 270 were sourced to vendor technical reports, and 322 carried an empty source column (counts drift). Every cell will carry the mixed-provenance caveat flag (source S10).",
@@ -63,7 +63,7 @@
   "vals-index": {
    "what": "A weighted composite of Vals AI's professional-domain benchmarks: does frontier capability convert into completed professional work? Its companion signal is the gap between strict all-pass scoring and weighted scoring, which serves as a live reliability-under-repetition badge.",
    "harness": "The Vals Index weighted composite (v1.2 at the 2026-08-01 source check), extracted from Vals' server-rendered benchmark pages — there is no API or CSV, so this is a scrape with loud-failure parsing (source S11).",
-   "cadence": "Boards update roughly weekly to biweekly; this page treats the figure as stale after 21 days. Tracking on this page begins soon.",
+   "cadence": "Boards update roughly weekly to biweekly; this page treats the figure as stale after 21 days. Tracking on this page began 2026-08-01 (Phase 7 collector build).",
    "independence": "Independent evaluation company, not lab-owned; roughly $5M of venture funding (Bloomberg Beta, Pear VC, 8VC, J12, a Sequoia scout — no frontier-lab investors) with no on-site funding disclosure. A pay-for-placement search found no evidence of placement payment; residual caveat: Bloomberg Beta money sits adjacent to Vals' Finance Agent benchmark (source S11).",
    "integrity": [
     "VC-funded evaluator with no on-site funding disclosure — the flag travels on every cell (source S11).",
@@ -85,7 +85,7 @@
   "swe-rebench": {
    "what": "Resolved rate on freshly collected GitHub issues, tracked window-over-window against itself. It answers whether coding performance holds up on problems that did not exist when models trained — the page's freshest independent coding read. Despite the similar name, the page treats it as a third, fully separated coding scale.",
    "harness": "The board is run by the Nebius team, publishing per-window resolved rates with a methodology paper (arXiv:2505.20411); collection reads the site's embedded data payload (source S20).",
-   "cadence": "Issue windows rotate on the board's own cadence; this page treats the figure as stale after 45 days. Tracking on this page begins soon — until then the quick-look coding slot shows GDPval, visibly labeled as a stand-in.",
+   "cadence": "Issue windows rotate on the board's own cadence; this page treats the figure as stale after 45 days. Tracking on this page began 2026-08-01 (Phase 7 collector build). If the row ever empties, the quick-look coding slot falls back to GDPval, visibly labeled as a stand-in.",
    "independence": "Independent: Nebius is a GPU cloud company, not a frontier lab (source S20).",
    "integrity": [
     "Decontamination is window-relative, not absolute: only models released before an issue window opens are contamination-clean for that window. The window current at the 2026-08-01 check (2026-05-15 to 2026-07-01) flagged Fable 5, Sol, and Opus 5 as 'Potential contamination'; DeepSeek V4 Pro was the only clean covered model.",
@@ -170,8 +170,8 @@
   },
   "livebench": {
    "what": "A contamination check on launch numbers: LiveBench rotates its questions monthly and scores against ground truth, so a big launch score that collapses here suggests memorization rather than capability. The tracked value is the global average.",
-   "harness": "LiveBench publishes per-release CSV tables; the release current at the 2026-08-01 check was dated 2026-06-25 and covered all five tracked models. Scoring is ground truth — no LLM judge, no votes (source S12).",
-   "cadence": "Monthly question rotation; this page treats the figure as stale after 45 days. Tracking on this page begins soon.",
+   "harness": "LiveBench publishes per-release CSV tables; the release current at the 2026-08-01 check was dated 2026-06-25 and covered all five tracked models. Scoring is ground truth — no LLM judge, no votes (source S12). The board accrues later-launched models into an existing release (Opus 5, launched 2026-07-24, is scored in the 2026-06-25 release); cell timestamps are our fetch time, with the release as the comparability label.",
+   "cadence": "Monthly question rotation; this page treats the figure as stale after 45 days. Tracking on this page began 2026-08-01 (Phase 7 collector build).",
    "independence": "Independent academic-led effort (NYU/Abacus/Nvidia-affiliated researchers) with open methodology (source S12).",
    "integrity": [],
    "comparability": "Each monthly release is its own comparability set (release-stamped): scores are never compared across question rotations, and a rotation is treated as a methodology change, not movement."
@@ -182,7 +182,7 @@
    "cadence": "The board file regenerates roughly daily and results are published within about 30 days of a model's release per ARC policy; this page treats figures as stale after 45 days.",
    "independence": "Independent nonprofit; donor labs are disclosed and receive no privileged access (source S4).",
    "integrity": [
-    "Modified-harness saga: the vendor claimed a 38.3 for Sol (Jul 30) on the public set using custom API settings; the claim never appeared on the verified board, is excluded from the cell, and the cell carries the flag (source S4).",
+    "Modified-harness saga: the vendor claimed a 38.3 for Sol (Jul 30; no declared effort tier) on the public set using custom API settings; the claim never appeared on the verified board, is excluded from the cell, and the cell carries the flag (source S4).",
     "The 2026-07-31 baseline carried a Fable 5 score that could not be traced to any official source; that cell is now an honest empty, with ARC Prize's approximate public-demo figure noted in the flags as non-comparable.",
     "ARC's published $10,000 per-run cost cap is evidently waived for headline runs — record rows on the board cost more than twice the cap, with run costs recorded on the cells."
    ],
@@ -204,7 +204,7 @@
    "what": "A count of open disclosure-integrity items per lab: which lab currently owes the field an explanation. It is the page's disclosure-integrity differentiator — the signal is often what a lab has not published, not a number it has.",
    "harness": "A curated synthesis maintained by this pipeline (source S21): each open item is added or retired by a governed edit, and every item's flag text names its primary source (for example the METR blog at source S18, or the ARC Prize board at source S4).",
    "cadence": "Updated when items open or close; this page treats the row as stale after 30 days.",
-   "independence": "Independent of vendors — it is meta-observation of disclosure conduct, not a benchmark result (source S21).",
+   "independence": "Independent of vendors — it is meta-observation of disclosure conduct, not a benchmark result (source S21). The 'withheld' classification itself is this pipeline's own timing inference — the absence post-dates the METR flag — recorded as curated judgment (S21), not vendor data.",
    "integrity": [
     "This is a curated row: human judgment selects the items. The mitigations are structural — every item names its primary source in the visible flag text, and changes happen only by governed edit or by an automated layer that may cite only facts already present in the day's data."
    ],
@@ -290,5 +290,9 @@
    "deployment_terms": "Not yet curated — the cell renders 'not published' until a grounded fact lands.",
    "coverage_gaps": "Terminal-Bench 2.1: 'not published' — the nearest DeepSeek datapoint is a V3.2-era score on the older 2.0 set, a different comparability set (source S8). ARC-AGI-3: 'not evaluated' — absent from the verified board entirely. METR horizon: 'not evaluated' — METR's DeepSeek coverage is V3-era only (source S5)."
   }
- }
+ },
+ "_preregistered": [
+  "aa-agentic-index",
+  "aa-halluc-rate"
+ ]
 }

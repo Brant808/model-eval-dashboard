@@ -102,7 +102,11 @@ def test_drill_second_run_is_stable_and_explained(tmp_path):
     snap2 = json.loads((data_dir / "2026-08-03.json").read_text())
     assert {m: {k: c["value"] for k, c in row.items()} for m, row in snap1["cells"].items()} == \
            {m: {k: c["value"] for k, c in row.items()} for m, row in snap2["cells"].items()}
-    assert snap2["tape"] == []  # nothing moved -> empty mechanical tape
+    # nothing moved -> no NEW mechanical entries for this date; prior entries
+    # still inside the 72h window carry forward (the tape header promises
+    # ~72h of movement, not since-yesterday — phase-7 gate rider)
+    assert not any(e["date"] == "2026-08-03" for e in snap2["tape"])
+    assert all(e in snap1["tape"] for e in snap2["tape"])
     out = lint(data_dir)
     assert out.returncode == 0, out.stderr
 

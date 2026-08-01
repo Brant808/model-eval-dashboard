@@ -1509,9 +1509,9 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S12",
-    "retrieved_at": "2026-06-25T00:00:00Z",
+    "retrieved_at": "2026-08-01T09:00:00Z",
     "flags": [
-     "global average over 23 task columns, release 2026-06-25"
+     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
     ],
     "comparability_set": "livebench-2026-06-25",
     "stale": false,
@@ -1522,9 +1522,9 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S12",
-    "retrieved_at": "2026-06-25T00:00:00Z",
+    "retrieved_at": "2026-08-01T09:00:00Z",
     "flags": [
-     "global average over 23 task columns, release 2026-06-25"
+     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
     ],
     "comparability_set": "livebench-2026-06-25",
     "stale": false,
@@ -1535,9 +1535,9 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S12",
-    "retrieved_at": "2026-06-25T00:00:00Z",
+    "retrieved_at": "2026-08-01T09:00:00Z",
     "flags": [
-     "global average over 23 task columns, release 2026-06-25"
+     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
     ],
     "comparability_set": "livebench-2026-06-25",
     "stale": false,
@@ -1548,9 +1548,9 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S12",
-    "retrieved_at": "2026-06-25T00:00:00Z",
+    "retrieved_at": "2026-08-01T09:00:00Z",
     "flags": [
-     "global average over 23 task columns, release 2026-06-25"
+     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
     ],
     "comparability_set": "livebench-2026-06-25",
     "stale": false,
@@ -1561,9 +1561,9 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S12",
-    "retrieved_at": "2026-06-25T00:00:00Z",
+    "retrieved_at": "2026-08-01T09:00:00Z",
     "flags": [
-     "global average over 23 task columns, release 2026-06-25"
+     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
     ],
     "comparability_set": "livebench-2026-06-25",
     "stale": false,
@@ -2238,39 +2238,70 @@
    "tag": "X",
    "lens": "frontier race",
    "status": "answered",
-   "text": "Opus 5 leads the frontier on both judged boards: AA Index 60.69 vs Fable 59.86 and Sol 58.89 (a 0.83-pt gap at the top), and GDPval-AA 1857.8 vs Fable 1746.06 — a +112 Elo margin, the largest top gap on the page. On composite and judged-work measures the race's top is Anthropic-internal; the human-preference dissent is logged separately as an open question.",
+   "text": "Opus 5 leads on both Artificial Analysis boards — one evaluator: AA Index 60.69 vs Fable 59.86 and Sol 58.89 (a 0.83-pt gap at the top), and GDPval-AA 1857.8 vs Fable 1746.06 (a 111.74-Elo margin). The independent aggregators do not confirm the order: Epoch's composite puts Sol first at 161.69 with Fable 161.55 above Opus 161.05, and Fable is #1 on LiveBench (83.4) and the Vals composite (75.1). The lead claim is scoped to the AA evaluator; the cross-board split is logged as an open question.",
    "cites": [
     "aa-index.opus-5",
     "aa-index.fable-5",
     "aa-index.gpt-5-6-sol",
     "gdpval-aa.opus-5",
-    "gdpval-aa.fable-5"
+    "gdpval-aa.fable-5",
+    "epoch-eci.gpt-5-6-sol",
+    "epoch-eci.fable-5",
+    "epoch-eci.opus-5",
+    "livebench.fable-5",
+    "vals-index.fable-5"
    ],
-   "confidence": "high",
-   "falsifier": "the AA order flips (any tracked model above 60.69) or a GDPval refit puts a non-Anthropic model within ~30 Elo of the top",
+   "confidence": "med",
+   "falsifier": "the AA order flips (any tracked model above 60.69 on the AA Index), or the non-AA aggregators (Epoch, LiveBench, Vals) converge on the AA order — the first kills the lead, the second kills the dissent",
    "flags_carried": [],
    "date": "2026-08-01",
-   "first_stated": "2026-08-01"
+   "first_stated": "2026-08-01",
+   "cite_values": {
+    "aa-index.opus-5": 60.69,
+    "aa-index.fable-5": 59.86,
+    "aa-index.gpt-5-6-sol": 58.89,
+    "gdpval-aa.opus-5": 1857.8,
+    "gdpval-aa.fable-5": 1746.06,
+    "epoch-eci.gpt-5-6-sol": 161.69,
+    "epoch-eci.fable-5": 161.55,
+    "epoch-eci.opus-5": 161.05,
+    "livebench.fable-5": 83.4,
+    "vals-index.fable-5": 75.1
+   }
   },
   {
    "id": "imp-open-preference",
    "tag": "X",
    "lens": "frontier race",
    "status": "OPEN",
-   "text": "OPEN — does human preference contradict the judged boards? Arena style-control has Fable 5 #1 at 1507.6 with Opus 5 (max variant) at 1494.6, the reverse of the AA/GDPval order. Reading 1: a real split between chat preference and judged work quality. Reading 2: settling noise — private-variant testing is active, Opus variants entered recently, and 13 Elo is within churn for a fresh board. The evidence supports both readings.",
+   "text": "OPEN — is the AA order the outlier? Arena style-control has Fable 5 #1 at 1507.6 with Opus 5 (max variant) at 1494.6, and the non-AA boards lean the same way: Fable tops LiveBench (83.4 vs Opus 80.5) and the Vals composite (75.1 vs 74.8), while Epoch puts Sol first with Fable above Opus. Reading 1: a real split — the AA evaluator's judged boards favor Opus while preference and mixed ground-truth boards favor Fable. Reading 2: settling noise — Arena private-variant testing is active, 13 Elo is within churn for a fresh board, and the Vals gap is 0.3. Reading 3: the AA order is an evaluator effect, not a field consensus. The evidence supports all three.",
    "cites": [
     "arena-elo.fable-5",
     "arena-elo.opus-5",
     "aa-index.opus-5",
     "aa-index.fable-5",
-    "gdpval-aa.opus-5",
-    "gdpval-aa.fable-5"
+    "livebench.fable-5",
+    "livebench.opus-5",
+    "vals-index.fable-5",
+    "vals-index.opus-5",
+    "epoch-eci.gpt-5-6-sol"
    ],
    "confidence": "low",
-   "falsifier": "closes toward reading 1 if the next two Arena publishes hold Fable #1 with a stable-or-widening gap; toward reading 2 if an Opus variant overtakes as variants settle",
+   "falsifier": "closes toward reading 1 or 3 if the next two publishes of Arena, LiveBench and Vals hold Fable ahead while AA holds Opus ahead; toward reading 2 if Opus overtakes on two of the three non-AA boards as variants settle",
    "flags_carried": [],
    "date": "2026-08-01",
-   "first_stated": "2026-08-01"
+   "first_stated": "2026-08-01",
+   "cite_values": {
+    "arena-elo.fable-5": 1507.6,
+    "arena-elo.opus-5": 1494.6,
+    "aa-index.opus-5": 60.69,
+    "aa-index.fable-5": 59.86,
+    "livebench.fable-5": 83.4,
+    "livebench.opus-5": 80.5,
+    "vals-index.fable-5": 75.1,
+    "vals-index.opus-5": 74.8,
+    "epoch-eci.gpt-5-6-sol": 161.69
+   }
   },
   {
    "id": "imp-pareto",
@@ -2294,7 +2325,19 @@
    "falsifier": "driver resolution or the next AA refresh moves Fable's cost to $2.34 or below, lifts its index above 60.69, or drops any efficient point behind another",
    "flags_carried": [],
    "date": "2026-08-01",
-   "first_stated": "2026-08-01"
+   "first_stated": "2026-08-01",
+   "cite_values": {
+    "aa-index.fable-5": 59.86,
+    "aa-index.opus-5": 60.69,
+    "aa-index.gpt-5-6-sol": 58.89,
+    "aa-index.kimi-k3": 57.11,
+    "aa-index.ds-v4-pro": 44.27,
+    "cost-per-task.fable-5": 3.15,
+    "cost-per-task.opus-5": 2.34,
+    "cost-per-task.gpt-5-6-sol": 1.86,
+    "cost-per-task.kimi-k3": 0.86,
+    "cost-per-task.ds-v4-pro": 0.05
+   }
   },
   {
    "id": "imp-ds-value",
@@ -2308,37 +2351,64 @@
     "intelligence-per-dollar.gpt-5-6-sol",
     "intelligence-per-dollar.kimi-k3",
     "intelligence-per-dollar.ds-v4-pro",
-    "aa-omniscience.ds-v4-pro"
+    "aa-omniscience.ds-v4-pro",
+    "aa-omniscience.fable-5",
+    "aa-omniscience.opus-5",
+    "aa-omniscience.gpt-5-6-sol",
+    "aa-omniscience.kimi-k3"
    ],
    "confidence": "med",
    "falsifier": "DS cost-per-task revises up by roughly an order of magnitude on driver resolution, or its Omniscience index turns positive on the next AA refresh",
    "flags_carried": [],
    "date": "2026-08-01",
-   "first_stated": "2026-08-01"
+   "first_stated": "2026-08-01",
+   "cite_values": {
+    "intelligence-per-dollar.fable-5": 19.0,
+    "intelligence-per-dollar.opus-5": 25.9,
+    "intelligence-per-dollar.gpt-5-6-sol": 31.7,
+    "intelligence-per-dollar.kimi-k3": 66.4,
+    "intelligence-per-dollar.ds-v4-pro": 885.4,
+    "aa-omniscience.ds-v4-pro": -10.02,
+    "aa-omniscience.fable-5": 40.15,
+    "aa-omniscience.opus-5": 31.27,
+    "aa-omniscience.gpt-5-6-sol": 21.7,
+    "aa-omniscience.kimi-k3": 18.42
+   }
   },
   {
    "id": "imp-adoption-lanes",
    "tag": "X",
    "lens": "adoption momentum",
-   "status": "answered",
-   "text": "Routed demand runs in two lanes: DeepSeek moves volume — 17.4% of OpenRouter tokens in the last complete week, displaced from #1 by newcomer xiaomi at 19.1%, with the partial current week back at 20.9% — while Anthropic monetizes code, at 9.1% of tokens but roughly 44% of code-category spend. OpenAI holds 6.9%. All figures are provider-level with a flagged unit ambiguity; none of this attributes demand to any single model.",
+   "status": "OPEN",
+   "text": "OPEN — what do the routing shares measure? The facts: DeepSeek moved 17.4% of OpenRouter tokens in the last complete week (displaced from #1 by newcomer xiaomi at 19.1%, with the partial current week back at 20.9%), Anthropic routed 9.1% of tokens but roughly 44% of code-category spend, OpenAI 6.9%. Reading 1: two demand lanes — DeepSeek moves volume, Anthropic monetizes code. Reading 2: a price artifact — token share overweights cheap tokens ($0.05 per task) exactly as spend share overweights the field's priciest models ($2.34–$3.15 per task), so neither is a customer count and both lanes may be bookkeeping. All figures are provider-level with a flagged unit ambiguity; none of this attributes demand to any single model.",
    "cites": [
     "openrouter-share.ds-v4-pro",
     "openrouter-share.fable-5",
-    "openrouter-share.gpt-5-6-sol"
+    "openrouter-share.gpt-5-6-sol",
+    "cost-per-task.ds-v4-pro",
+    "cost-per-task.opus-5",
+    "cost-per-task.fable-5"
    ],
-   "confidence": "med",
-   "falsifier": "the completed week 07-27 data keeps DeepSeek behind xiaomi, or Anthropic's code-spend share drops materially below ~35%",
+   "confidence": "low",
+   "falsifier": "closes toward reading 1 if the completed 07-27 week restores DeepSeek past xiaomi while Anthropic code-spend holds above ~35%; toward reading 2 if a spend-denominated share view reorders the token-share lanes",
    "flags_carried": [],
    "date": "2026-08-01",
-   "first_stated": "2026-08-01"
+   "first_stated": "2026-08-01",
+   "cite_values": {
+    "openrouter-share.ds-v4-pro": 17.4,
+    "openrouter-share.fable-5": 9.1,
+    "openrouter-share.gpt-5-6-sol": 6.9,
+    "cost-per-task.ds-v4-pro": 0.05,
+    "cost-per-task.opus-5": 2.34,
+    "cost-per-task.fable-5": 3.15
+   }
   },
   {
    "id": "imp-sol-integrity",
    "tag": "X",
    "lens": "disclosure & integrity",
    "status": "answered",
-   "text": "Sol is the integrity story of this cycle: three open items — SWE-bench Verified withheld after METR's evaluation, a vendor-modified harness claim of 38.3 on the public puzzle set against an official Max-tier 7.78, and METR's cheating flag (a detected cheating rate higher than any public model they have evaluated). Every headline Sol number on this page needs the footnote before the comparison.",
+   "text": "Sol is the integrity story of this cycle: three open items — SWE-bench Verified withheld after METR's evaluation, a vendor-modified harness claim of 38.3 (custom settings, no declared tier) on the public puzzle set against an official Max-tier 7.78, and METR's cheating flag (a detected cheating rate higher than any public model they have evaluated). Every headline Sol number on this page needs the footnote before the comparison.",
    "cites": [
     "disclosure-watch.gpt-5-6-sol",
     "arc-agi-3.gpt-5-6-sol",
@@ -2356,7 +2426,13 @@
     "withheld disclosure: not published after METR record-gaming flag"
    ],
    "date": "2026-08-01",
-   "first_stated": "2026-08-01"
+   "first_stated": "2026-08-01",
+   "cite_values": {
+    "disclosure-watch.gpt-5-6-sol": "3 open items",
+    "arc-agi-3.gpt-5-6-sol": 7.78,
+    "metr-horizon.gpt-5-6-sol": 11.3,
+    "swe-bench-verified.gpt-5-6-sol": null
+   }
   },
   {
    "id": "imp-open-arc",
@@ -2377,7 +2453,14 @@
     "modified harness: vendor claims 38.3 on the PUBLIC set via custom API settings (Jul 30); not on the verified board, excluded from this cell"
    ],
    "date": "2026-08-01",
-   "first_stated": "2026-08-01"
+   "first_stated": "2026-08-01",
+   "cite_values": {
+    "arc-agi-3.opus-5": 30.16,
+    "arc-agi-3.gpt-5-6-sol": 7.78,
+    "arc-agi-3.fable-5": null,
+    "arc-agi-3.kimi-k3": null,
+    "arc-agi-3.ds-v4-pro": null
+   }
   },
   {
    "id": "imp-coding-claims",
@@ -2400,7 +2483,13 @@
     "provenance corrected 2026-08-01: self-report (openai.com), max reasoning effort"
    ],
    "date": "2026-08-01",
-   "first_stated": "2026-08-01"
+   "first_stated": "2026-08-01",
+   "cite_values": {
+    "swe-bench-pro.fable-5": 80.0,
+    "swe-bench-pro.opus-5": 79.2,
+    "swe-bench-pro.gpt-5-6-sol": 64.6,
+    "swe-bench-pro.ds-v4-pro": 55.4
+   }
   }
  ]
 }

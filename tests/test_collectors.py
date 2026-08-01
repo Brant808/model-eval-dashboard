@@ -96,6 +96,9 @@ def test_metr_parses_mythos_preview_as_fable_base():
     assert any("Mythos Preview" in f for f in fable.flags)
     assert any("CI 8.5–55.1h" in f for f in fable.flags)
     assert any("unreliable" in f for f in fable.flags)
+    # rule-7 marker + chip-exclusion disclaimer must survive collector rebuilds
+    assert any(f.startswith("proxy-model measurement") for f in fable.flags)
+    assert fable.value_disclaimed is True
 
 
 def test_metr_wrong_suite_or_shape_fails_loud():
