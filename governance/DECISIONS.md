@@ -144,3 +144,49 @@ unresolved; Arena Kimi reclassified category-board conflation).
 **Reversal conditions.** Sunset/caveat mechanisms are permanent constitution
 machinery; individual caveat flags retire when their factual basis changes
 (e.g., AA drops Gemini graders; TB re-executes submissions; Scale divests).
+
+## ADR-004 — Phase 2: the 20-row registry and chip-integrity semantics (2026-08-01)
+
+**Context.** Every row must earn its place against the four daily lenses under
+a 22-row cap. Innovator produced three portfolio strategies and per-axis
+candidates (governance/innovator/phase-2.md); the gate stress-tested the
+selection (governance/redteam/phase-2.md).
+
+**Options considered.** (1) Portfolio shape: consolidated-aggregates (~15 rows,
+6 collectors, AA-hostage) vs independent-signal maximalism (~22 rows, sparse,
+double the breakage) vs integrity-differentiated (19–20 rows: fully-covered
+capability core + rows that expose claimed-vs-verified gaps). (2) LiveBench
+ADD vs HOLD. (3) GDPval/Agentic overlap: keep both declared vs fold. (4) Chip
+integrity: ignore flags (status quo) vs blunt exclusion (flags kill candidacy)
+vs two-part rule (disclaimed values never compete; flagged values compete but
+never win; flagged true-leader ⇒ no chip). (5) Derived row 17: X-layer vs
+data-row-with-enforced-derivation.
+
+**Choices.** (1) Integrity-differentiated, 20 rows + 3 demotions to the brief
+layer (throughput, context-window, deployment-terms — collected, not
+matrix-rendered); adds: epoch-eci, aa-agentic-index, swe-rebench, livebench,
+aa-halluc-rate, intelligence-per-dollar; upgrades at +0 rows: TB stderr badge,
+OpenRouter per-model spend flags. Rejected consolidation (single-aggregator
+hostage — the very failure Phase 1 exposed) and maximalism (blows scan budget
+on sparse rows). (2) LiveBench ADD — its ≥3/5 condition resolved at 5/5,
+gate-verified twice. (3) Keep both with declared overlap (Elo granularity +
+composite view); fold order recorded if the cap binds. (4) The two-part rule —
+blunt exclusion demonstrably killed a legitimate chip (Opus's verified ARC
+record) because a competitor carried a contextual warning; ignoring flags
+demonstrably manufactured a LEAD from METR-disclaimed data. `value_disclaimed`
+separates "this value is disclaimed" from "this cell carries a warning-worthy
+story". (5) Data row with machine-enforced derivation (parents declared,
+quotient recomputed, worst-parent staleness, flag inheritance) — arithmetic on
+two cited I cells is not editorial; unenforced convention was the hazard.
+
+**Gate resolutions.** 3 BLOCKING + 9 MAJOR + 6 MINOR red-team findings and 3
+verifier conditions — all resolved same-day (see redteam/phase-2.md).
+INTEGRITY_MARKERS extended (self-report, proxy-model measurement); SWE-rebench
+made a third linter-separated scale; S21 (disclosure-watch curated), corrected
+S10/S11/S20 entries with pinned Phase 7 extraction specs.
+
+**Reversal conditions.** Row 12 is first out when a HOLD trigger fires (then
+fold 3→4, then 17). LiveBench reverts to HOLD if a rotation drops coverage
+below 3 columns. Chip semantics revisit only if Phase 3's cold reads show
+CO-LEAD/field-footnote confusion. FAR.AI/τ³-pass^k/SEAL enter on their named
+triggers.

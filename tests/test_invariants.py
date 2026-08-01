@@ -430,3 +430,95 @@ def test_gate1_ledger_parses_new_lines(ledger):
     assert ("Gemini-graded (AA judge panel)", "gdpval-aa") in ledger["S1"]["caveat_flags"]
     assert ledger["S13"]["independence"] == "vendor"
     assert ledger["S18"]["independence"] == "independent"
+
+
+# ---------------------------------------------------------------------------
+# Phase 2 gate hardening: chip integrity semantics, derived cells, third scale.
+# ---------------------------------------------------------------------------
+
+
+def test_gate2_disclaimed_values_cannot_legitimize_chips():
+    """B1: METR's LEAD chip existed only because a publisher-disclaimed figure
+    supplied the competition. With both populated cells disclaimed, no chip."""
+    import json
+    from pathlib import Path
+
+    live = json.loads(Path("data/2026-08-01.json").read_text())
+    chips = compute_chips(live)
+    assert not any(c.startswith("metr-horizon.") for c in chips)
+    # ARC keeps its chip: Sol's 7.78 is sound competition (the flag warns about
+    # an adjacent vendor claim, not this value), and Opus's record is clean.
+    assert "arc-agi-3.opus-5" in chips
+    # provider-level aggregates never chip
+    assert not any(c.startswith("openrouter-share.") for c in chips)
+
+
+def test_gate2_flagged_leader_awards_no_chip(snap):
+    """If the true max is integrity-flagged, second place must NOT be crowned."""
+    snap["cells"]["aa-index"]["opus-5"]["flags"] = [
+        "record gaming: hypothetical flag for test"
+    ]
+    chips = compute_chips(snap)
+    assert not any(c.startswith("aa-index.") for c in chips)
+
+
+def test_gate2_derived_cell_enforcement(snap, ledger):
+    snap["metrics"]["intelligence-per-dollar"] = {
+        "name": "Intelligence per dollar",
+        "group": "economics-deployment",
+        "unit": "index pts per task-USD",
+        "comparability_set": "aa-intelligence-per-usd",
+        "direction": "higher",
+        "freshness_sla_hours": 72,
+        "primary_source_id": "S1",
+    }
+    good = {
+        "value": 21.8,  # 60 / 2.75 rounded
+        "unit": "index pts per task-USD",
+        "tag": "I",
+        "source_id": "S1",
+        "retrieved_at": "2026-07-31T00:00:00Z",
+        "flags": ["derived: aa-index ÷ cost-per-task"],
+        "comparability_set": "aa-intelligence-per-usd",
+        "stale": False,
+        "history_ref": "intelligence-per-dollar.fable-5",
+        "derived_from": ["aa-index.fable-5", "cost-per-task.fable-5"],
+    }
+    snap["cells"]["intelligence-per-dollar"] = {"fable-5": dict(good)}
+    assert violations(snap, ledger, "RULE4") == []
+    # wrong quotient caught
+    snap["cells"]["intelligence-per-dollar"]["fable-5"]["value"] = 99.0
+    assert any("recomputed" in x for x in violations(snap, ledger, "RULE4"))
+    # missing parent declaration caught
+    bad = dict(good)
+    bad["derived_from"] = None
+    snap["cells"]["intelligence-per-dollar"]["fable-5"] = bad
+    assert any("derived_from" in x for x in violations(snap, ledger, "RULE4"))
+    # stale parent must propagate
+    fresh = dict(good)
+    snap["cells"]["intelligence-per-dollar"]["fable-5"] = fresh
+    snap["cells"]["cost-per-task"]["fable-5"]["stale"] = True
+    snap["cells"]["cost-per-task"]["fable-5"]["flags"] = list(
+        snap["cells"]["cost-per-task"]["fable-5"]["flags"]
+    ) + ["source down (last-good shown)"]
+    out = check_snapshot(snap, "test", ledger)
+    assert any(x.startswith("RULE9") and "derived" in x for x in out)
+
+
+def test_gate2_rebench_is_a_third_separated_scale(snap, ledger):
+    snap["tape"].append({
+        "date": "2026-07-31",
+        "text": "Fable's SWE-bench Pro claim 80.0 runs 15.5 pts above its SWE-rebench resolve rate",
+        "source_id": "S13",
+        "cell_ids": [],
+    })
+    assert any("tape" in x for x in violations(snap, ledger, "RULE5"))
+
+
+def test_gate2_self_report_flags_are_warn_class(seed):
+    from tools.check_invariants import integrity_flags
+
+    cell = {"flags": ["vendor self-report (no independent run)"]}
+    assert integrity_flags(cell)
+    cell2 = {"flags": ["proxy-model measurement: value is for another model"]}
+    assert integrity_flags(cell2)

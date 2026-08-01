@@ -206,3 +206,23 @@ snapshot `data/2026-08-01.json` (all values gate-verified) so the page stopped
 rendering the refuted 80.3-as-independent immediately. 57 tests green;
 `make all` green over seed + corrected snapshot with full explainability
 (8 tape entries + 21 changelog entries). ADR-003. Phase 1 CLOSED.
+
+### Phase 2 — Metric Selection (2026-08-01)
+
+Innovator: 3 portfolio strategies + candidates across all 4 mandated axes
+(governance/innovator/phase-2.md). Builder selected the
+integrity-differentiated portfolio: **20 matrix rows** (13 kept incumbents + 6
+adds + LiveBench promoted at gate-verified 5/5 coverage), 3 seed rows demoted
+to the brief layer, 2 headroom, HOLDs with named machine-checkable triggers.
+Registry: governance/ROWS.md.
+
+Gate: red-team 3 BLOCKING + 9 MAJOR + 6 MINOR (all demonstrated; all resolved
+same-day — chip-integrity semantics rebuilt with value_disclaimed +
+flagged-leader-no-chip + chip_eligible opt-out, caveat scopes extended to the
+new metric ids, factual flag errors fixed, SWE-rebench made a third separated
+scale, derived-cell enforcement added, disclosure-watch re-sourced to curated
+S21). Verifier: every displayable number reproduced against primary sources;
+countersigned after three conditions landed (Vals 5/5, window-relative
+SWE-rebench contamination flags, Sol flag fix); located the ECI value channel
+(eci_scores.csv) where Sol>Fable — row 2's disagreement purpose demonstrated
+live. 76 tests green. ADR-004. Phase 2 CLOSED.

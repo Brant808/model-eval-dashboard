@@ -52,7 +52,7 @@ these flags verbatim so the page renders the caveat — rule 7 at source level).
 - Method: json-api — documented Data API v2 (`/api/v2/language/models/free`, x-api-key header, free tier 100 req/day) covers AA Index + cost-per-task + output speed + TTFT/TTFA; GDPval-AA and AA-Omniscience are Pro-gated in the API but present keyless in the `/models` page embedded flight JSON (`initialModels`), which is the Phase 7 fallback channel
 - Retrieved-at: 2026-08-01T00:00:00Z
 - Independence: independent evaluator with disclosed lab-revenue exposure (gate-corrected 2026-08-01): AA runs its own evals on first-party endpoints, but its business model is enterprise insight subscriptions AND private custom benchmarking sold to AI companies — i.e., ranked labs can be paying customers, separated from the public leaderboard only by AA's stated policy ("no one pays to be on the leaderboard"; "mystery shopper" accounts). Equity per secondary sources: AI Grant/Friedman/Gross/Ng. Methodological dependency: Gemini models are the graders for GDPval-AA and AA-Omniscience (LLM-judge family bias risk — escalates to a conflict if a Google model is ever scored by its own family; auto-escalation noted in RUNBOOK). Terms-of-Use PDF posture: verify at collector build.
-- Caveat-flags: Gemini-graded (AA judge panel)@gdpval-aa; Gemini-graded (AA judge panel)@aa-omniscience
+- Caveat-flags: Gemini-graded (AA judge panel)@gdpval-aa; Gemini-graded (AA judge panel)@aa-omniscience; Gemini-graded (AA judge panel)@aa-halluc-rate; Gemini-graded (AA judge panel)@aa-agentic-index
 - Freshness SLA: 72h
 - Covers: AA Intelligence Index v4.1 (confirmed current version, "June 2026—current"), GDPval-AA v2 Elo, cost per task (v4.1 cache-aware methodology), throughput/TTFT, AA-Omniscience, context windows, list prices
 - Grade: A. Breakage: low (documented API) / medium (embedded-JSON path).
@@ -76,6 +76,7 @@ these flags verbatim so the page renders the caveat — rule 7 at source level).
 - Method: json-api (undocumented frontend API, no auth): `/api/frontend/v1/rankings/market-share` (52 weekly author-level buckets of raw token counts, top ~9 authors + others) and `/api/frontend/v1/rankings/task-spend` (rolling 30d spend, 29 task tags × top-10 models with share + deltaPp)
 - Retrieved-at: 2026-08-01T00:00:00Z
 - Independence: independent usage telemetry (marketplace routing data, not lab self-report). Structural bias: only OpenRouter-routed traffic — first-party/direct-API volume invisible, so premium providers (Anthropic) undercount on token share while leading spend
+- Caveat-flags: unit per page copy ambiguous (counts consistent with tokens)
 - Freshness SLA: 72h
 - Covers: provider token share (unit caveat: endpoint returns unlabeled counts; magnitudes only plausible as tokens; page copy says "request share" — carry "unit per page copy ambiguous" flag); per-MODEL spend share via task-spend (new capability vs seed — Kimi K3 capturable here though invisible in provider share)
 - ToS/robots: robots.txt permissive; ToS updated 2026-07-27 has an anti-scraping clause — direct tension. Collector posture: one polite fetch/day of the two JSON endpoints the page itself loads, honest UA — logged as RISK-006 with reversal trigger (any block, header, or objection ⇒ drop to "source down" handling and seek permission).
@@ -140,9 +141,9 @@ these flags verbatim so the page renders the caveat — rule 7 at source level).
 
 ### S10 — Epoch AI Benchmarking Hub / Epoch Capabilities Index
 - URL: https://epoch.ai/benchmarks
-- Method: csv — https://epoch.ai/data/eci_benchmarks.csv (verified: 2,208 rows; columns model/benchmark/performance/date/source), CC-BY; python client + public repo available
+- Method: csv — VALUE channel (gate-located): https://epoch.ai/data/eci_scores.csv (219 rows; columns Model,eci,eci_ci_low,eci_ci_high,date — verified: Sol 161.69, Fable 161.55, Opus 5 161.05, Kimi 157.39, DS V4 Pro 148.90; note the Sol>Fable order DIFFERS from AA, which is exactly row 2's purpose). Provenance channel: https://epoch.ai/data/eci_benchmarks.csv (2,207 data rows; model/benchmark/performance/date/source). CC-BY; python client + public repo available
 - Retrieved-at: 2026-08-01T00:00:00Z
-- Independence: independent nonprofit with disclosed lab entanglement (gate-corrected 2026-08-01): OpenAI funded FrontierMath — an ECI component (165 rows in the live CSV) — with dataset access and a disclosure controversy (Jan 2025, TechCrunch et al.); the hub is supported by the UK AI Security Institute. Per-row provenance is MIXED: 670 rows "Epoch evaluations" (evaluator-run), ~270 rows sourced to vendor technical reports, 322 rows with an empty source column, plus rows mirroring GDPval (OpenAI-built), METR (already our S5 — double-count hazard for "two aggregators agree"), Vals, ARC. The per-row `source` column MUST drive per-cell handling; the composite carries a caveat flag.
+- Independence: independent nonprofit with disclosed lab entanglement (gate-corrected 2026-08-01): OpenAI funded FrontierMath — an ECI component (~150 rows in the live CSV; count drifts, 165 at first fetch) — with dataset access and a disclosure controversy (Jan 2025, TechCrunch et al.); the hub is supported by the UK AI Security Institute. Per-row provenance is MIXED: 670 rows "Epoch evaluations" (evaluator-run), ~270 rows sourced to vendor technical reports, 322 rows with an empty source column, plus rows mirroring GDPval (OpenAI-built), METR (already our S5 — double-count hazard for "two aggregators agree"), Vals, ARC. The per-row `source` column MUST drive per-cell handling; the composite carries a caveat flag.
 - Caveat-flags: mixed-provenance composite (incl. OpenAI-funded FrontierMath)
 - Attribution: data CC-BY — page must attribute Epoch AI and link the license.
 - Freshness SLA: 336h (14d)
@@ -156,7 +157,7 @@ these flags verbatim so the page renders the caveat — rule 7 at source level).
 - Independence: independent eval company (SF), not lab-owned. Gate-resolved 2026-08-01 (RISK-007): funding IS publicly discoverable — ~$5M from Bloomberg Beta, Pear VC, 8VC, J12, Sequoia scout (no frontier-lab investors); a pay-for-placement search found no evidence and Vals publicly claims neutral third-party posture with private datasets. Residual caveat: Bloomberg Beta money adjacent to Vals' Finance Agent benchmark.
 - Caveat-flags: VC-funded evaluator, no on-site funding disclosure
 - Freshness SLA: 504h (21d)
-- Covers: Vals Index composite + professional agentic boards (Finance Agent v2, Legal Research). 4/5 models covered (no DeepSeek V4 Pro). Strict-vs-weighted scoring gap = live reliability signal. Scouted-in (ADR-002), single composite row proposed.
+- Covers: Vals Index composite (weighted; cell value) + strict-vs-weighted gap badge from per-board tasks.overall vs tasks.all_pass. Coverage gate-corrected 2026-08-01: 5/5 (Vals Index v1.2, upd. 7/31: Fable 75.1 #1, Opus 74.8 #2, Kimi 74.7 #3, Sol 73.1 #4, DS V4 Pro 55.6 #19). Extraction: astro-island props JSON in SSR HTML (HTML-unescape → JSON; [0,x]=scalar, [1,[...]]=array), keys like anthropic/claude-fable-5. Strict-vs-weighted scoring gap = live reliability signal. Scouted-in (ADR-002), single composite row proposed.
 - Grade: B. Breakage: high (DOM).
 
 ### S12 — LiveBench
@@ -225,9 +226,17 @@ these flags verbatim so the page renders the caveat — rule 7 at source level).
 
 ### S20 — SWE-rebench (fresh-issue coding board)
 - URL: https://swe-rebench.com
-- Method: embedded-json or HF dataset (channel probe at collector build — Phase 1 innovator verified values from the site; exact machine channel to be pinned like S12 was); paper arXiv:2505.20411
+- Method: embedded-json (gate-pinned): the site's Next.js flight payload (self.__next_f.push) carries model objects with per-window {resolvedRate, sem, passN, instanceCosts} keyed by "<startMs>:<endMs>" (current 1778803200000:1782864000000) plus release.date for the contamination rule. The HF dataset nebius/SWE-rebench-leaderboard is the TASK SET, not scores (its card points the July 2026 split to Harbour Hub — channel-drift watch). Paper arXiv:2505.20411
 - Retrieved-at: 2026-08-01T00:00:00Z (innovator verification fetch)
-- Independence: independent — run by the Nebius team (GPU cloud, not a frontier lab); contamination-free by construction (only GitHub issues filed after model cutoffs; current window 2026-05-15 → 2026-07-01)
+- Independence: independent — run by the Nebius team (GPU cloud, not a frontier lab). Decontamination is WINDOW-RELATIVE (gate-corrected 2026-08-01): issues post-date the window start, so only models released BEFORE the window start are contamination-clean; the board's own legend flags later releases as "Potential contamination" — current window (2026-05-15 → 2026-07-01) flags Fable 5 (rel. 06-09), Sol (rel. 06-26), and Opus 5 (rel. 07-24, after the window even closed); DS V4 Pro (rel. 04-24) is clean. Collector rule: derive the flag mechanically as release.date > window_start; every affected cell must carry it (rule 7).
 - Freshness SLA: 1080h (45d; window cadence)
-- Covers: fresh-issue resolved rate. Verified 2026-08-01: Fable 5 64.5 #1, Opus 5 63.4 #3, GPT-5.6 Sol 62.3 #5, DS V4 Pro 40.2 #14; Kimi K3 absent. Comparability: window-stamped set (`swe-rebench-window-<start>`) — scores comparable only within one issue window. NOT SWE-bench Pro and NOT SWE-bench Verified: display name must prevent conflation ("SWE-rebench (fresh issues)").
+- Covers: fresh-issue resolved rate. Verified 2026-08-01 (twice — innovator + gate verifier): Fable 5 64.5±1.4 #1, Opus 5 63.4±1.4 #3 (Grok 4.5 63.8 #2), GPT-5.6 Sol 62.3±1.8 #5, DS V4 Pro 40.2±1.3 #14; Kimi K3 absent. Comparability: window-stamped set (`swe-rebench-window-<start>`) — scores comparable only within one issue window. NOT SWE-bench Pro and NOT SWE-bench Verified: display name must prevent conflation ("SWE-rebench (fresh issues)").
 - Grade: B (estimate; confirm at collector build). Breakage: medium.
+
+### S21 — Disclosure watch (curated editorial synthesis)
+- URL: governance/ROWS.md (row definition); underlying primary sources named inside each open item's flag text (METR blog S18, ARC Prize S4, vendor pages S14–S17)
+- Method: curated — each open item is added/retired by a governed edit (or by the Phase 7 judgment layer, which may only cite facts present in the day's snapshot); every item's flag text names its primary source
+- Retrieved-at: 2026-08-01T00:00:00Z
+- Independence: independent-of-vendors synthesis maintained by this pipeline; it is meta-observation of disclosure conduct, not a benchmark result
+- Freshness SLA: 720h
+- Covers: the disclosure-watch row only. Phase 1's S0 was a seed-only transcription vehicle and no longer sources this row.

@@ -120,7 +120,8 @@
    "comparability_set": "openrouter-provider-share",
    "direction": "higher",
    "freshness_sla_hours": 72,
-   "primary_source_id": "S3"
+   "primary_source_id": "S3",
+   "chip_eligible": false
   },
   "swe-bench-verified": {
    "name": "SWE-bench Verified (self-reported)",
@@ -539,7 +540,7 @@
     "source_id": "S14",
     "retrieved_at": "2026-08-01T00:00:00Z",
     "flags": [
-     "launch claim (2026-07-24) — not yet on the llm-stats aggregate or any board"
+     "vendor self-report (launch claim 2026-07-24) — provisional in set: not yet on the llm-stats aggregate or any board"
     ],
     "comparability_set": "swe-bench-pro-vendor-aggregate",
     "stale": false,
@@ -667,13 +668,14 @@
     "source_id": "S5",
     "retrieved_at": "2026-05-08T00:00:00Z",
     "flags": [
-     "measured on Claude Mythos Preview (early), not Fable 5 itself",
+     "proxy-model measurement: value is for Claude Mythos Preview (early), not Fable 5 itself",
      "95% CI 8.5–55.1h; is_sota on TH-1.1",
      "METR: measurements above 16h are unreliable with the current task suite"
     ],
     "comparability_set": "metr-50pct-horizon",
     "stale": false,
-    "history_ref": "metr-horizon.fable-5"
+    "history_ref": "metr-horizon.fable-5",
+    "value_disclaimed": true
    },
    "opus-5": {
     "value": null,
@@ -702,7 +704,8 @@
     ],
     "comparability_set": "metr-50pct-horizon",
     "stale": false,
-    "history_ref": "metr-horizon.gpt-5-6-sol"
+    "history_ref": "metr-horizon.gpt-5-6-sol",
+    "value_disclaimed": true
    },
    "kimi-k3": {
     "value": null,
@@ -887,7 +890,10 @@
     "tag": "V",
     "source_id": "S14",
     "retrieved_at": "2026-08-01T00:00:00Z",
-    "flags": [],
+    "flags": [
+     "vendor self-report (no independent run)",
+     "saturated: near ceiling on the 500-task set"
+    ],
     "comparability_set": "swe-bench-verified-self-report",
     "stale": false,
     "history_ref": "swe-bench-verified.fable-5"
@@ -937,6 +943,7 @@
     "source_id": "S17",
     "retrieved_at": "2026-08-01T00:00:00Z",
     "flags": [
+     "vendor self-report (no independent run)",
      "declared; vendor page probe at collector build"
     ],
     "comparability_set": "swe-bench-verified-self-report",
@@ -949,7 +956,7 @@
     "value": "none noted",
     "unit": "text",
     "tag": "I",
-    "source_id": "S0",
+    "source_id": "S21",
     "retrieved_at": "2026-08-01T00:00:00Z",
     "flags": [],
     "comparability_set": "disclosure-watch",
@@ -960,7 +967,7 @@
     "value": "none noted",
     "unit": "text",
     "tag": "I",
-    "source_id": "S0",
+    "source_id": "S21",
     "retrieved_at": "2026-08-01T00:00:00Z",
     "flags": [],
     "comparability_set": "disclosure-watch",
@@ -971,7 +978,7 @@
     "value": "3 open items",
     "unit": "text",
     "tag": "I",
-    "source_id": "S0",
+    "source_id": "S21",
     "retrieved_at": "2026-08-01T00:00:00Z",
     "flags": [
      "withheld disclosure: SWE-bench Verified not published after METR flag",
@@ -986,7 +993,7 @@
     "value": "none noted",
     "unit": "text",
     "tag": "I",
-    "source_id": "S0",
+    "source_id": "S21",
     "retrieved_at": "2026-08-01T00:00:00Z",
     "flags": [],
     "comparability_set": "disclosure-watch",
@@ -997,7 +1004,7 @@
     "value": "none noted",
     "unit": "text",
     "tag": "I",
-    "source_id": "S0",
+    "source_id": "S21",
     "retrieved_at": "2026-08-01T00:00:00Z",
     "flags": [],
     "comparability_set": "disclosure-watch",
@@ -1146,7 +1153,7 @@
     "retrieved_at": "2026-08-01T07:45:00Z",
     "flags": [
      "Gemini-graded (AA judge panel)",
-     "accuracy 0.614, hallucination rate 0.549 — highest of the five"
+     "accuracy 0.614 — highest accuracy of the five; hallucination rate 0.549"
     ],
     "comparability_set": "aa-omniscience",
     "stale": false,
@@ -1174,7 +1181,7 @@
     "retrieved_at": "2026-08-01T07:45:00Z",
     "flags": [
      "Gemini-graded (AA judge panel)",
-     "hallucination rate 0.888 — highest of the five"
+     "hallucination rate 0.888 — second-highest of the five (DS V4 Pro: 0.940)"
     ],
     "comparability_set": "aa-omniscience",
     "stale": false,
@@ -1202,7 +1209,7 @@
     "retrieved_at": "2026-08-01T07:45:00Z",
     "flags": [
      "Gemini-graded (AA judge panel)",
-     "negative: more wrong answers than right (hallucination rate 0.940)"
+     "negative: more wrong answers than right; hallucination rate 0.940 — highest of the five"
     ],
     "comparability_set": "aa-omniscience",
     "stale": false,

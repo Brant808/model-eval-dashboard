@@ -49,14 +49,34 @@ EMPTY_REASONS = {
 }
 
 # Rule 7's named integrity conditions (substring match against cell flags).
-INTEGRITY_MARKERS = ("record gaming", "modified harness", "withheld disclosure")
+# Phase 2 gate additions: "self-report" (vendor claims render warn-class, not
+# note-class) and "proxy-model measurement" (a value measured on a different
+# model than the column it sits in).
+INTEGRITY_MARKERS = (
+    "record gaming",
+    "modified harness",
+    "withheld disclosure",
+    "self-report",
+    "proxy-model measurement",
+)
 
 # Rule 5 families: these may never meet in a row, comparison, chip set, tape
-# entry, or implication sentence.
+# entry, or implication sentence. Phase 2 gate: SWE-rebench is a THIRD scale
+# that must never be conflated with either SWE-bench family.
 PRO_PREFIX = "swe-bench-pro"
 VERIFIED_PREFIX = "swe-bench-verified"
+REBENCH_PREFIX = "swe-rebench"
 PRO_NAME_RE = re.compile(r"swe.?bench\s+pro", re.IGNORECASE)
 VERIFIED_NAME_RE = re.compile(r"swe.?bench\s+verified", re.IGNORECASE)
+REBENCH_NAME_RE = re.compile(r"swe.?rebench", re.IGNORECASE)
+
+# Derived metrics: metric_id -> (numerator metric, denominator metric,
+# rounding digits). Cells of these metrics must declare derived_from parents;
+# the linter recomputes the value and enforces worst-parent staleness and
+# integrity-flag inheritance (Phase 2 gate, derived-cell convention).
+DERIVATIONS = {
+    "intelligence-per-dollar": ("aa-index", "cost-per-task", 1),
+}
 
 # Rule 12 banned content. Name ban applies to the built page (RISK-001 covers
 # the commissioning brief in governance/). Credentials banned repo-wide.
@@ -192,17 +212,46 @@ def integrity_flags(cell):
 
 
 def _mentions_both_families(text: str) -> bool:
-    return bool(PRO_NAME_RE.search(text)) and bool(VERIFIED_NAME_RE.search(text))
+    """True if the text co-mingles two or more of the three SWE scales."""
+    hits = sum(
+        1
+        for pat in (PRO_NAME_RE, VERIFIED_NAME_RE, REBENCH_NAME_RE)
+        if pat.search(text)
+    )
+    return hits >= 2
+
+
+def _family_of(set_name):
+    if not set_name:
+        return None
+    if set_name.startswith(REBENCH_PREFIX):
+        return "rebench"
+    if set_name.startswith(PRO_PREFIX):
+        return "pro"
+    if set_name.startswith(VERIFIED_PREFIX):
+        return "verified"
+    return None
 
 
 def compute_chips(snap):
     """Recompute which cells legitimately hold a lead chip.
 
-    Contract (rules 4 + 10, ADR-001): a chip marks the leader within a single
-    declared comparability set, computed ONLY over independent (I), populated,
-    non-stale, finite-numeric cells that share the metric's set. Vendor-claimed
-    values never compete. A lead requires COMPETITION: fewer than 2 eligible
-    candidates -> no chip. Ties: all tied leaders chip (Phase 3 may tighten).
+    Contract (rules 4 + 10, ADR-001 as tightened by the Phase 2 gate ADR-004):
+    a chip marks the leader within a single declared comparability set,
+    computed over independent (I), populated, non-stale, finite-numeric cells
+    that share the metric's set. Vendor-claimed values never compete.
+    Two integrity refinements (Phase 2 gate, BLOCKING B1):
+    - a cell whose VALUE its own publisher disclaims (`value_disclaimed: true`,
+      e.g. METR's Sol figure) neither wins nor counts as competition — a
+      superlative must not be manufactured from disclaimed data;
+    - a cell carrying integrity flags may count as competition (its value is
+      sound; the flag warns about context) but may never WIN; and if the true
+      leader is integrity-flagged, NO chip is awarded for that metric (crowning
+      second place would lie about the max).
+    Metrics may opt out entirely via meta chip_eligible: false (e.g.
+    provider-level aggregates rendered in model columns). A lead requires
+    COMPETITION: fewer than 2 eligible candidates -> no chip. Ties: all tied
+    leaders chip (rendered as CO-LEAD when more than one — Phase 3).
     Metrics with direction "none" never chip.
     """
     chips = set()
@@ -210,23 +259,30 @@ def compute_chips(snap):
         direction = meta.get("direction", "none")
         if direction not in ("higher", "lower"):
             continue
+        if meta.get("chip_eligible") is False:
+            continue
         row = snap.get("cells", {}).get(metric_id, {})
         candidates = {}
         for model_id, cell in row.items():
             if not is_populated(cell) or cell.get("tag") != "I" or cell.get("stale"):
                 continue
+            if cell.get("value_disclaimed"):
+                continue  # publisher-disclaimed values cannot compete at all
             v = cell.get("value")
             if not isinstance(v, (int, float)) or isinstance(v, bool) or not math.isfinite(v):
                 continue
             if cell.get("comparability_set") != meta.get("comparability_set"):
                 continue  # off-set cells never compete (rule 4)
-            candidates[model_id] = v
+            candidates[model_id] = (v, bool(integrity_flags(cell)))
         if len(candidates) < 2:
             continue  # a "lead" over nobody is a misleading superlative
-        best = max(candidates.values()) if direction == "higher" else min(candidates.values())
-        for model_id, v in candidates.items():
-            if v == best:
-                chips.add(f"{metric_id}.{model_id}")
+        values = [v for v, _ in candidates.values()]
+        best = max(values) if direction == "higher" else min(values)
+        leaders = {m: flagged for m, (v, flagged) in candidates.items() if v == best}
+        if any(leaders.values()):
+            continue  # true leader is integrity-flagged: no chip at all
+        for model_id in leaders:
+            chips.add(f"{metric_id}.{model_id}")
     return chips
 
 
@@ -324,6 +380,44 @@ def check_snapshot(snap, snap_name, ledger):
             # Rule 6
             if "arc-agi" in metric_id and not cell.get("effort_tier"):
                 v.append(f"RULE6 {where}: ARC-AGI value without effort tier")
+            # Derived cells (Phase 2 gate): parents declared, value recomputed,
+            # worst-parent staleness, integrity flags inherited.
+            if metric_id in DERIVATIONS:
+                num_m, den_m, digits = DERIVATIONS[metric_id]
+                parents = cell.get("derived_from") or []
+                want = [f"{num_m}.{model_id}", f"{den_m}.{model_id}"]
+                if parents != want:
+                    v.append(
+                        f"RULE4 {where}: derived cell must declare derived_from {want}, "
+                        f"got {parents}"
+                    )
+                else:
+                    pn = snap.get("cells", {}).get(num_m, {}).get(model_id)
+                    pd = snap.get("cells", {}).get(den_m, {}).get(model_id)
+                    if not pn or not pd or not is_populated(pn) or not is_populated(pd):
+                        v.append(f"RULE4 {where}: derived cell has unpopulated parent(s)")
+                    else:
+                        nv, dv = pn.get("value"), pd.get("value")
+                        if isinstance(nv, (int, float)) and isinstance(dv, (int, float)) and dv:
+                            expect = round(nv / dv, digits)
+                            got = cell.get("value")
+                            if not isinstance(got, (int, float)) or abs(got - expect) > 0.51 * 10 ** -digits + 1e-9:
+                                v.append(
+                                    f"RULE4 {where}: derived value {got!r} != recomputed "
+                                    f"{expect!r} from parents"
+                                )
+                        parent_stale = bool(pn.get("stale")) or bool(pd.get("stale"))
+                        if bool(cell.get("stale")) != parent_stale:
+                            v.append(
+                                f"RULE9 {where}: derived cell stale={cell.get('stale')} but "
+                                f"OR(parents.stale)={parent_stale}"
+                            )
+                        for pf in integrity_flags(pn) + integrity_flags(pd):
+                            if pf not in cell.get("flags", []):
+                                v.append(
+                                    f"RULE7 {where}: derived cell missing inherited parent "
+                                    f"integrity flag {pf!r}"
+                                )
         else:
             # Rule 3
             reason = cell.get("empty_reason")
@@ -350,16 +444,17 @@ def check_snapshot(snap, snap_name, ledger):
                 "text values — chip competition would be distorted"
             )
 
-    # Rule 5 (data side): no metric row mixes Pro and Verified sets
+    # Rule 5 (data side): no metric row mixes any two of the three SWE scales
     for metric_id, meta in metrics.items():
         sets_in_row = {
             c.get("comparability_set")
             for c in snap.get("cells", {}).get(metric_id, {}).values()
         } | {meta.get("comparability_set")}
-        has_pro = any(s and s.startswith(PRO_PREFIX) for s in sets_in_row)
-        has_ver = any(s and s.startswith(VERIFIED_PREFIX) for s in sets_in_row)
-        if has_pro and has_ver:
-            v.append(f"RULE5 {snap_name}:{metric_id}: row mixes SWE-bench Pro and Verified")
+        families = {f for f in (_family_of(s) for s in sets_in_row) if f}
+        if len(families) >= 2:
+            v.append(
+                f"RULE5 {snap_name}:{metric_id}: row mixes SWE scales {sorted(families)}"
+            )
 
     def cited_sets(ids):
         out = set()
@@ -371,9 +466,7 @@ def check_snapshot(snap, snap_name, ledger):
         return out
 
     def mixes_families(sets_):
-        return any(s and s.startswith(PRO_PREFIX) for s in sets_) and any(
-            s and s.startswith(VERIFIED_PREFIX) for s in sets_
-        )
+        return len({f for f in (_family_of(s) for s in sets_) if f}) >= 2
 
     # Rule 8: tape entries dated, in-window, sourced; rule 5 on tape too
     for i, entry in enumerate(snap.get("tape", [])):

@@ -55,6 +55,8 @@ class CellValue:
     retrieved_at: str  # source data vintage where declared, else fetch time
     effort_tier: str | None = None
     flags: list = dataclasses.field(default_factory=list)
+    derived_from: list | None = None  # parent cell ids for derived metrics
+    value_disclaimed: bool = False  # publisher disclaims the value itself
 
 
 class Collector:

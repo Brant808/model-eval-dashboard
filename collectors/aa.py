@@ -49,7 +49,7 @@ class AACollector(Collector):
             agentic = num(m.get("agenticIndex"))
             if agentic is not None:
                 out.append(CellValue("aa-agentic-index", model_id, agentic, "index", "I", "S1",
-                                     "aa-agentic-index-v4.1", self.fetched_at))
+                                     "aa-agentic-index-v4.1", self.fetched_at, flags=[GEM]))
             gdpval = num(m.get("gdpval"))
             if gdpval is not None:
                 out.append(CellValue("gdpval-aa", model_id, gdpval, "Elo", "I", "S1",
@@ -65,8 +65,8 @@ class AACollector(Collector):
                         "intelligence-per-dollar", model_id, round(ii / cost_total, 1),
                         "index pts per task-USD", "I", "S1", "aa-intelligence-per-usd",
                         self.fetched_at,
-                        flags=[f"derived: aa-index ({ii}) ÷ cost-per-task (${cost_total})",
-                               f"parents: aa-index.{model_id}, cost-per-task.{model_id}"],
+                        flags=[f"derived: aa-index ({ii}) ÷ cost-per-task (${cost_total})"],
+                        derived_from=[f"aa-index.{model_id}", f"cost-per-task.{model_id}"],
                     ))
             omni = num(m.get("omniscience"))
             if omni is not None:

@@ -50,7 +50,9 @@ def test_aa_parses_all_metric_families():
     ipd = d[("intelligence-per-dollar", "ds-v4-pro")]
     assert ipd.value > 100  # DeepSeek's cheap-token lane dominates this ratio
     assert any(f.startswith("derived:") for f in ipd.flags)
-    assert any("parents: aa-index.ds-v4-pro" in f for f in ipd.flags)
+    assert ipd.derived_from == ["aa-index.ds-v4-pro", "cost-per-task.ds-v4-pro"]
+    # agentic index carries the Gemini-grader caveat (ledger scope @aa-agentic-index)
+    assert "Gemini-graded (AA judge panel)" in d[("aa-agentic-index", "fable-5")].flags
     # provenance discipline
     assert d[("gdpval-aa", "fable-5")].tag == "I"
     assert "Gemini-graded (AA judge panel)" in d[("gdpval-aa", "fable-5")].flags
