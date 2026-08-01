@@ -222,3 +222,12 @@ these flags verbatim so the page renders the caveat — rule 7 at source level).
 - Independence: independent platform telemetry (HF) / vendor-claimed (disclosures)
 - Freshness SLA: n/a until activated
 - Covers: if RISK-006 fires and S3 stands down, HF download stats can partially cover OPEN-WEIGHTS adoption (Kimi, DeepSeek); no independent public fallback exists for closed-model adoption — that residual is RISK-008.
+
+### S20 — SWE-rebench (fresh-issue coding board)
+- URL: https://swe-rebench.com
+- Method: embedded-json or HF dataset (channel probe at collector build — Phase 1 innovator verified values from the site; exact machine channel to be pinned like S12 was); paper arXiv:2505.20411
+- Retrieved-at: 2026-08-01T00:00:00Z (innovator verification fetch)
+- Independence: independent — run by the Nebius team (GPU cloud, not a frontier lab); contamination-free by construction (only GitHub issues filed after model cutoffs; current window 2026-05-15 → 2026-07-01)
+- Freshness SLA: 1080h (45d; window cadence)
+- Covers: fresh-issue resolved rate. Verified 2026-08-01: Fable 5 64.5 #1, Opus 5 63.4 #3, GPT-5.6 Sol 62.3 #5, DS V4 Pro 40.2 #14; Kimi K3 absent. Comparability: window-stamped set (`swe-rebench-window-<start>`) — scores comparable only within one issue window. NOT SWE-bench Pro and NOT SWE-bench Verified: display name must prevent conflation ("SWE-rebench (fresh issues)").
+- Grade: B (estimate; confirm at collector build). Breakage: medium.
