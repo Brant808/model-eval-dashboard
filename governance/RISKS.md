@@ -30,14 +30,13 @@ decisions, not omissions: each one traces to a gate objection.
 - Reversal trigger: none needed; resolves itself at merge.
 
 ## RISK-003 — Hooks registered mid-session may not fire until a fresh session
-- Status: ACCEPTED (Phase 0)
-- Context: `.claude/settings.json` was created during this session; Claude Code
-  loads hook config at session start.
-- Rationale: the hook script is verified by direct invocation with a synthetic
-  payload (same interface the hook runner uses). Future sessions get the hook
-  automatically.
-- Reversal trigger: if a future session shows the hook not firing on a real
-  edit, debug the matcher/config then.
+- Status: CLOSED (2026-08-01) — observed firing live
+- Context: `.claude/settings.json` was created during this session; the concern
+  was that hook config only loads at session start.
+- Resolution: after a session-worker restart the PostToolUse guard demonstrably
+  fired on real edits (it blocked three collector edits whose fixture tests
+  failed, forcing fixes before progress — working exactly as designed).
+- Reversal trigger: n/a (closed on direct observation).
 
 ## RISK-004 — Repo write access denied from the sandbox (push 403)
 - Status: OPEN (Phase 0) — retry at every phase boundary
