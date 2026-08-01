@@ -65,3 +65,26 @@ written in Phase 9; items accrue here as phases discover them.
 - **iPhone home-screen icon.** Open the URL in Safari → Share →
   "Add to Home Screen" → Add. The page is self-contained and renders its
   last-fetched state offline once cached.
+
+### Phase 9 consolidation — do these in order
+
+1. **BLOCKER — grant push access** (details in the Phase 7 section above).
+   Until then the branch exists only in the (ephemeral) sandbox.
+2. **Merge the PR** (or push + open it if the session could not — see the
+   final summary). Review gate: `make all` green locally is pre-verified.
+3. **Turn on Pages** (Phase 8 section above: Settings → Pages → Deploy from
+   a branch → default branch → /docs → Save).
+4. **Dispatch the first run**: Actions → daily-refresh → Run workflow →
+   Enter. Verify: run green; a `data/<today>.json` commit and (if anything
+   changed) a docs/ commit appear; the page at
+   https://brant808.github.io/model-eval-dashboard/ shows today's
+   generated_at in the health footer. This also confirms the managed Pages
+   build ran (first-deploy verification — a gate rider asked for explicit
+   confirmation once).
+5. **Optional**: `ANTHROPIC_API_KEY` secret for the judgment tier (Phase 7
+   section); `AA_API_KEY` (Phase 1 section); ARC permission email (Phase 1
+   section).
+6. **iPhone**: open the URL in Safari → Share → Add to Home Screen → Add.
+   (Recorded honestly: this one step is a touch gesture; every Mac/GitHub
+   step above is keyboard-only. CLI alternative for step 3:
+   `gh api -X POST repos/Brant808/model-eval-dashboard/pages -f build_type=legacy -f 'source[branch]=main' -f 'source[path]=/docs'`.)

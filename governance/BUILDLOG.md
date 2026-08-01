@@ -331,3 +331,32 @@ from CDN cache or the reader waits an hour (mirror trigger RISK-014h);
 tape goes quiet ≥72h with healthy sources → visible as an empty tape, which
 is itself information. Phase 8 CLOSED (deploy toggle is a human action —
 HANDOFF).
+
+### Phase 9 — E2E verification (2026-08-01)
+
+Live pipeline run, sandboxed (PIPELINE_DATA_DIR), all 11 sources over the
+real network: 11/11 ok, data gate green, rendered live page green. Round 1
+failed LOUDLY on two carry-path defects — exactly what the e2e exists to
+find — both fixed as `harden_carried_cell` (constitution migration for
+carried/override cells: set-rename ⇒ honest blank; ledger caveat append;
+claims-marker backfill) plus first-collection cite_values baselining.
+
+Live-vs-curated drift, classified (17 cells):
+- aa-agentic-index ×5, aa-halluc-rate ×5 — pre-registered rows ACTIVATED by
+  the live AA payload; brief promotion now mechanical (allowlist exit +
+  cadence flip), verified by fixture drill. Expected, welcome.
+- api-price.ds-v4-pro '$0.44/$0.87' → '$0.435/$0.87' — genuine upstream
+  precision change; tape-covered. Real movement, no action.
+- swe-bench-pro.opus-5 79.2 → empty — replay-vs-seed artifact (the S14
+  launch claim was recorded ON 08-01, so a seed-based replay lacks it; a
+  real cron run diffs against the curated 08-01 and carries it). No action.
+- throughput-ttft ×5 lost the tok/s component — the collector never sourced
+  it (Phase 1 curated richer text); the payload's speed fields don't match
+  the curated measurement context, so extracting them would be guessing.
+  TTFA-only stands; brief-layer row; drop will be tape-explained on first
+  overwrite. Classified: fidelity reduction, honest.
+
+Determinism: `make all` twice consecutively — outputs byte-identical
+(Definition of Done item checked). EVAL.md written; verifier countersign +
+cold read in flight. RUNBOOK.md complete. Push remains blocked (RISK-004);
+every phase boundary committed locally; HANDOFF carries the unblock steps.
