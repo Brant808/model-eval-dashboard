@@ -190,3 +190,59 @@ fold 3→4, then 17). LiveBench reverts to HOLD if a rotation drops coverage
 below 3 columns. Chip semantics revisit only if Phase 3's cold reads show
 CO-LEAD/field-footnote confusion. FAR.AI/τ³-pass^k/SEAL enter on their named
 triggers.
+
+## ADR-005 — Phase 3: relevance ordering, quick-look, default trio, catalog, chips (2026-08-01)
+
+**Context.** The brief's directive change: relevance-first ordering in the
+Apple-compare style, trust carried entirely by per-cell tags/badges. Innovator
+produced four materially different orderings with mocks, three quick-look
+sets, five trio rules, and catalog/chip/promotion mechanics
+(governance/innovator/phase-3.md); the gate cold-read all four and attacked
+the two named hazards (governance/redteam/phase-3.md).
+
+**Options and choices.**
+1. *Ordering*: A decision-frequency / B volatility / C domain-hybrid /
+   D act-audit fold. **C chosen** — stable domain semantics are the only
+   property that compounds over months of daily reads; B rejected
+   (duplicates the tape, buries METR), A runner-up (ordering rots with the
+   reader's focus), D's fold adopted as a rider. Gate-priced honestly: C had
+   the WORST day-one cold read (6 breaks) and ships only with the riders
+   (pending-row stubs, no-triangulation copy, fold pointing downward);
+   reversal condition — if the Phase 6 rendered cold read fails again,
+   switch to D.
+2. *Vendor-claims placement*: pre-refuted-at-position-9 REJECTED at gate
+   (void until Phase 7; paradoxical after). Claims rows live in C7's
+   machine-contracted claimed band (`claim_v` ⇒ `data-band="claimed"` +
+   VENDOR-CLAIMED label + warn-class markers + SYNC rule). Return to C3 only
+   by ADR after a rendered cold read proves the styling.
+3. *Quick-look*: QL-A (aa-index, arena-elo, intelligence-per-dollar,
+   swe-rebench→gdpval labeled fallback, disclosure count) — the only set
+   covering all four lenses with zero V and zero structural blanks; QL-B/C
+   rejected (no capability stat / METR blanks in the headline).
+4. *Default trio*: rule T2 (top model per vendor, top-3 vendors by best AA) —
+   the only rule-neutral AND outcome-clean candidate; cannot produce a
+   same-vendor pair, so the first load can never look home-cooked. Riders:
+   field-order caption + on-page rule label so hiding the field #2 never
+   misstates the order; T4 becomes a labeled "Field state" preset. Today:
+   Opus 5 / GPT-5.6 Sol / Kimi K3 (mobile pair cross-vendor). RISK-009 logs
+   the AA-scoping reversal trigger.
+5. *Catalog*: S2+ (lineage + promotion + field seats), ~13–14 models; Muse
+   Spark 1.1 is the promotion rule's first public test (catalog yes on 4
+   sources, default no — below the vendor cutoff); DS Flash 0731 stays watch
+   (1 source). Conditional seats pinned to a collector-build checkpoint;
+   thin columns get coverage badges.
+6. *Chips*: field-wide only; CO-LEAD label on ties; provider rows never chip;
+   field-#1 footnote = chip-winner-when-off-screen (gate-redefined, B3) with
+   a density cap. Trio-relative chips rejected (meaning would change per swap).
+7. *Promotion*: M1 event-driven + 3-snapshot hysteresis (launch day bypasses
+   via catalog-membership recompute); "group-1 source" pinned as independent
+   ledger sources feeding C1–C3 rows.
+
+**Gate.** Verifier countersigned after one condition (Muse Spark premise
+corrected from our own fixture); red-team 3 BLOCKING + 5 MAJOR + 5 MINOR all
+resolved same-day, three with permanent linter rules + tests (SYNC,
+claim-marker, band contract, derived movement-caveat inheritance).
+
+**Reversal conditions.** Ordering C↔D at the Phase 6 rendered cold read;
+claims-row C7→C3 per condition 2; T2 scoping per RISK-009; catalog seats at
+the collector-build checkpoint.

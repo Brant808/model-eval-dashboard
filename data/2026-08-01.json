@@ -84,7 +84,8 @@
    "comparability_set": "swe-bench-pro-vendor-aggregate",
    "direction": "higher",
    "freshness_sla_hours": 72,
-   "primary_source_id": "S13"
+   "primary_source_id": "S13",
+   "claim_v": true
   },
   "arc-agi-3": {
    "name": "ARC-AGI-3",
@@ -130,7 +131,8 @@
    "comparability_set": "swe-bench-verified-self-report",
    "direction": "higher",
    "freshness_sla_hours": 336,
-   "primary_source_id": "S7"
+   "primary_source_id": "S7",
+   "claim_v": true
   },
   "disclosure-watch": {
    "name": "Disclosure watch",
@@ -1305,7 +1307,8 @@
     "source_id": "S1",
     "retrieved_at": "2026-08-01T07:45:00Z",
     "flags": [
-     "derived: aa-index (59.86) ÷ cost-per-task ($3.15)"
+     "derived: aa-index (59.86) ÷ cost-per-task ($3.15)",
+     "movement vs seed: driver unresolved (gate-flagged; both endpoints nominally v4.1)"
     ],
     "comparability_set": "aa-intelligence-per-usd",
     "stale": false,
@@ -1322,7 +1325,8 @@
     "source_id": "S1",
     "retrieved_at": "2026-08-01T07:45:00Z",
     "flags": [
-     "derived: aa-index (60.69) ÷ cost-per-task ($2.34)"
+     "derived: aa-index (60.69) ÷ cost-per-task ($2.34)",
+     "movement vs seed: driver unresolved (gate-flagged; both endpoints nominally v4.1)"
     ],
     "comparability_set": "aa-intelligence-per-usd",
     "stale": false,
@@ -1339,7 +1343,8 @@
     "source_id": "S1",
     "retrieved_at": "2026-08-01T07:45:00Z",
     "flags": [
-     "derived: aa-index (58.89) ÷ cost-per-task ($1.86)"
+     "derived: aa-index (58.89) ÷ cost-per-task ($1.86)",
+     "movement vs seed: driver unresolved (gate-flagged; both endpoints nominally v4.1)"
     ],
     "comparability_set": "aa-intelligence-per-usd",
     "stale": false,
@@ -1356,7 +1361,8 @@
     "source_id": "S1",
     "retrieved_at": "2026-08-01T07:45:00Z",
     "flags": [
-     "derived: aa-index (57.11) ÷ cost-per-task ($0.86)"
+     "derived: aa-index (57.11) ÷ cost-per-task ($0.86)",
+     "movement vs seed: driver unresolved (gate-flagged; both endpoints nominally v4.1)"
     ],
     "comparability_set": "aa-intelligence-per-usd",
     "stale": false,

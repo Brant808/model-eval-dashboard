@@ -54,7 +54,7 @@ METRICS = {
                         comparability_set="swe-rebench-window-2026-05-15", direction="higher",
                         freshness_sla_hours=1080, primary_source_id="S20",
                         empty_default="not evaluated"),
-    "swe-bench-pro": dict(name="SWE-bench Pro (vendor claims)", group="c3-coding", unit="%",
+    "swe-bench-pro": dict(name="SWE-bench Pro (vendor claims)", group="c7-integrity", unit="%",
                           comparability_set="swe-bench-pro-vendor-aggregate", direction="higher",
                           freshness_sla_hours=72, primary_source_id="S13",
                           empty_default="not published", claim_v=True),

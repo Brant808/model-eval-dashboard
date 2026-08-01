@@ -104,3 +104,13 @@ decisions, not omissions: each one traces to a gate objection.
   page says so via empty-cell reasons.
 - Reversal trigger: a second independent adoption source with closed-model
   coverage appears ⇒ collect it and close this risk.
+
+## RISK-009 — Default-trio rule scoped to a single aggregator's model inclusion
+- Status: ACCEPTED (Phase 3 gate)
+- Context: T2 selects the default trio from AA-indexed vendors only; AA's
+  inclusion policy and methodology refits therefore steer the first-load view.
+- Rationale: AA coverage is the broadest independent composite available and
+  the rule's outcome today is invariant under the known alternatives; the
+  field-order caption rider prevents the default from misstating the field.
+- Reversal trigger: a non-AA-indexed model holds #1 on ≥2 independent group-1
+  boards ⇒ revisit T2's scoping in an ADR.

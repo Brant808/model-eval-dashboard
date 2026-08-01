@@ -107,6 +107,8 @@ def render(snap) -> str:
         ".tier{display:block;font-size:.7rem;color:#444}"
         "footer{border-top:2px solid #1e40c9;margin-top:2rem;padding-top:.5rem;font-size:.8rem;color:#555}"
         ".tape li{margin-bottom:.3rem}"
+        ".claim-band-label{background:#9a6b00;color:#fff;font-size:.6rem;padding:0 .3rem;border-radius:3px;letter-spacing:.05em}"
+        "tr[data-band=claimed] td{background:#f3ead9}"
     )
     out.append("</style></head><body>")
     out.append("<h1>Frontier Model Eval Monitor</h1>")
@@ -167,9 +169,15 @@ def render(snap) -> str:
                     for c in snap["cells"].get(metric_id, {}).values()
                 }
             )
+            claim_band = ' data-band="claimed"' if meta.get("claim_v") else ""
+            band_label = (
+                '<span class="claim-band-label">VENDOR-CLAIMED</span> '
+                if meta.get("claim_v")
+                else ""
+            )
             out.append(
-                f'<tr data-metric="{esc(metric_id)}" data-row-set="{esc("|".join(row_sets))}">'
-                f"<th>{esc(meta['name'])}</th>"
+                f'<tr data-metric="{esc(metric_id)}" data-row-set="{esc("|".join(row_sets))}"{claim_band}>'
+                f"<th>{band_label}{esc(meta['name'])}</th>"
             )
             for mid in model_ids:
                 cell = snap["cells"].get(metric_id, {}).get(mid)

@@ -13,19 +13,27 @@ boards → claimed.
 
 1. **C1 Overall intelligence** — aa-index, epoch-eci, arena-elo
 2. **C2 Agentic & real-economy work** — gdpval-aa, aa-agentic-index, vals-index, terminal-bench
-3. **C3 Coding** — swe-rebench, swe-bench-pro (claimed sub-band)
+3. **C3 Coding** — swe-rebench (alone until its collector lands; renders as a one-line stub meanwhile)
 4. **C4 Economics & adoption** — intelligence-per-dollar, cost-per-task, api-price, openrouter-share
    — *subtle fold marker after C4: "daily read ends here" (stolen from Ordering D)*
 5. **C5 Knowledge & reliability** — aa-omniscience, aa-halluc-rate, livebench
 6. **C6 Headroom** — arc-agi-3, metr-horizon
-7. **C7 Integrity & disclosure** — disclosure-watch, swe-bench-verified (claimed sub-band)
+7. **C7 Integrity & disclosure** — disclosure-watch, swe-bench-pro (claimed sub-band), swe-bench-verified (claimed sub-band)
 
 Riders (binding, from the innovator's own conditions + ROWS.md obligations):
-- **Claim-V quarantine styling is a precondition**: rows 8 and 20(#12 verified)
-  render inside a tinted "VENDOR-CLAIMED" sub-band with "claimed" in the row
-  name; warn-class ⚠ self-report flags (already linter-enforced). C places
-  row 8 at position 9 deliberately — directly under swe-rebench so the claim
-  arrives pre-refuted; without the styling C is unsafe and the gate must kill it.
+- **Claim-V quarantine (gate-hardened, BLOCKING-2 resolution)**: the
+  vendor-claims rows (swe-bench-pro, swe-bench-verified) live in C7's claimed
+  sub-band — BELOW the fold — not in C3. The earlier position-9
+  "arrives pre-refuted" rationale was struck at the gate: it was void until
+  SWE-rebench has cells and relied on an unstated cross-scale comparison the
+  page itself bans. Reversal condition: after Phase 7 populates swe-rebench
+  AND a rendered cold read demonstrates the sub-band styling carries the
+  weight, the claims row may move to C3 by ADR. The band is now a machine
+  contract: metrics with `claim_v: true` must render `data-band="claimed"` +
+  visible VENDOR-CLAIMED label (linter/HTML-tested), every claim cell carries
+  a warn-class self-report marker (linter rule, snapshots ≥ 2026-08-01), and
+  latest.json must be byte-identical to the newest dated snapshot (SYNC rule)
+  so corrections can never lag onto the page.
 - **Authority-V vs claim-V**: api-price keeps the plain V badge (first-party
   fact); only claim-V rows get quarantine treatment. Rule 1's binary tag is
   untouched — this is styling weight.
@@ -77,10 +85,16 @@ the default (its mover input is currently a driver-unresolved number).
 - Ties: all tied leaders chip, rendered **CO-LEAD** (same glyph, distinct
   label — shape+label per rule 4).
 - Provider-level rows never chip (`chip_eligible: false`, ADR-004).
-- Every direction-bearing row whose field leader is outside the current
-  selection renders a **"field #1: <model> <value> [tag]"** footnote — the
-  Phase 6 field-awareness mechanism; rule-10-safe because a V value can never
-  win the field-wide computation.
+- **Field-#1 footnote (gate-redefined, BLOCKING-3 resolution)**: a footnote
+  renders ONLY for the current CHIP-WINNER when it is off-screen — full
+  compute_chips eligibility applies (I-only, non-disclaimed, non-stale, ≥2
+  competitors, flagged-leader ⇒ nothing, chip_eligible respected; warn flags
+  travel with the footnote). Rows with no legitimate chip get NO footnote —
+  the footnote may never recreate a superlative the chip contract refuses
+  (as specced before the gate it would have crowned disclaimed/single-
+  candidate/all-V/provider-level "leaders", four of five naming the home
+  model). Density cap: if >4 footnotes would render in one screenful, Phase 6
+  collapses them into the group header. Encoded as a Phase 6 test.
 
 ## D5 — Picker catalog: rule S2+ (lineage + promotion + field seats)
 
@@ -133,3 +147,28 @@ has S1 only (1) and stays watch.
 - Retirement: superseded models move to the "older" picker group; cells
   persist forever; staleness (existing non-stale chip condition) retires them
   from chip eligibility automatically.
+
+
+## Gate riders (Phase 3 red-team, binding on Phases 4–6)
+
+- **Field-order caption**: the quick-look headline stat carries a one-line
+  field order ("field: 1 Opus 60.69 · 2 Fable 59.86 · 3 Sol 58.89 …") and the
+  picker states the default rule ("default: top model per vendor") — the
+  default view must never misstate field order in either direction (T2
+  otherwise hides the field #2 entirely).
+- **QL fallback labeling**: until SWE-rebench lands, the band's coding slot is
+  visibly labeled ("coding slot: GDPval until SWE-rebench tracking begins");
+  derived band values inherit parents' movement caveats (linter-enforced).
+- **Pending rows render as one-line stubs** at group bottom ("tracking begins
+  soon"), never as full empty rows; no "methodologies agree" copy until Epoch
+  is populated (and Arena's disagreement is stated when present).
+- **Fold copy**: "below: slow boards and claims — the tape flags any change"
+  (points downward, never asserts completeness); marker suppressed/restyled on
+  builds where a C5–C7 cell changed.
+- **Two-weight V legend**: api-price carries a "vendor-listed fact" caption;
+  the legend explains both V weights in two lines.
+- **Picker coverage badges**: thin catalog columns show "early coverage:
+  N of 20 rows"; catalog conditional seats (grok-4-5, gemini-3-6-flash) and
+  the kimi-k2-6 lineage seat are pinned at a named collector-build checkpoint.
+- **Jargon copy pass**: no internal governance vocabulary in reader-facing
+  copy ("collector lands Phase 7" → "tracking begins soon", etc.).

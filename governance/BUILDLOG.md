@@ -226,3 +226,17 @@ countersigned after three conditions landed (Vals 5/5, window-relative
 SWE-rebench contamination flags, Sol flag fix); located the ECI value channel
 (eci_scores.csv) where Sol>Fable — row 2's disagreement purpose demonstrated
 live. 76 tests green. ADR-004. Phase 2 CLOSED.
+
+### Phase 3 — Grouping & Ordering (2026-08-01)
+
+Innovator: 4 orderings with first-screenful mocks + full decision space
+(governance/innovator/phase-3.md). Builder selected ordering C
+(domain-hybrid) + QL-A quick-look + trio rule T2 + catalog S2+ + field-wide
+chips w/ CO-LEAD (governance/ORDERING.md). Gate: verifier reproduced every
+decision-relevant claim (one condition: Muse Spark premise corrected — it IS
+AA-indexed at 50.62); red-team cold-read all four finalists and landed 3
+BLOCKING (latest.json lag + unenforced quarantine ⇒ SYNC rule + claim-marker
+rule + machine band contract; position-9 rationale ⇒ claims rows to C7;
+footnote superlatives ⇒ chip-winner-only redefinition) + 5 MAJOR + 5 MINOR,
+all resolved with binding riders and 4 new regression tests. 85 tests green.
+ADR-005, RISK-009. Phase 3 CLOSED.

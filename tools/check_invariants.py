@@ -380,6 +380,22 @@ def check_snapshot(snap, snap_name, ledger):
             # Rule 6
             if "arc-agi" in metric_id and not cell.get("effort_tier"):
                 v.append(f"RULE6 {where}: ARC-AGI value without effort tier")
+            # Phase 3 gate: a populated V cell in a vendor-claims family set
+            # must carry a warn-class integrity marker — claim cells may never
+            # render with note-class-only treatment. (Seed grandfathered, like
+            # the caveat rule.)
+            cset = cell.get("comparability_set") or ""
+            if (
+                snap_date
+                and snap_date >= CAVEAT_ENFORCE_FROM
+                and cell.get("tag") == "V"
+                and ("self-report" in cset or "vendor" in cset)
+                and not integrity_flags(cell)
+            ):
+                v.append(
+                    f"RULE7 {where}: vendor-claim cell (set {cset!r}) carries no "
+                    "warn-class integrity marker"
+                )
             # Derived cells (Phase 2 gate): parents declared, value recomputed,
             # worst-parent staleness, integrity flags inherited.
             if metric_id in DERIVATIONS:
@@ -412,11 +428,15 @@ def check_snapshot(snap, snap_name, ledger):
                                 f"RULE9 {where}: derived cell stale={cell.get('stale')} but "
                                 f"OR(parents.stale)={parent_stale}"
                             )
-                        for pf in integrity_flags(pn) + integrity_flags(pd):
+                        inherit = integrity_flags(pn) + integrity_flags(pd) + [
+                            f for f in (pn.get("flags", []) + pd.get("flags", []))
+                            if "unresolved" in f.lower()
+                        ]
+                        for pf in inherit:
                             if pf not in cell.get("flags", []):
                                 v.append(
                                     f"RULE7 {where}: derived cell missing inherited parent "
-                                    f"integrity flag {pf!r}"
+                                    f"flag {pf!r} (integrity + movement caveats propagate)"
                                 )
         else:
             # Rule 3
@@ -832,6 +852,20 @@ def main(argv=None):
         latest = snapshots.get("latest")
         if latest is not None:
             violations += lint_snapshot(latest, "latest", ledger)
+            # Phase 3 gate BLOCKING-1: latest.json must be byte-identical to the
+            # newest dated snapshot — a lagging latest silently publishes
+            # uncorrected data while every other check stays green.
+            dated = sorted(
+                p for p in data_dir.glob("*.json")
+                if re.match(r"^\d{4}-\d{2}-\d{2}(\.seed)?\.json$", p.name)
+            )
+            if dated:
+                newest = dated[-1]
+                if (data_dir / "latest.json").read_bytes() != newest.read_bytes():
+                    violations.append(
+                        f"SYNC latest.json is not byte-identical to {newest.name} — "
+                        "run make fetch before build/check"
+                    )
             violations += check_html(
                 Path(args.html), latest, ledger,
                 require=os.environ.get("REQUIRE_HTML") == "1",

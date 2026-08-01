@@ -522,3 +522,77 @@ def test_gate2_self_report_flags_are_warn_class(seed):
     assert integrity_flags(cell)
     cell2 = {"flags": ["proxy-model measurement: value is for another model"]}
     assert integrity_flags(cell2)
+
+
+# ---------------------------------------------------------------------------
+# Phase 3 gate hardening: latest-sync, claim-marker rule, band contract,
+# derived movement-caveat inheritance.
+# ---------------------------------------------------------------------------
+
+
+def test_gate3_latest_sync_enforced(tmp_path):
+    """latest.json lagging the newest dated snapshot must fail the full run."""
+    import json as _json
+    import shutil
+    import subprocess
+    import sys as _sys
+    from pathlib import Path as _P
+
+    repo = _P(__file__).resolve().parent.parent
+    d = tmp_path / "data"
+    d.mkdir()
+    shutil.copyfile(repo / "data" / "2026-08-01.json", d / "2026-08-01.json")
+    lag = _json.loads((d / "2026-08-01.json").read_text())
+    lag["note"] = "stale copy"
+    (d / "latest.json").write_text(_json.dumps(lag, indent=1), encoding="utf-8")
+    env = dict(__import__("os").environ)
+    env["CHECK_ALLOW_OLD_LATEST"] = "1"
+    r = subprocess.run(
+        [_sys.executable, "tools/check_invariants.py", "--data-dir", str(d), "--html", "/nonexistent"],
+        cwd=repo, env=env, capture_output=True, text=True,
+    )
+    assert r.returncode == 1 and "SYNC" in r.stderr
+
+
+def test_gate3_vendor_claim_cell_requires_marker(snap, ledger):
+    post = _post_seed(snap)
+    for row in post["cells"].values():
+        for cell in row.values():
+            if cell.get("source_id") == "S6":
+                cell["source_id"] = "S13"
+                cell["tag"] = "V"
+    # a bare V cell in a self-report set (no integrity marker) must fail
+    post["cells"]["swe-bench-verified"]["fable-5"]["flags"] = []
+    out = check_snapshot(post, "post", ledger)
+    assert any("carries no" in x and "integrity marker" in x for x in out)
+
+
+def test_gate3_derived_inherits_movement_caveats(ledger):
+    import json as _json
+    from pathlib import Path as _P
+
+    live = _json.loads((_P("data") / "2026-08-01.json").read_text())
+    # live snapshot passes (inheritance present)
+    assert not [x for x in check_snapshot(live, "live", ledger) if "movement caveats" in x]
+    # stripping the inherited caveat must fail
+    cell = live["cells"]["intelligence-per-dollar"]["fable-5"]
+    cell["flags"] = [f for f in cell["flags"] if "unresolved" not in f.lower()]
+    out = check_snapshot(live, "live", ledger)
+    assert any("movement caveats" in x for x in out)
+
+
+def test_gate3_claim_band_renders(seed):
+    """claim_v metrics render with data-band=claimed + visible label."""
+    import importlib.util
+    import json as _json
+    from pathlib import Path as _P
+
+    repo = _P(__file__).resolve().parent.parent
+    spec = importlib.util.spec_from_file_location("site_render2", repo / "site" / "render.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    live = _json.loads((repo / "data" / "2026-08-01.json").read_text())
+    html = mod.render(live)
+    assert 'data-band="claimed"' in html
+    assert "VENDOR-CLAIMED" in html
+    assert html.count('data-band="claimed"') == 2  # swe-bench-pro + swe-bench-verified
