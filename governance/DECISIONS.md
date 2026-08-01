@@ -350,3 +350,25 @@ checkout >60s, branch protection on the serving branch, or a
 pages-build-deployment failure/stale-serve not explained by our own push.
 Cloudflare mirror on ≥2 Pages incidents intersecting the reader's morning
 window in 90 days (RISKS.md).
+
+## ADR-009 — Phase 9: verification close-out (2026-08-01)
+
+**Decision.** The build is DONE to the extent the sandbox can make it so.
+Evidence of record: live e2e 11/11 sources with both gates green (after two
+loud carry-path catches, fixed); `make all` twice byte-identical; all chaos
+drills green in CI through the real fetch path; independent cold read PASS
+at ~55s answering moved/trust/meaning from the page alone; EVAL.md
+countersigned 7/7, disputed 0/7 — the two stale evidence figures the
+countersign was conditioned on are corrected in place (health-footer
+coverage 8/15 source ids until first collectors.run; page 31.7 KB gzipped).
+No-JS state caveat recorded (all five data columns render; two are
+header-unlabeled and the quick-look band is JS-hydrated) — noscript is the
+fallback, not the product; noted in HANDOFF.
+
+**Blocked-by-human items (not waivable from here).** RISK-004 push 403 ⇒
+branch unpushed, PR unopenable, Pages toggle + live-URL verification + one
+dispatched green run pending. HANDOFF §Phase 9 lists them in execution
+order; EVAL dimension 7 stays provisional-4 until they land.
+
+**Reversal conditions.** None new — this ADR records outcomes. Standing
+reversals live in ADR-005..008 and RISKS.md (001–014).

@@ -360,3 +360,13 @@ Determinism: `make all` twice consecutively — outputs byte-identical
 (Definition of Done item checked). EVAL.md written; verifier countersign +
 cold read in flight. RUNBOOK.md complete. Push remains blocked (RISK-004);
 every phase boundary committed locally; HANDOFF carries the unblock steps.
+
+### CLOSE (2026-08-01)
+
+Phase 9 verifier: cold read PASS (~55s; what-moved 15s, trust triage 15s,
+takeaways 25s, from the page alone), EVAL countersigned 7/7 disputed 0/7,
+conditions (two stale evidence figures) corrected in place. ADR-009.
+Definition of Done: every machine-checkable item green; the four
+human-side items (push/PR — RISK-004, Pages toggle, live-URL check from
+both devices, first dispatched run) are batched in HANDOFF §Phase 9 in
+execution order. Build closed.

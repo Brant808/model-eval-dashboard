@@ -88,3 +88,11 @@ written in Phase 9; items accrue here as phases discover them.
    (Recorded honestly: this one step is a touch gesture; every Mac/GitHub
    step above is keyboard-only. CLI alternative for step 3:
    `gh api -X POST repos/Brant808/model-eval-dashboard/pages -f build_type=legacy -f 'source[branch]=main' -f 'source[path]=/docs'`.)
+
+### Known no-JS limitation (for the reader, honesty note)
+
+With JavaScript disabled the full 5-column matrix still renders and every
+cell keeps its tags/flags, but the 4th/5th columns have no header label and
+the quick-look band shows no values (it is hydrated from the embedded state
+blob). The picker/keyboard layer needs JS by design; the no-JS state is the
+fallback, not the product.
