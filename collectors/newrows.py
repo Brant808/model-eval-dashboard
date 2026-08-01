@@ -54,6 +54,7 @@ class EpochCollector(Collector):
     source_id = "S10"
     name = "epoch-eci"
     url = "https://epoch.ai/data/eci_scores.csv"
+    fixture = "epoch_eci_scores.csv"
 
     def parse(self, raw: bytes) -> list[CellValue]:
         rows = list(csv.DictReader(io.StringIO(raw.decode("utf-8"))))
@@ -88,6 +89,7 @@ class LiveBenchCollector(Collector):
     source_id = "S12"
     name = "livebench"
     url = "https://livebench.ai/table_2026_06_25.csv"
+    fixture = "livebench_2026_06_25.csv"
     release = "2026-06-25"
 
     def parse(self, raw: bytes) -> list[CellValue]:
@@ -132,6 +134,7 @@ class SweRebenchCollector(Collector):
     source_id = "S20"
     name = "swe-rebench"
     url = "https://swe-rebench.com/"
+    fixture = "swe_rebench.html.gz"
 
     def parse(self, raw: bytes) -> list[CellValue]:
         html = raw.decode("utf-8", errors="strict")
@@ -227,6 +230,7 @@ class ValsCollector(Collector):
     source_id = "S11"
     name = "vals-index"
     url = "https://www.vals.ai/benchmarks/vals_index"
+    fixture = "vals_index.html.gz"
 
     def parse(self, raw: bytes) -> list[CellValue]:
         html = raw.decode("utf-8", errors="strict")

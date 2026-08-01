@@ -14,6 +14,7 @@ class LlmStatsCollector(Collector):
     source_id = "S13"
     name = "llmstats-swe-pro"
     url = "https://llm-stats.com/benchmarks/swe-bench-pro"
+    fixture = "llmstats_swe_pro.html.gz"
 
     def parse(self, raw: bytes) -> list[CellValue]:
         html = raw.decode("utf-8", errors="strict")

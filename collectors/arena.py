@@ -24,6 +24,7 @@ class ArenaCollector(Collector):
     source_id = "S2"
     name = "arena"
     url = FILTER_URL
+    fixture = "arena_hf_filter.json"
 
     def parse(self, raw: bytes) -> list[CellValue]:
         data = json.loads(raw.decode("utf-8"))

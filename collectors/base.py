@@ -11,7 +11,9 @@ as recorded raw responses; fixture tests run parse() offline.
 from __future__ import annotations
 
 import dataclasses
+import gzip
 import json
+import os
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -67,6 +69,7 @@ class Collector:
     name: str = ""
     url: str = ""
     timeout_s: int = DEFAULT_TIMEOUT_S
+    fixture: str = ""  # recorded response in collectors/fixtures/ (offline drills)
 
     def __init__(self, now: datetime | None = None):
         self.now = now or datetime.now(timezone.utc)
@@ -74,14 +77,19 @@ class Collector:
 
     # -- fetching ----------------------------------------------------------
     def http_get(self, url: str, headers: dict | None = None) -> bytes:
+        # Env-tunable so CI can cap worst-case hang math: 11 collectors x
+        # full retry ladders exceeded the fetch-step timeout, converting
+        # per-source degradation into whole-run loss (phase-7 gate finding).
+        retries = int(os.environ.get("COLLECTOR_RETRIES", RETRIES))
+        timeout = float(os.environ.get("COLLECTOR_TIMEOUT_S", self.timeout_s))
         h = {"User-Agent": USER_AGENT}
         if headers:
             h.update(headers)
         last_err: Exception | None = None
-        for attempt in range(RETRIES + 1):
+        for attempt in range(retries + 1):
             try:
-                r = requests.get(url, headers=h, timeout=self.timeout_s)
-                if r.status_code == 429 and attempt < RETRIES:
+                r = requests.get(url, headers=h, timeout=timeout)
+                if r.status_code == 429 and attempt < retries:
                     retry_after = int(r.headers.get("Retry-After", BACKOFF_S[min(attempt, len(BACKOFF_S) - 1)]))
                     time.sleep(min(retry_after, 60))
                     continue
@@ -89,11 +97,20 @@ class Collector:
                 return r.content
             except requests.RequestException as e:  # includes HTTPError
                 last_err = e
-                if attempt < RETRIES:
+                if attempt < retries:
                     time.sleep(BACKOFF_S[min(attempt, len(BACKOFF_S) - 1)])
         raise FetchFailure(f"{self.source_id} {url}: {last_err}")
 
     def fetch(self) -> bytes:
+        # Offline drill mode: serve the recorded fixture instead of the
+        # network, so chaos tests exercise the REAL fresh+carried merge path
+        # (the single-source-down drill was dead code without this).
+        fx_dir = os.environ.get("COLLECTOR_FIXTURES_DIR")
+        if fx_dir:
+            if not self.fixture:
+                raise FetchFailure(f"{self.source_id}: no fixture registered for offline drill")
+            raw = (Path(fx_dir) / self.fixture).read_bytes()
+            return gzip.decompress(raw) if self.fixture.endswith(".gz") else raw
         return self.http_get(self.url)
 
     # -- parsing -----------------------------------------------------------

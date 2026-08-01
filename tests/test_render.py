@@ -55,7 +55,10 @@ def test_rendered_page_shows_required_elements(seed):
     assert "tape" in html and 'data-tape-item="1"' in html
     assert 'data-health="1"' in html
     assert "chip-glyph" in html and "chip-label" in html  # shape + label, not color alone
-    assert "STALE" not in html.replace("STALE</span> = older", "")  # nothing stale in seed (legend text aside)
+    # nothing stale in seed: no cell (table or ql state) carries the marker
+    # (raw "STALE" text exists legitimately in the legend and the JS template)
+    assert 'data-stale="1"' not in html
+    assert '"stale": 1' not in html
     assert "⚠" in html  # integrity flags visible (Sol METR/ARC flags)
     assert "data-empty-reason" in html  # blanks are never silent
 

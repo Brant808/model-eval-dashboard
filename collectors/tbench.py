@@ -15,6 +15,7 @@ class TbenchCollector(Collector):
     source_id = "S8"
     name = "terminal-bench"
     url = "https://www.tbench.ai/leaderboard/terminal-bench/2.1"
+    fixture = "tbench_21.html.gz"
 
     def parse(self, raw: bytes) -> list[CellValue]:
         html = raw.decode("utf-8", errors="strict")

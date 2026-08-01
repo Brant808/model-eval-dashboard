@@ -45,6 +45,18 @@ def diff_entries(older, newer):
                 out.append(
                     {"date": date, "cell_ids": [cid], "note": f"value {ov!r} -> {nv!r}", "class": "changed"}
                 )
+            else:
+                # Flag-set changes are trust-state changes (an integrity flag
+                # appearing/disappearing) — invisible before this (gate MINOR:
+                # "new-integrity-flag detection is a named judgment duty that
+                # mechanical mode lacked entirely").
+                of, nf = set(old_cells[cid].get("flags", [])), set(new_cells[cid].get("flags", []))
+                if of != nf:
+                    gained, lost = sorted(nf - of), sorted(of - nf)
+                    bits = ([f"flags gained: {g}" for g in gained]
+                            + [f"flags dropped: {l}" for l in lost])
+                    out.append({"date": date, "cell_ids": [cid],
+                                "note": "; ".join(bits), "class": "flags-changed"})
     return out
 
 

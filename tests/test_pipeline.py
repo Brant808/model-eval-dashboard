@@ -62,15 +62,86 @@ def test_drill_total_network_loss_degrades_loudly(tmp_path):
 
 
 def test_drill_single_source_failure_isolated(tmp_path):
+    """THE drill from the brief: one source down while the rest succeed.
+    Exercises the real fresh+carried merge path in collect() — the other ten
+    collectors parse their recorded fixtures via COLLECTOR_FIXTURES_DIR (this
+    drill was dead code before that hook existed: `if False` shipped)."""
     snap, data_dir, r = run_pipeline(
         tmp_path, "2026-08-02", "2026-08-02T09:00:00Z",
-        {"FAIL_SOURCES": "S2", "OFFLINE": "0", "FAKE_OK_REST": "1", "FAIL_ALL_EXCEPT_SIMULATED": ""},
-    ) if False else run_pipeline(
-        tmp_path, "2026-08-02", "2026-08-02T09:00:00Z", {"OFFLINE": "1"}
+        {"FAIL_SOURCES": "S2",
+         "COLLECTOR_FIXTURES_DIR": str(REPO / "collectors" / "fixtures")},
     )
-    # With every source down, each degraded source is named in the health map
+    # the failed source is named, the rest are healthy
     assert snap["health"]["sources"]["S2"].startswith("DOWN")
     assert "simulated failure" in snap["health"]["sources"]["S2"]
+    assert snap["health"]["sources"]["S1"].startswith("ok")
+    assert "(degraded)" in snap["health"]["run_status"]
+    # S2 cells: last-good carried with the loud flag
+    arena = snap["cells"]["arena-elo"]["fable-5"]
+    assert arena["value"] == 1507.6
+    assert "source down (last-good shown)" in arena["flags"]
+    # S1 cells: genuinely fresh (re-stamped at this run's fetch time)
+    aa = snap["cells"]["aa-index"]["fable-5"]
+    assert aa["value"] == 59.86
+    assert aa["retrieved_at"].startswith("2026-08-02")
+    assert "source down (last-good shown)" not in aa["flags"]
+    # the merged snapshot still satisfies the constitution
+    out = lint(data_dir)
+    assert out.returncode == 0, out.stderr
+
+
+def test_drill_same_day_rerun_diffs_against_yesterday(tmp_path):
+    """Cron then manual dispatch on the same day: the second run must diff
+    against YESTERDAY, not against its own first run (which wiped the
+    tape/changelog and failed explainability — phase-7 gate, demonstrated)."""
+    env = {"FAIL_SOURCES": "",
+           "COLLECTOR_FIXTURES_DIR": str(REPO / "collectors" / "fixtures")}
+    snap1, data_dir, _ = run_pipeline(tmp_path, "2026-08-02", "2026-08-02T09:00:00Z", env)
+    snap2, _, _ = run_pipeline(tmp_path, "2026-08-02", "2026-08-02T20:00:00Z", env)
+    assert snap1["cells"].keys() == snap2["cells"].keys()
+    # identical inputs -> identical explanation set, not an empty one
+    assert {e["note"] for e in snap2["changelog"]} == {e["note"] for e in snap1["changelog"]}
+    assert lint(data_dir).returncode == 0
+
+
+def test_drill_implication_rot_flips_to_under_review(tmp_path):
+    """A cited cell moving at the SOURCE must flip the carried implication to
+    the visible 'under review' state (gate BLOCKING: refuted 'confidence
+    high' claims shipped gate-green forever in mechanical mode). The drill
+    refits AA inside a modified fixture — the honest end-to-end path."""
+    import gzip
+    import re as _re
+
+    fx = tmp_path / "fixtures"
+    shutil.copytree(REPO / "collectors" / "fixtures", fx)
+    html = gzip.decompress((fx / "aa_models.html.gz").read_bytes()).decode()
+    # the payload stores full precision (60.6918…); hit every Opus variant's
+    # index field so best-variant selection can't restore the old rounding
+    # the parser reads `intelligenceIndex` inside the initialModels flight
+    # region; the value appears escaped and unescaped — cover both forms,
+    # every Opus variant, without touching artificialAnalysisIntelligenceIndex
+    refit, n = _re.subn(
+        r'((?<![A-Za-z])intelligenceIndex\\?":)60\.6\d+', r"\g<1>59.0091", html
+    )
+    assert n >= 1, "AA fixture no longer contains the opus index value"
+    (fx / "aa_models.html.gz").write_bytes(gzip.compress(refit.encode()))
+
+    snap2, data_dir, _ = run_pipeline(
+        tmp_path, "2026-08-02", "2026-08-02T09:00:00Z",
+        {"COLLECTOR_FIXTURES_DIR": str(fx), "FAIL_SOURCES": ""},
+    )
+    assert snap2["cells"]["aa-index"]["opus-5"]["value"] == 59.01
+    imp = next(i for i in snap2["implications"] if i["id"] == "imp-race-judged")
+    assert imp["status"] == "under review"
+    assert "aa-index.opus-5" in imp["moved_cites"]
+    # linter accepts the flagged state but rejects the same drift unflagged
+    assert lint(data_dir).returncode == 0
+    imp["status"] = "answered"
+    (data_dir / "2026-08-02.json").write_text(json.dumps(snap2))
+    shutil.copyfile(data_dir / "2026-08-02.json", data_dir / "latest.json")
+    out = lint(data_dir)
+    assert out.returncode == 1
+    assert "not 'under review'" in out.stderr
 
 
 def test_drill_clock_advance_forces_staleness(tmp_path):

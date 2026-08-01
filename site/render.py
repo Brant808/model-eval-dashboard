@@ -203,6 +203,9 @@ padding:.5rem .8rem;margin:.8rem 0;font-size:.82rem}
 border:1px solid var(--line);padding:.6rem .8rem;margin:.8rem 0;font-size:.85rem}
 .qlook .ql-h{font-weight:700;font-size:.75rem;color:#555;text-transform:uppercase;letter-spacing:.04em}
 .qlook .ql-num{font-size:1.02rem;font-weight:600}
+/* trust badges added to ql cells must wrap inside their grid track, never
+   widen it (390px two-up overflowed when the badges landed) */
+.qlook>div{min-width:0;overflow-wrap:anywhere}
 .ql-cap{grid-column:1/-1;font-size:.7rem;color:#666;border-top:1px dashed var(--line);margin-top:.3rem;padding-top:.3rem}
 .ql-slot-label{font-size:.66rem;color:#666;text-transform:none;letter-spacing:0}
 table.compare{border-collapse:collapse;width:100%;margin:0 0 .4rem}
@@ -269,6 +272,11 @@ font-size:.68rem;background:#fff}
   .hide-mobile-slot{display:none!important}
   .qlook{grid-template-columns:7.2rem repeat(2,1fr);font-size:.78rem}
   table.compare th,table.compare td{font-size:.76rem;padding:.3rem .35rem}
+  /* fixed layout: long flag strings (contamination/accrual caveats) must
+     wrap inside their column, never widen the table — a swap to the model
+     with the heaviest flag load overflowed 236px at 390px (gate catch) */
+  table.compare{table-layout:fixed;width:100%}
+  table.compare th,table.compare td{overflow-wrap:anywhere}
   body{font-size:14px}
 }
 @media (prefers-reduced-motion:reduce){.brief{transition:none}}
@@ -321,8 +329,21 @@ function apply(){
   });
   document.querySelectorAll('[data-ql]').forEach(function(el){
     var mid=el.getAttribute('data-ql'),i=+el.getAttribute('data-slot');
-    el.textContent=(state.ql[mid]||{})[slots[i]]||'';
+    var c=(state.ql[mid]||{})[slots[i]];
     el.classList.toggle('hide-mobile-slot',i===2);
+    if(!c){el.textContent='';el.removeAttribute('data-tag');el.removeAttribute('data-stale');el.removeAttribute('data-warn');return;}
+    if(c.v===null||c.v===undefined){
+      el.innerHTML='<span class="ql-empty">— '+(c.reason||'not published')+'</span>';
+      el.setAttribute('data-tag','');el.setAttribute('data-stale','0');el.setAttribute('data-warn','0');
+      return;
+    }
+    var h=c.v+(c.tag?' <span class="tag tag-'+c.tag+'">'+c.tag+'</span>':'');
+    if(c.warn){h+='<span class="warn-tag" title="integrity flag on this cell — see the table row">⚠</span>';}
+    if(c.stale){h+='<span class="stale-badge">STALE</span>';}
+    el.innerHTML=h;
+    el.setAttribute('data-tag',c.tag||'');
+    el.setAttribute('data-stale',c.stale?'1':'0');
+    el.setAttribute('data-warn',c.warn?'1':'0');
   });
   var shown=0;
   document.querySelectorAll('.fnrow').forEach(function(tr){
@@ -540,6 +561,10 @@ def render(snap, history=None, briefs=None) -> str:
         A("</ul></div>")
 
     # ---------- compare table ----------
+    # Canonical C1..C7 order (ADR-005), NOT first-seen order: the registry
+    # dict interleaves groups (SWE-Pro's c7 entry sits between c3 and c4
+    # metrics), which rendered "Integrity" fourth on the shipped page
+    # (phase-6 gate BLOCKING — the page was neither ordering C nor D).
     groups = []
     for metric_id, meta in metrics.items():
         if meta.get("brief_layer"):
@@ -547,6 +572,8 @@ def render(snap, history=None, briefs=None) -> str:
         g = meta.get("group", "other")
         if g not in groups:
             groups.append(g)
+    canon = list(GROUP_TITLES)
+    groups.sort(key=lambda g: (canon.index(g) if g in canon else len(canon), g))
 
     def picker_html(slot):
         opts = []
@@ -791,12 +818,24 @@ def render(snap, history=None, briefs=None) -> str:
         "names": {m: models[m]["name"] for m in model_ids},
         "trio": trio,
         "moved": sorted(moved),
+        # Quick-look cells carry the same trust metadata as table cells —
+        # a naked number at the top of the page presented a stale/claimed
+        # value as fresh, gate-green (phase-6 red-team BLOCKING). The linter
+        # verifies this state block against the snapshot cell-for-cell.
         "ql": {
             actual: {
                 m: (
-                    fmt_value(cells[actual][m])
+                    {
+                        "v": fmt_value(cells[actual][m]),
+                        "tag": cells[actual][m].get("tag"),
+                        "stale": 1 if cells[actual][m].get("stale") else 0,
+                        "warn": 1 if integrity_flags(cells[actual][m]) else 0,
+                    }
                     if is_populated(cells[actual].get(m, {}))
-                    else "—"
+                    else {
+                        "v": None,
+                        "reason": cells[actual][m].get("empty_reason", "not published"),
+                    }
                 )
                 for m in model_ids
                 if m in cells.get(actual, {})

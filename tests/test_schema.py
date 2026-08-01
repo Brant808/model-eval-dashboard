@@ -53,3 +53,50 @@ def test_seed_regression_values(seed):
     assert c["arena-elo"]["kimi-k3"]["value"] == 1547
     assert c["swe-bench-verified"]["fable-5"]["value"] == 95.0
     assert c["swe-bench-verified"]["gpt-5-6-sol"]["empty_reason"] == "withheld"
+
+
+# --- briefs <-> snapshot sync (phase-4/5 gate riders) --------------------------
+
+def _briefs():
+    import json
+    from pathlib import Path
+    return json.loads((Path(__file__).resolve().parent.parent / "data" / "briefs.json")
+                      .read_text(encoding="utf-8"))
+
+
+def _current():
+    import json
+    from pathlib import Path
+    return json.loads((Path(__file__).resolve().parent.parent / "data" / "latest.json")
+                      .read_text(encoding="utf-8"))
+
+
+def test_no_begins_soon_brief_for_a_populated_row():
+    """Four briefs described LIVE rows as future on the shipped page (gate
+    MAJOR): 'begins soon' phrasing may only survive for rows with no data."""
+    snap, briefs = _current(), _briefs()
+    for mid, brief in briefs.get("metrics", {}).items():
+        row = snap.get("cells", {}).get(mid, {})
+        populated = any(c.get("value") is not None for c in row.values())
+        if not populated:
+            continue
+        text = " ".join(str(v) for v in brief.values())
+        assert "begins soon" not in text, (
+            f"brief for populated row {mid!r} still says tracking 'begins soon'"
+        )
+
+
+def test_every_brief_key_is_a_snapshot_metric_or_preregistered():
+    """Orphan briefs are dead content nothing renders (gate MINOR): every
+    briefs key must exist in the snapshot or sit on the explicit
+    _preregistered allowlist."""
+    snap, briefs = _current(), _briefs()
+    allow = set(briefs.get("_preregistered", []))
+    for mid in briefs.get("metrics", {}):
+        assert mid in snap.get("metrics", {}) or mid in allow, (
+            f"brief {mid!r} is neither a snapshot metric nor pre-registered"
+        )
+    for mid in allow:
+        assert mid not in snap.get("metrics", {}), (
+            f"{mid!r} is pre-registered but already live — remove it from the allowlist"
+        )

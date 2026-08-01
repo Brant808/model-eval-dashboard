@@ -777,6 +777,41 @@ def check_html(html_path: Path, snap, ledger, require=False):
         if pat.search(flat):
             v.append(f"RULE12 {name}: banned pattern {pat.pattern!r} present in page")
 
+    # Quick-look state contract (phase-6 gate BLOCKING): the ql band renders
+    # from embedded JSON, invisible to the DOM checks above — a stale or
+    # vendor-claimed value showed naked at the top of the page, gate-green.
+    # Verify the state block cell-for-cell against the snapshot.
+    m = re.search(r'<script id="state" type="application/json">(.*?)</script>', raw, re.S)
+    if m:
+        try:
+            state_ql = json.loads(m.group(1)).get("ql", {})
+        except json.JSONDecodeError:
+            state_ql = None
+            v.append(f"SCHEMA {name}: embedded state JSON does not parse")
+        if state_ql is not None:
+            for metric_id, row in state_ql.items():
+                for model_id, entry in row.items():
+                    cell = snap.get("cells", {}).get(metric_id, {}).get(model_id)
+                    where = f"{name}:ql:{metric_id}.{model_id}"
+                    if cell is None:
+                        v.append(f"SCHEMA {where}: ql state entry for nonexistent cell")
+                        continue
+                    if not isinstance(entry, dict):
+                        v.append(f"RULE9 {where}: ql entry is a bare value (no trust metadata)")
+                        continue
+                    if is_populated(cell):
+                        if entry.get("tag") != cell.get("tag"):
+                            v.append(f"RULE1 {where}: ql tag {entry.get('tag')!r} != cell tag")
+                        if bool(entry.get("stale")) != bool(cell.get("stale")):
+                            v.append(f"RULE9 {where}: ql staleness does not match cell (stale never presented as fresh)")
+                        if bool(entry.get("warn")) != bool(integrity_flags(cell)):
+                            v.append(f"RULE7 {where}: ql warn marker does not match cell integrity flags")
+                    else:
+                        if entry.get("v") is not None:
+                            v.append(f"RULE3 {where}: ql shows a value for an empty cell")
+                        elif entry.get("reason") not in EMPTY_REASONS:
+                            v.append(f"RULE3 {where}: ql empty entry lacks enum reason (blank is silent)")
+
     # Rule 5 (page prose side, phase-4/5 gate): no sentence on the page may
     # co-mingle two SWE scales, whatever surface wrote it — brief prose
     # demonstrated a gate-green bypass before this check. Script/style bodies

@@ -16,6 +16,7 @@ class OpenRouterCollector(Collector):
     source_id = "S3"
     name = "openrouter"
     url = "https://openrouter.ai/api/frontend/v1/rankings/market-share"
+    fixture = "openrouter_market_share.json"
 
     def parse(self, raw: bytes) -> list[CellValue]:
         data = json.loads(raw.decode("utf-8"))

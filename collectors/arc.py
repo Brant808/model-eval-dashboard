@@ -13,6 +13,7 @@ class ArcCollector(Collector):
     source_id = "S4"
     name = "arcprize"
     url = "https://arcprize.org/media/data/leaderboard/v3.json"
+    fixture = "arc_v3.json"
 
     def parse(self, raw: bytes) -> list[CellValue]:
         data = json.loads(raw.decode("utf-8"), parse_constant=lambda c: (_ for _ in ()).throw(ValueError(c)))

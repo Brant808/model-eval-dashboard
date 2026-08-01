@@ -27,6 +27,7 @@ class AACollector(Collector):
     source_id = "S1"
     name = "artificialanalysis"
     url = "https://artificialanalysis.ai/models"
+    fixture = "aa_models.html.gz"
 
     def parse(self, raw: bytes) -> list[CellValue]:
         html = raw.decode("utf-8", errors="strict")

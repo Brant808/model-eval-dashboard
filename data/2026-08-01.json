@@ -34,156 +34,9 @@
  "metrics": {
   "aa-index": {
    "name": "AA Intelligence Index v4.1",
-   "group": "independent-core",
+   "group": "c1-overall",
    "unit": "index",
    "comparability_set": "aa-index-v4.1",
-   "direction": "higher",
-   "freshness_sla_hours": 72,
-   "primary_source_id": "S1"
-  },
-  "gdpval-aa": {
-   "name": "GDPval-AA v2",
-   "group": "independent-core",
-   "unit": "Elo",
-   "comparability_set": "gdpval-aa-v2",
-   "direction": "higher",
-   "freshness_sla_hours": 72,
-   "primary_source_id": "S1"
-  },
-  "terminal-bench": {
-   "name": "Terminal-Bench 2.1",
-   "group": "independent-core",
-   "unit": "%",
-   "comparability_set": "terminal-bench-2.1",
-   "direction": "higher",
-   "freshness_sla_hours": 1080,
-   "primary_source_id": "S8"
-  },
-  "cost-per-task": {
-   "name": "Cost per task",
-   "group": "independent-core",
-   "unit": "USD/task",
-   "comparability_set": "aa-cost-per-task",
-   "direction": "lower",
-   "freshness_sla_hours": 72,
-   "primary_source_id": "S1"
-  },
-  "throughput-ttft": {
-   "name": "Throughput / TTFT",
-   "group": "independent-core",
-   "unit": "tok/s; s",
-   "comparability_set": "aa-throughput",
-   "direction": "none",
-   "freshness_sla_hours": 72,
-   "primary_source_id": "S1"
-  },
-  "swe-bench-pro": {
-   "name": "SWE-bench Pro (vendor claims, llm-stats aggregate)",
-   "group": "frontier-headroom",
-   "unit": "%",
-   "comparability_set": "swe-bench-pro-vendor-aggregate",
-   "direction": "higher",
-   "freshness_sla_hours": 72,
-   "primary_source_id": "S13",
-   "claim_v": true
-  },
-  "arc-agi-3": {
-   "name": "ARC-AGI-3",
-   "group": "frontier-headroom",
-   "unit": "%",
-   "comparability_set": "arc-agi-3-official",
-   "direction": "higher",
-   "freshness_sla_hours": 1080,
-   "primary_source_id": "S4"
-  },
-  "metr-horizon": {
-   "name": "METR 50% time horizon",
-   "group": "frontier-headroom",
-   "unit": "hours",
-   "comparability_set": "metr-50pct-horizon",
-   "direction": "higher",
-   "freshness_sla_hours": 2160,
-   "primary_source_id": "S5"
-  },
-  "arena-elo": {
-   "name": "Arena text Elo (Style Control board)",
-   "group": "daily-movers",
-   "unit": "Elo",
-   "comparability_set": "arena-text-style-control",
-   "direction": "higher",
-   "freshness_sla_hours": 96,
-   "primary_source_id": "S2"
-  },
-  "openrouter-share": {
-   "name": "OpenRouter provider token share",
-   "group": "daily-movers",
-   "unit": "% tokens",
-   "comparability_set": "openrouter-provider-share",
-   "direction": "higher",
-   "freshness_sla_hours": 72,
-   "primary_source_id": "S3",
-   "chip_eligible": false
-  },
-  "swe-bench-verified": {
-   "name": "SWE-bench Verified (self-reported)",
-   "group": "lab-claimed",
-   "unit": "%",
-   "comparability_set": "swe-bench-verified-self-report",
-   "direction": "higher",
-   "freshness_sla_hours": 336,
-   "primary_source_id": "S7",
-   "claim_v": true
-  },
-  "disclosure-watch": {
-   "name": "Disclosure watch",
-   "group": "lab-claimed",
-   "unit": "text",
-   "comparability_set": "disclosure-watch",
-   "direction": "none",
-   "freshness_sla_hours": 720,
-   "primary_source_id": "S0"
-  },
-  "api-price": {
-   "name": "API list price (in/out per Mtok)",
-   "group": "economics-deployment",
-   "unit": "USD/Mtok in/out",
-   "comparability_set": "list-price",
-   "direction": "lower",
-   "freshness_sla_hours": 336,
-   "primary_source_id": "S7"
-  },
-  "context-window": {
-   "name": "Context window",
-   "group": "economics-deployment",
-   "unit": "tokens",
-   "comparability_set": "context-window",
-   "direction": "higher",
-   "freshness_sla_hours": 336,
-   "primary_source_id": "S7"
-  },
-  "aa-omniscience": {
-   "name": "AA-Omniscience factuality",
-   "group": "economics-deployment",
-   "unit": "index",
-   "comparability_set": "aa-omniscience",
-   "direction": "higher",
-   "freshness_sla_hours": 72,
-   "primary_source_id": "S1"
-  },
-  "deployment-terms": {
-   "name": "Deployment and data terms",
-   "group": "economics-deployment",
-   "unit": "text",
-   "comparability_set": "deployment-terms",
-   "direction": "none",
-   "freshness_sla_hours": 720,
-   "primary_source_id": "S7"
-  },
-  "intelligence-per-dollar": {
-   "name": "Intelligence per dollar",
-   "group": "economics-deployment",
-   "unit": "index pts per task-USD",
-   "comparability_set": "aa-intelligence-per-usd",
    "direction": "higher",
    "freshness_sla_hours": 72,
    "primary_source_id": "S1"
@@ -197,14 +50,41 @@
    "freshness_sla_hours": 336,
    "primary_source_id": "S10"
   },
-  "livebench": {
-   "name": "LiveBench global average",
-   "group": "c5-knowledge",
+  "arena-elo": {
+   "name": "Arena text Elo (Style Control board)",
+   "group": "c1-overall",
+   "unit": "Elo",
+   "comparability_set": "arena-text-style-control",
+   "direction": "higher",
+   "freshness_sla_hours": 96,
+   "primary_source_id": "S2"
+  },
+  "gdpval-aa": {
+   "name": "GDPval-AA v2",
+   "group": "c2-agentic",
+   "unit": "Elo",
+   "comparability_set": "gdpval-aa-v2",
+   "direction": "higher",
+   "freshness_sla_hours": 72,
+   "primary_source_id": "S1"
+  },
+  "vals-index": {
+   "name": "Vals professional index",
+   "group": "c2-agentic",
    "unit": "index",
-   "comparability_set": "livebench-2026-06-25",
+   "comparability_set": "vals-index-composite",
+   "direction": "higher",
+   "freshness_sla_hours": 504,
+   "primary_source_id": "S11"
+  },
+  "terminal-bench": {
+   "name": "Terminal-Bench 2.1",
+   "group": "c2-agentic",
+   "unit": "%",
+   "comparability_set": "terminal-bench-2.1",
    "direction": "higher",
    "freshness_sla_hours": 1080,
-   "primary_source_id": "S12"
+   "primary_source_id": "S8"
   },
   "swe-rebench": {
    "name": "SWE-rebench (fresh issues)",
@@ -215,14 +95,137 @@
    "freshness_sla_hours": 1080,
    "primary_source_id": "S20"
   },
-  "vals-index": {
-   "name": "Vals professional index",
-   "group": "c2-agentic",
-   "unit": "index",
-   "comparability_set": "vals-index-composite",
+  "swe-bench-pro": {
+   "name": "SWE-bench Pro (vendor claims, llm-stats aggregate)",
+   "group": "c7-integrity",
+   "unit": "%",
+   "comparability_set": "swe-bench-pro-vendor-aggregate",
    "direction": "higher",
-   "freshness_sla_hours": 504,
-   "primary_source_id": "S11"
+   "freshness_sla_hours": 72,
+   "primary_source_id": "S13",
+   "claim_v": true
+  },
+  "intelligence-per-dollar": {
+   "name": "Intelligence per dollar",
+   "group": "c4-econ",
+   "unit": "index pts per task-USD",
+   "comparability_set": "aa-intelligence-per-usd",
+   "direction": "higher",
+   "freshness_sla_hours": 72,
+   "primary_source_id": "S1"
+  },
+  "cost-per-task": {
+   "name": "Cost per task",
+   "group": "c4-econ",
+   "unit": "USD/task",
+   "comparability_set": "aa-cost-per-task",
+   "direction": "lower",
+   "freshness_sla_hours": 72,
+   "primary_source_id": "S1"
+  },
+  "api-price": {
+   "name": "API list price (in/out per Mtok)",
+   "group": "c4-econ",
+   "unit": "USD/Mtok in/out",
+   "comparability_set": "list-price",
+   "direction": "lower",
+   "freshness_sla_hours": 336,
+   "primary_source_id": "S7"
+  },
+  "openrouter-share": {
+   "name": "OpenRouter provider token share",
+   "group": "c4-econ",
+   "unit": "% tokens",
+   "comparability_set": "openrouter-provider-share",
+   "direction": "higher",
+   "freshness_sla_hours": 72,
+   "primary_source_id": "S3",
+   "chip_eligible": false
+  },
+  "aa-omniscience": {
+   "name": "AA-Omniscience factuality",
+   "group": "c5-knowledge",
+   "unit": "index",
+   "comparability_set": "aa-omniscience",
+   "direction": "higher",
+   "freshness_sla_hours": 72,
+   "primary_source_id": "S1"
+  },
+  "livebench": {
+   "name": "LiveBench global average",
+   "group": "c5-knowledge",
+   "unit": "index",
+   "comparability_set": "livebench-2026-06-25",
+   "direction": "higher",
+   "freshness_sla_hours": 1080,
+   "primary_source_id": "S12"
+  },
+  "arc-agi-3": {
+   "name": "ARC-AGI-3",
+   "group": "c6-headroom",
+   "unit": "%",
+   "comparability_set": "arc-agi-3-official",
+   "direction": "higher",
+   "freshness_sla_hours": 1080,
+   "primary_source_id": "S4"
+  },
+  "metr-horizon": {
+   "name": "METR 50% time horizon",
+   "group": "c6-headroom",
+   "unit": "hours",
+   "comparability_set": "metr-50pct-horizon",
+   "direction": "higher",
+   "freshness_sla_hours": 2160,
+   "primary_source_id": "S5"
+  },
+  "disclosure-watch": {
+   "name": "Disclosure watch",
+   "group": "c7-integrity",
+   "unit": "text",
+   "comparability_set": "disclosure-watch",
+   "direction": "none",
+   "freshness_sla_hours": 720,
+   "primary_source_id": "S0"
+  },
+  "swe-bench-verified": {
+   "name": "SWE-bench Verified (self-reported)",
+   "group": "c7-integrity",
+   "unit": "%",
+   "comparability_set": "swe-bench-verified-self-report",
+   "direction": "higher",
+   "freshness_sla_hours": 336,
+   "primary_source_id": "S7",
+   "claim_v": true
+  },
+  "throughput-ttft": {
+   "name": "Throughput / TTFT",
+   "group": "brief-layer",
+   "unit": "tok/s; s",
+   "comparability_set": "aa-throughput",
+   "direction": "none",
+   "freshness_sla_hours": 72,
+   "primary_source_id": "S1",
+   "brief_layer": true
+  },
+  "context-window": {
+   "name": "Context window",
+   "group": "brief-layer",
+   "unit": "tokens",
+   "comparability_set": "context-window",
+   "direction": "higher",
+   "freshness_sla_hours": 336,
+   "primary_source_id": "S7",
+   "brief_layer": true
+  },
+  "deployment-terms": {
+   "name": "Deployment and data terms",
+   "group": "brief-layer",
+   "unit": "text",
+   "comparability_set": "deployment-terms",
+   "direction": "none",
+   "freshness_sla_hours": 720,
+   "primary_source_id": "S7",
+   "brief_layer": true
   }
  },
  "cells": {
@@ -293,6 +296,156 @@
     "history_ref": "aa-index.ds-v4-pro"
    }
   },
+  "epoch-eci": {
+   "fable-5": {
+    "value": 161.55,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S10",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
+     "95% CI 159.02–165.23",
+     "score dated 2026-06-09 (Epoch run date)"
+    ],
+    "comparability_set": "epoch-eci",
+    "stale": false,
+    "history_ref": "epoch-eci.fable-5"
+   },
+   "opus-5": {
+    "value": 161.05,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S10",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
+     "95% CI 158.63–164.1",
+     "score dated 2026-07-24 (Epoch run date)"
+    ],
+    "comparability_set": "epoch-eci",
+    "stale": false,
+    "history_ref": "epoch-eci.opus-5"
+   },
+   "gpt-5-6-sol": {
+    "value": 161.69,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S10",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
+     "95% CI 159.12–165.2",
+     "score dated 2026-07-09 (Epoch run date)"
+    ],
+    "comparability_set": "epoch-eci",
+    "stale": false,
+    "history_ref": "epoch-eci.gpt-5-6-sol"
+   },
+   "kimi-k3": {
+    "value": 157.39,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S10",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
+     "95% CI 155.26–160.32",
+     "score dated 2026-07-16 (Epoch run date)"
+    ],
+    "comparability_set": "epoch-eci",
+    "stale": false,
+    "history_ref": "epoch-eci.kimi-k3"
+   },
+   "ds-v4-pro": {
+    "value": 148.9,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S10",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
+     "95% CI 147.4–150.97",
+     "score dated 2026-04-24 (Epoch run date)"
+    ],
+    "comparability_set": "epoch-eci",
+    "stale": false,
+    "history_ref": "epoch-eci.ds-v4-pro"
+   }
+  },
+  "arena-elo": {
+   "fable-5": {
+    "value": 1507.6,
+    "unit": "Elo",
+    "tag": "I",
+    "source_id": "S2",
+    "retrieved_at": "2026-07-30T00:00:00Z",
+    "flags": [
+     "private variant testing active (Arena)",
+     "#1 on the style-control board; raw-board #1 is Opus 5 Max"
+    ],
+    "comparability_set": "arena-text-style-control",
+    "stale": false,
+    "history_ref": "arena-elo.fable-5"
+   },
+   "opus-5": {
+    "value": 1494.6,
+    "unit": "Elo",
+    "tag": "I",
+    "source_id": "S2",
+    "retrieved_at": "2026-07-30T00:00:00Z",
+    "flags": [
+     "private variant testing active (Arena)",
+     "variant: claude-opus-5-max (rank 5); -high scores 1493.4 (rank 7)"
+    ],
+    "comparability_set": "arena-text-style-control",
+    "stale": false,
+    "history_ref": "arena-elo.opus-5"
+   },
+   "gpt-5-6-sol": {
+    "value": 1484.9,
+    "unit": "Elo",
+    "tag": "I",
+    "source_id": "S2",
+    "retrieved_at": "2026-07-30T00:00:00Z",
+    "flags": [
+     "private variant testing active (Arena)",
+     "variant: gpt-5.6-sol-xhigh (rank 13); added to the text board Jul 31"
+    ],
+    "comparability_set": "arena-text-style-control",
+    "stale": false,
+    "history_ref": "arena-elo.gpt-5-6-sol"
+   },
+   "kimi-k3": {
+    "value": 1485.8,
+    "unit": "Elo",
+    "tag": "I",
+    "source_id": "S2",
+    "retrieved_at": "2026-07-30T00:00:00Z",
+    "flags": [
+     "private variant testing active (Arena)",
+     "variant: kimi-k3-max (renamed from kimi-k3 ~Jul 26); rank 11",
+     "seed's 1547 reclassified: likely conflation with the industry_legal_and_government category board where K3-max ranked #1 (~1542) Jul 26–30"
+    ],
+    "comparability_set": "arena-text-style-control",
+    "stale": false,
+    "history_ref": "arena-elo.kimi-k3"
+   },
+   "ds-v4-pro": {
+    "value": 1457.1,
+    "unit": "Elo",
+    "tag": "I",
+    "source_id": "S2",
+    "retrieved_at": "2026-07-30T00:00:00Z",
+    "flags": [
+     "private variant testing active (Arena)",
+     "base variant (rank 49); thinking variant 1455.1"
+    ],
+    "comparability_set": "arena-text-style-control",
+    "stale": false,
+    "history_ref": "arena-elo.ds-v4-pro"
+   }
+  },
   "gdpval-aa": {
    "fable-5": {
     "value": 1746.06,
@@ -359,6 +512,78 @@
     "comparability_set": "gdpval-aa-v2",
     "stale": false,
     "history_ref": "gdpval-aa.ds-v4-pro"
+   }
+  },
+  "vals-index": {
+   "fable-5": {
+    "value": 75.1,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S11",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "VC-funded evaluator, no on-site funding disclosure",
+     "weighted composite (Vals Index)"
+    ],
+    "comparability_set": "vals-index-composite",
+    "stale": false,
+    "history_ref": "vals-index.fable-5"
+   },
+   "opus-5": {
+    "value": 74.8,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S11",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "VC-funded evaluator, no on-site funding disclosure",
+     "weighted composite (Vals Index)"
+    ],
+    "comparability_set": "vals-index-composite",
+    "stale": false,
+    "history_ref": "vals-index.opus-5"
+   },
+   "gpt-5-6-sol": {
+    "value": 73.1,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S11",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "VC-funded evaluator, no on-site funding disclosure",
+     "weighted composite (Vals Index)"
+    ],
+    "comparability_set": "vals-index-composite",
+    "stale": false,
+    "history_ref": "vals-index.gpt-5-6-sol"
+   },
+   "kimi-k3": {
+    "value": 74.7,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S11",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "VC-funded evaluator, no on-site funding disclosure",
+     "weighted composite (Vals Index)"
+    ],
+    "comparability_set": "vals-index-composite",
+    "stale": false,
+    "history_ref": "vals-index.kimi-k3"
+   },
+   "ds-v4-pro": {
+    "value": 55.6,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S11",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "VC-funded evaluator, no on-site funding disclosure",
+     "weighted composite (Vals Index)"
+    ],
+    "comparability_set": "vals-index-composite",
+    "stale": false,
+    "history_ref": "vals-index.ds-v4-pro"
    }
   },
   "terminal-bench": {
@@ -429,6 +654,243 @@
     "history_ref": "terminal-bench.ds-v4-pro"
    }
   },
+  "swe-rebench": {
+   "fable-5": {
+    "value": 64.5,
+    "unit": "%",
+    "tag": "I",
+    "source_id": "S20",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "agent/effort variant: Fable 5 [high]",
+     "±1.41 SEM",
+     "potential contamination: released after the issue-window start (2026-06-09 > 2026-05-15) — board-flagged"
+    ],
+    "comparability_set": "swe-rebench-window-2026-05-15",
+    "stale": false,
+    "history_ref": "swe-rebench.fable-5"
+   },
+   "opus-5": {
+    "value": 63.4,
+    "unit": "%",
+    "tag": "I",
+    "source_id": "S20",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "agent/effort variant: Opus 5 [high]",
+     "±1.35 SEM",
+     "potential contamination: released after the issue-window start (2026-07-24 > 2026-05-15) — board-flagged"
+    ],
+    "comparability_set": "swe-rebench-window-2026-05-15",
+    "stale": false,
+    "history_ref": "swe-rebench.opus-5"
+   },
+   "gpt-5-6-sol": {
+    "value": 62.3,
+    "unit": "%",
+    "tag": "I",
+    "source_id": "S20",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "agent/effort variant: GPT-5.6 Sol [medium]",
+     "±1.83 SEM",
+     "potential contamination: released after the issue-window start (2026-06-26 > 2026-05-15) — board-flagged"
+    ],
+    "comparability_set": "swe-rebench-window-2026-05-15",
+    "stale": false,
+    "history_ref": "swe-rebench.gpt-5-6-sol"
+   },
+   "kimi-k3": {
+    "value": null,
+    "unit": "%",
+    "tag": null,
+    "source_id": null,
+    "retrieved_at": null,
+    "flags": [],
+    "comparability_set": "swe-rebench-window-2026-05-15",
+    "stale": false,
+    "empty_reason": "not evaluated",
+    "history_ref": "swe-rebench.kimi-k3"
+   },
+   "ds-v4-pro": {
+    "value": 40.2,
+    "unit": "%",
+    "tag": "I",
+    "source_id": "S20",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "agent/effort variant: DeepSeek-V4 Pro [high]",
+     "±1.29 SEM"
+    ],
+    "comparability_set": "swe-rebench-window-2026-05-15",
+    "stale": false,
+    "history_ref": "swe-rebench.ds-v4-pro"
+   }
+  },
+  "swe-bench-pro": {
+   "fable-5": {
+    "value": 80.0,
+    "unit": "%",
+    "tag": "V",
+    "source_id": "S13",
+    "retrieved_at": "2026-07-31T22:44:25Z",
+    "flags": [
+     "aggregated vendor self-reports (0 of 43 verified)",
+     "provenance corrected 2026-08-01: seed's 80.3 (tagged I) was Mythos 5's number; Fable 5 self-report is 80.0 (Anthropic PDF)",
+     "vendor-harness figures run ~20 pts above the standardized Scale board (S9)",
+     "self-report source: https://www-cdn.anthropic.com/d00db56fa754a1b115b6dd7cb2e3c342ee809620.pdf"
+    ],
+    "comparability_set": "swe-bench-pro-vendor-aggregate",
+    "stale": false,
+    "history_ref": "swe-bench-pro.fable-5"
+   },
+   "opus-5": {
+    "value": 79.2,
+    "unit": "%",
+    "tag": "V",
+    "source_id": "S14",
+    "retrieved_at": "2026-08-01T00:00:00Z",
+    "flags": [
+     "vendor self-report (launch claim 2026-07-24) — provisional in set: not yet on the llm-stats aggregate or any board"
+    ],
+    "comparability_set": "swe-bench-pro-vendor-aggregate",
+    "stale": false,
+    "history_ref": "swe-bench-pro.opus-5"
+   },
+   "gpt-5-6-sol": {
+    "value": 64.6,
+    "unit": "%",
+    "tag": "V",
+    "source_id": "S13",
+    "retrieved_at": "2026-07-31T22:44:25Z",
+    "flags": [
+     "aggregated vendor self-reports (0 of 43 verified)",
+     "provenance corrected 2026-08-01: self-report (openai.com), max reasoning effort",
+     "self-report source: https://openai.com/index/gpt-5-6/"
+    ],
+    "comparability_set": "swe-bench-pro-vendor-aggregate",
+    "stale": false,
+    "history_ref": "swe-bench-pro.gpt-5-6-sol"
+   },
+   "kimi-k3": {
+    "value": null,
+    "unit": "%",
+    "tag": null,
+    "source_id": null,
+    "retrieved_at": null,
+    "flags": [],
+    "comparability_set": "swe-bench-pro-vendor-aggregate",
+    "stale": false,
+    "empty_reason": "not published",
+    "history_ref": "swe-bench-pro.kimi-k3"
+   },
+   "ds-v4-pro": {
+    "value": 55.4,
+    "unit": "%",
+    "tag": "V",
+    "source_id": "S13",
+    "retrieved_at": "2026-07-31T22:44:25Z",
+    "flags": [
+     "aggregated vendor self-reports (0 of 43 verified)",
+     "listed as 'DeepSeek-V4-Pro-Max' (seed said not published)",
+     "self-report source: https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro"
+    ],
+    "comparability_set": "swe-bench-pro-vendor-aggregate",
+    "stale": false,
+    "history_ref": "swe-bench-pro.ds-v4-pro"
+   }
+  },
+  "intelligence-per-dollar": {
+   "fable-5": {
+    "value": 19.0,
+    "unit": "index pts per task-USD",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "derived: aa-index (59.86) ÷ cost-per-task ($3.15)",
+     "movement vs seed: driver unresolved (gate-flagged; both endpoints nominally v4.1)"
+    ],
+    "comparability_set": "aa-intelligence-per-usd",
+    "stale": false,
+    "history_ref": "intelligence-per-dollar.fable-5",
+    "derived_from": [
+     "aa-index.fable-5",
+     "cost-per-task.fable-5"
+    ]
+   },
+   "opus-5": {
+    "value": 25.9,
+    "unit": "index pts per task-USD",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "derived: aa-index (60.69) ÷ cost-per-task ($2.34)",
+     "movement vs seed: driver unresolved (gate-flagged; both endpoints nominally v4.1)"
+    ],
+    "comparability_set": "aa-intelligence-per-usd",
+    "stale": false,
+    "history_ref": "intelligence-per-dollar.opus-5",
+    "derived_from": [
+     "aa-index.opus-5",
+     "cost-per-task.opus-5"
+    ]
+   },
+   "gpt-5-6-sol": {
+    "value": 31.7,
+    "unit": "index pts per task-USD",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "derived: aa-index (58.89) ÷ cost-per-task ($1.86)",
+     "movement vs seed: driver unresolved (gate-flagged; both endpoints nominally v4.1)"
+    ],
+    "comparability_set": "aa-intelligence-per-usd",
+    "stale": false,
+    "history_ref": "intelligence-per-dollar.gpt-5-6-sol",
+    "derived_from": [
+     "aa-index.gpt-5-6-sol",
+     "cost-per-task.gpt-5-6-sol"
+    ]
+   },
+   "kimi-k3": {
+    "value": 66.4,
+    "unit": "index pts per task-USD",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "derived: aa-index (57.11) ÷ cost-per-task ($0.86)",
+     "movement vs seed: driver unresolved (gate-flagged; both endpoints nominally v4.1)"
+    ],
+    "comparability_set": "aa-intelligence-per-usd",
+    "stale": false,
+    "history_ref": "intelligence-per-dollar.kimi-k3",
+    "derived_from": [
+     "aa-index.kimi-k3",
+     "cost-per-task.kimi-k3"
+    ]
+   },
+   "ds-v4-pro": {
+    "value": 885.4,
+    "unit": "index pts per task-USD",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "derived: aa-index (44.27) ÷ cost-per-task ($0.05)"
+    ],
+    "comparability_set": "aa-intelligence-per-usd",
+    "stale": false,
+    "history_ref": "intelligence-per-dollar.ds-v4-pro",
+    "derived_from": [
+     "aa-index.ds-v4-pro",
+     "cost-per-task.ds-v4-pro"
+    ]
+   }
+  },
   "cost-per-task": {
    "fable-5": {
     "value": 3.15,
@@ -497,141 +959,286 @@
     "history_ref": "cost-per-task.ds-v4-pro"
    }
   },
-  "throughput-ttft": {
+  "api-price": {
    "fable-5": {
-    "value": "66.2 tok/s; TTFA 89.0 s",
-    "unit": "tok/s; s",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "long-prompt medians, first-party endpoint"
-    ],
-    "comparability_set": "aa-throughput",
-    "stale": false,
-    "history_ref": "throughput-ttft.fable-5"
-   },
-   "opus-5": {
-    "value": "53.6 tok/s; TTFA 92.0 s",
-    "unit": "tok/s; s",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "long-prompt medians"
-    ],
-    "comparability_set": "aa-throughput",
-    "stale": false,
-    "history_ref": "throughput-ttft.opus-5"
-   },
-   "gpt-5-6-sol": {
-    "value": "63.5 tok/s; TTFA 133.0 s",
-    "unit": "tok/s; s",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "long-prompt medians"
-    ],
-    "comparability_set": "aa-throughput",
-    "stale": false,
-    "history_ref": "throughput-ttft.gpt-5-6-sol"
-   },
-   "kimi-k3": {
-    "value": "34.9 tok/s; TTFA 61.2 s",
-    "unit": "tok/s; s",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "TTFC 3.9 s; TTFA includes 57.3 s visible reasoning"
-    ],
-    "comparability_set": "aa-throughput",
-    "stale": false,
-    "history_ref": "throughput-ttft.kimi-k3"
-   },
-   "ds-v4-pro": {
-    "value": "62.0 tok/s; TTFA 72.3 s",
-    "unit": "tok/s; s",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "TTFC 1.8 s; TTFA includes 70.5 s visible reasoning"
-    ],
-    "comparability_set": "aa-throughput",
-    "stale": false,
-    "history_ref": "throughput-ttft.ds-v4-pro"
-   }
-  },
-  "swe-bench-pro": {
-   "fable-5": {
-    "value": 80.0,
-    "unit": "%",
-    "tag": "V",
-    "source_id": "S13",
-    "retrieved_at": "2026-07-31T22:44:25Z",
-    "flags": [
-     "aggregated vendor self-reports (0 of 43 verified)",
-     "provenance corrected 2026-08-01: seed's 80.3 (tagged I) was Mythos 5's number; Fable 5 self-report is 80.0 (Anthropic PDF)",
-     "vendor-harness figures run ~20 pts above the standardized Scale board (S9)"
-    ],
-    "comparability_set": "swe-bench-pro-vendor-aggregate",
-    "stale": false,
-    "history_ref": "swe-bench-pro.fable-5"
-   },
-   "opus-5": {
-    "value": 79.2,
-    "unit": "%",
+    "value": "$10 / $50",
+    "unit": "USD/Mtok in/out",
     "tag": "V",
     "source_id": "S14",
     "retrieved_at": "2026-08-01T00:00:00Z",
-    "flags": [
-     "vendor self-report (launch claim 2026-07-24) — provisional in set: not yet on the llm-stats aggregate or any board"
-    ],
-    "comparability_set": "swe-bench-pro-vendor-aggregate",
+    "flags": [],
+    "comparability_set": "list-price",
     "stale": false,
-    "history_ref": "swe-bench-pro.opus-5"
+    "history_ref": "api-price.fable-5"
+   },
+   "opus-5": {
+    "value": "$5 / $25",
+    "unit": "USD/Mtok in/out",
+    "tag": "V",
+    "source_id": "S14",
+    "retrieved_at": "2026-08-01T00:00:00Z",
+    "flags": [],
+    "comparability_set": "list-price",
+    "stale": false,
+    "history_ref": "api-price.opus-5"
    },
    "gpt-5-6-sol": {
-    "value": 64.6,
-    "unit": "%",
+    "value": "$5 / $30",
+    "unit": "USD/Mtok in/out",
     "tag": "V",
-    "source_id": "S13",
-    "retrieved_at": "2026-07-31T22:44:25Z",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
     "flags": [
-     "aggregated vendor self-reports (0 of 43 verified)",
-     "provenance corrected 2026-08-01: self-report (openai.com), max reasoning effort"
+     "list price as relayed by AA data; vendor page probe at collector build",
+     "line variants: Terra $2/$12, Luna $0.20/$1.20 (after Jul 30 cut)",
+     "input rate increases past 272K context"
     ],
-    "comparability_set": "swe-bench-pro-vendor-aggregate",
+    "comparability_set": "list-price",
     "stale": false,
-    "history_ref": "swe-bench-pro.gpt-5-6-sol"
+    "history_ref": "api-price.gpt-5-6-sol"
+   },
+   "kimi-k3": {
+    "value": "$3 / $15",
+    "unit": "USD/Mtok in/out",
+    "tag": "V",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "list price as relayed by AA data; vendor page probe at collector build"
+    ],
+    "comparability_set": "list-price",
+    "stale": false,
+    "history_ref": "api-price.kimi-k3"
+   },
+   "ds-v4-pro": {
+    "value": "$0.44 / $0.87",
+    "unit": "USD/Mtok in/out",
+    "tag": "V",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "list price as relayed by AA data ($0.435/$0.87 unrounded)"
+    ],
+    "comparability_set": "list-price",
+    "stale": false,
+    "history_ref": "api-price.ds-v4-pro"
+   }
+  },
+  "openrouter-share": {
+   "fable-5": {
+    "value": 9.1,
+    "unit": "% tokens",
+    "tag": "I",
+    "source_id": "S3",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "provider-level: Anthropic total, not per-model",
+     "unit per page copy ambiguous (counts consistent with tokens)",
+     "week 2026-07-20 (last complete); partial wk 07-27: 8.7%",
+     "Anthropic ≈44% of code-category spend (30d) — leads programming spend"
+    ],
+    "comparability_set": "openrouter-provider-share",
+    "stale": false,
+    "history_ref": "openrouter-share.fable-5"
+   },
+   "opus-5": {
+    "value": 9.1,
+    "unit": "% tokens",
+    "tag": "I",
+    "source_id": "S3",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "provider-level: Anthropic total, not per-model",
+     "unit per page copy ambiguous (counts consistent with tokens)",
+     "week 2026-07-20 (last complete)"
+    ],
+    "comparability_set": "openrouter-provider-share",
+    "stale": false,
+    "history_ref": "openrouter-share.opus-5"
+   },
+   "gpt-5-6-sol": {
+    "value": 6.9,
+    "unit": "% tokens",
+    "tag": "I",
+    "source_id": "S3",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "provider-level: OpenAI total, not per-model",
+     "unit per page copy ambiguous (counts consistent with tokens)",
+     "week 2026-07-20; partial wk 07-27: 8.6%"
+    ],
+    "comparability_set": "openrouter-provider-share",
+    "stale": false,
+    "history_ref": "openrouter-share.gpt-5-6-sol"
    },
    "kimi-k3": {
     "value": null,
-    "unit": "%",
+    "unit": "% tokens",
     "tag": null,
     "source_id": null,
     "retrieved_at": null,
-    "flags": [],
-    "comparability_set": "swe-bench-pro-vendor-aggregate",
+    "flags": [
+     "Moonshot below top-9 authors since May — bucketed into 'others'",
+     "per-model spend share ≈1.4% of 30d spend via task-spend endpoint"
+    ],
+    "comparability_set": "openrouter-provider-share",
     "stale": false,
     "empty_reason": "not published",
-    "history_ref": "swe-bench-pro.kimi-k3"
+    "history_ref": "openrouter-share.kimi-k3"
    },
    "ds-v4-pro": {
-    "value": 55.4,
-    "unit": "%",
-    "tag": "V",
-    "source_id": "S13",
-    "retrieved_at": "2026-07-31T22:44:25Z",
+    "value": 17.4,
+    "unit": "% tokens",
+    "tag": "I",
+    "source_id": "S3",
+    "retrieved_at": "2026-08-01T07:45:00Z",
     "flags": [
-     "aggregated vendor self-reports (0 of 43 verified)",
-     "listed as 'DeepSeek-V4-Pro-Max' (seed said not published)"
+     "provider-level: DeepSeek total, not per-model",
+     "unit per page copy ambiguous (counts consistent with tokens)",
+     "week 2026-07-20: #2 behind xiaomi (19.1%); partial wk 07-27: 20.9% #1"
     ],
-    "comparability_set": "swe-bench-pro-vendor-aggregate",
+    "comparability_set": "openrouter-provider-share",
     "stale": false,
-    "history_ref": "swe-bench-pro.ds-v4-pro"
+    "history_ref": "openrouter-share.ds-v4-pro"
+   }
+  },
+  "aa-omniscience": {
+   "fable-5": {
+    "value": 40.15,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "Gemini-graded (AA judge panel)",
+     "accuracy 0.614 — highest accuracy of the five; hallucination rate 0.549"
+    ],
+    "comparability_set": "aa-omniscience",
+    "stale": false,
+    "history_ref": "aa-omniscience.fable-5"
+   },
+   "opus-5": {
+    "value": 31.27,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "Gemini-graded (AA judge panel)",
+     "accuracy 0.542, hallucination rate 0.501"
+    ],
+    "comparability_set": "aa-omniscience",
+    "stale": false,
+    "history_ref": "aa-omniscience.opus-5"
+   },
+   "gpt-5-6-sol": {
+    "value": 21.7,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "Gemini-graded (AA judge panel)",
+     "hallucination rate 0.888 — second-highest of the five (DS V4 Pro: 0.940)"
+    ],
+    "comparability_set": "aa-omniscience",
+    "stale": false,
+    "history_ref": "aa-omniscience.gpt-5-6-sol"
+   },
+   "kimi-k3": {
+    "value": 18.42,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "Gemini-graded (AA judge panel)",
+     "accuracy 0.460, hallucination rate 0.509"
+    ],
+    "comparability_set": "aa-omniscience",
+    "stale": false,
+    "history_ref": "aa-omniscience.kimi-k3"
+   },
+   "ds-v4-pro": {
+    "value": -10.02,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "Gemini-graded (AA judge panel)",
+     "negative: more wrong answers than right; hallucination rate 0.940 — highest of the five"
+    ],
+    "comparability_set": "aa-omniscience",
+    "stale": false,
+    "history_ref": "aa-omniscience.ds-v4-pro"
+   }
+  },
+  "livebench": {
+   "fable-5": {
+    "value": 83.4,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S12",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
+    ],
+    "comparability_set": "livebench-2026-06-25",
+    "stale": false,
+    "history_ref": "livebench.fable-5"
+   },
+   "opus-5": {
+    "value": 80.5,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S12",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
+    ],
+    "comparability_set": "livebench-2026-06-25",
+    "stale": false,
+    "history_ref": "livebench.opus-5"
+   },
+   "gpt-5-6-sol": {
+    "value": 81.6,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S12",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
+    ],
+    "comparability_set": "livebench-2026-06-25",
+    "stale": false,
+    "history_ref": "livebench.gpt-5-6-sol"
+   },
+   "kimi-k3": {
+    "value": 79.5,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S12",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
+    ],
+    "comparability_set": "livebench-2026-06-25",
+    "stale": false,
+    "history_ref": "livebench.kimi-k3"
+   },
+   "ds-v4-pro": {
+    "value": 72.6,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S12",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
+    ],
+    "comparability_set": "livebench-2026-06-25",
+    "stale": false,
+    "history_ref": "livebench.ds-v4-pro"
    }
   },
   "arc-agi-3": {
@@ -779,155 +1386,65 @@
     "history_ref": "metr-horizon.ds-v4-pro"
    }
   },
-  "arena-elo": {
+  "disclosure-watch": {
    "fable-5": {
-    "value": 1507.6,
-    "unit": "Elo",
+    "value": "none noted",
+    "unit": "text",
     "tag": "I",
-    "source_id": "S2",
-    "retrieved_at": "2026-07-30T00:00:00Z",
-    "flags": [
-     "private variant testing active (Arena)",
-     "#1 on the style-control board; raw-board #1 is Opus 5 Max"
-    ],
-    "comparability_set": "arena-text-style-control",
+    "source_id": "S21",
+    "retrieved_at": "2026-08-01T00:00:00Z",
+    "flags": [],
+    "comparability_set": "disclosure-watch",
     "stale": false,
-    "history_ref": "arena-elo.fable-5"
+    "history_ref": "disclosure-watch.fable-5"
    },
    "opus-5": {
-    "value": 1494.6,
-    "unit": "Elo",
+    "value": "none noted",
+    "unit": "text",
     "tag": "I",
-    "source_id": "S2",
-    "retrieved_at": "2026-07-30T00:00:00Z",
-    "flags": [
-     "private variant testing active (Arena)",
-     "variant: claude-opus-5-max (rank 5); -high scores 1493.4 (rank 7)"
-    ],
-    "comparability_set": "arena-text-style-control",
+    "source_id": "S21",
+    "retrieved_at": "2026-08-01T00:00:00Z",
+    "flags": [],
+    "comparability_set": "disclosure-watch",
     "stale": false,
-    "history_ref": "arena-elo.opus-5"
+    "history_ref": "disclosure-watch.opus-5"
    },
    "gpt-5-6-sol": {
-    "value": 1484.9,
-    "unit": "Elo",
+    "value": "3 open items",
+    "unit": "text",
     "tag": "I",
-    "source_id": "S2",
-    "retrieved_at": "2026-07-30T00:00:00Z",
+    "source_id": "S21",
+    "retrieved_at": "2026-08-01T00:00:00Z",
     "flags": [
-     "private variant testing active (Arena)",
-     "variant: gpt-5.6-sol-xhigh (rank 13); added to the text board Jul 31"
+     "withheld disclosure: SWE-bench Verified not published after METR flag",
+     "modified harness: ARC-AGI-3 38.3 claim on vendor-modified settings (Jul 30)",
+     "record gaming (METR: cheating): flagged in pre-deployment eval (Jun 26)"
     ],
-    "comparability_set": "arena-text-style-control",
+    "comparability_set": "disclosure-watch",
     "stale": false,
-    "history_ref": "arena-elo.gpt-5-6-sol"
+    "history_ref": "disclosure-watch.gpt-5-6-sol"
    },
    "kimi-k3": {
-    "value": 1485.8,
-    "unit": "Elo",
+    "value": "none noted",
+    "unit": "text",
     "tag": "I",
-    "source_id": "S2",
-    "retrieved_at": "2026-07-30T00:00:00Z",
-    "flags": [
-     "private variant testing active (Arena)",
-     "variant: kimi-k3-max (renamed from kimi-k3 ~Jul 26); rank 11",
-     "seed's 1547 reclassified: likely conflation with the industry_legal_and_government category board where K3-max ranked #1 (~1542) Jul 26–30"
-    ],
-    "comparability_set": "arena-text-style-control",
+    "source_id": "S21",
+    "retrieved_at": "2026-08-01T00:00:00Z",
+    "flags": [],
+    "comparability_set": "disclosure-watch",
     "stale": false,
-    "history_ref": "arena-elo.kimi-k3"
+    "history_ref": "disclosure-watch.kimi-k3"
    },
    "ds-v4-pro": {
-    "value": 1457.1,
-    "unit": "Elo",
+    "value": "none noted",
+    "unit": "text",
     "tag": "I",
-    "source_id": "S2",
-    "retrieved_at": "2026-07-30T00:00:00Z",
-    "flags": [
-     "private variant testing active (Arena)",
-     "base variant (rank 49); thinking variant 1455.1"
-    ],
-    "comparability_set": "arena-text-style-control",
+    "source_id": "S21",
+    "retrieved_at": "2026-08-01T00:00:00Z",
+    "flags": [],
+    "comparability_set": "disclosure-watch",
     "stale": false,
-    "history_ref": "arena-elo.ds-v4-pro"
-   }
-  },
-  "openrouter-share": {
-   "fable-5": {
-    "value": 9.1,
-    "unit": "% tokens",
-    "tag": "I",
-    "source_id": "S3",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "provider-level: Anthropic total, not per-model",
-     "unit per page copy ambiguous (counts consistent with tokens)",
-     "week 2026-07-20 (last complete); partial wk 07-27: 8.7%",
-     "Anthropic ≈44% of code-category spend (30d) — leads programming spend"
-    ],
-    "comparability_set": "openrouter-provider-share",
-    "stale": false,
-    "history_ref": "openrouter-share.fable-5"
-   },
-   "opus-5": {
-    "value": 9.1,
-    "unit": "% tokens",
-    "tag": "I",
-    "source_id": "S3",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "provider-level: Anthropic total, not per-model",
-     "unit per page copy ambiguous (counts consistent with tokens)",
-     "week 2026-07-20 (last complete)"
-    ],
-    "comparability_set": "openrouter-provider-share",
-    "stale": false,
-    "history_ref": "openrouter-share.opus-5"
-   },
-   "gpt-5-6-sol": {
-    "value": 6.9,
-    "unit": "% tokens",
-    "tag": "I",
-    "source_id": "S3",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "provider-level: OpenAI total, not per-model",
-     "unit per page copy ambiguous (counts consistent with tokens)",
-     "week 2026-07-20; partial wk 07-27: 8.6%"
-    ],
-    "comparability_set": "openrouter-provider-share",
-    "stale": false,
-    "history_ref": "openrouter-share.gpt-5-6-sol"
-   },
-   "kimi-k3": {
-    "value": null,
-    "unit": "% tokens",
-    "tag": null,
-    "source_id": null,
-    "retrieved_at": null,
-    "flags": [
-     "Moonshot below top-9 authors since May — bucketed into 'others'",
-     "per-model spend share ≈1.4% of 30d spend via task-spend endpoint"
-    ],
-    "comparability_set": "openrouter-provider-share",
-    "stale": false,
-    "empty_reason": "not published",
-    "history_ref": "openrouter-share.kimi-k3"
-   },
-   "ds-v4-pro": {
-    "value": 17.4,
-    "unit": "% tokens",
-    "tag": "I",
-    "source_id": "S3",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "provider-level: DeepSeek total, not per-model",
-     "unit per page copy ambiguous (counts consistent with tokens)",
-     "week 2026-07-20: #2 behind xiaomi (19.1%); partial wk 07-27: 20.9% #1"
-    ],
-    "comparability_set": "openrouter-provider-share",
-    "stale": false,
-    "history_ref": "openrouter-share.ds-v4-pro"
+    "history_ref": "disclosure-watch.ds-v4-pro"
    }
   },
   "swe-bench-verified": {
@@ -998,130 +1515,71 @@
     "history_ref": "swe-bench-verified.ds-v4-pro"
    }
   },
-  "disclosure-watch": {
+  "throughput-ttft": {
    "fable-5": {
-    "value": "none noted",
-    "unit": "text",
+    "value": "66.2 tok/s; TTFA 89.0 s",
+    "unit": "tok/s; s",
     "tag": "I",
-    "source_id": "S21",
-    "retrieved_at": "2026-08-01T00:00:00Z",
-    "flags": [],
-    "comparability_set": "disclosure-watch",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "long-prompt medians, first-party endpoint"
+    ],
+    "comparability_set": "aa-throughput",
     "stale": false,
-    "history_ref": "disclosure-watch.fable-5"
+    "history_ref": "throughput-ttft.fable-5"
    },
    "opus-5": {
-    "value": "none noted",
-    "unit": "text",
+    "value": "53.6 tok/s; TTFA 92.0 s",
+    "unit": "tok/s; s",
     "tag": "I",
-    "source_id": "S21",
-    "retrieved_at": "2026-08-01T00:00:00Z",
-    "flags": [],
-    "comparability_set": "disclosure-watch",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "long-prompt medians"
+    ],
+    "comparability_set": "aa-throughput",
     "stale": false,
-    "history_ref": "disclosure-watch.opus-5"
+    "history_ref": "throughput-ttft.opus-5"
    },
    "gpt-5-6-sol": {
-    "value": "3 open items",
-    "unit": "text",
+    "value": "63.5 tok/s; TTFA 133.0 s",
+    "unit": "tok/s; s",
     "tag": "I",
-    "source_id": "S21",
-    "retrieved_at": "2026-08-01T00:00:00Z",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
     "flags": [
-     "withheld disclosure: SWE-bench Verified not published after METR flag",
-     "modified harness: ARC-AGI-3 38.3 claim on vendor-modified settings (Jul 30)",
-     "record gaming (METR: cheating): flagged in pre-deployment eval (Jun 26)"
+     "long-prompt medians"
     ],
-    "comparability_set": "disclosure-watch",
+    "comparability_set": "aa-throughput",
     "stale": false,
-    "history_ref": "disclosure-watch.gpt-5-6-sol"
+    "history_ref": "throughput-ttft.gpt-5-6-sol"
    },
    "kimi-k3": {
-    "value": "none noted",
-    "unit": "text",
+    "value": "34.9 tok/s; TTFA 61.2 s",
+    "unit": "tok/s; s",
     "tag": "I",
-    "source_id": "S21",
-    "retrieved_at": "2026-08-01T00:00:00Z",
-    "flags": [],
-    "comparability_set": "disclosure-watch",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "TTFC 3.9 s; TTFA includes 57.3 s visible reasoning"
+    ],
+    "comparability_set": "aa-throughput",
     "stale": false,
-    "history_ref": "disclosure-watch.kimi-k3"
+    "history_ref": "throughput-ttft.kimi-k3"
    },
    "ds-v4-pro": {
-    "value": "none noted",
-    "unit": "text",
+    "value": "62.0 tok/s; TTFA 72.3 s",
+    "unit": "tok/s; s",
     "tag": "I",
-    "source_id": "S21",
-    "retrieved_at": "2026-08-01T00:00:00Z",
-    "flags": [],
-    "comparability_set": "disclosure-watch",
-    "stale": false,
-    "history_ref": "disclosure-watch.ds-v4-pro"
-   }
-  },
-  "api-price": {
-   "fable-5": {
-    "value": "$10 / $50",
-    "unit": "USD/Mtok in/out",
-    "tag": "V",
-    "source_id": "S14",
-    "retrieved_at": "2026-08-01T00:00:00Z",
-    "flags": [],
-    "comparability_set": "list-price",
-    "stale": false,
-    "history_ref": "api-price.fable-5"
-   },
-   "opus-5": {
-    "value": "$5 / $25",
-    "unit": "USD/Mtok in/out",
-    "tag": "V",
-    "source_id": "S14",
-    "retrieved_at": "2026-08-01T00:00:00Z",
-    "flags": [],
-    "comparability_set": "list-price",
-    "stale": false,
-    "history_ref": "api-price.opus-5"
-   },
-   "gpt-5-6-sol": {
-    "value": "$5 / $30",
-    "unit": "USD/Mtok in/out",
-    "tag": "V",
     "source_id": "S1",
     "retrieved_at": "2026-08-01T07:45:00Z",
     "flags": [
-     "list price as relayed by AA data; vendor page probe at collector build",
-     "line variants: Terra $2/$12, Luna $0.20/$1.20 (after Jul 30 cut)",
-     "input rate increases past 272K context"
+     "TTFC 1.8 s; TTFA includes 70.5 s visible reasoning"
     ],
-    "comparability_set": "list-price",
+    "comparability_set": "aa-throughput",
     "stale": false,
-    "history_ref": "api-price.gpt-5-6-sol"
-   },
-   "kimi-k3": {
-    "value": "$3 / $15",
-    "unit": "USD/Mtok in/out",
-    "tag": "V",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "list price as relayed by AA data; vendor page probe at collector build"
-    ],
-    "comparability_set": "list-price",
-    "stale": false,
-    "history_ref": "api-price.kimi-k3"
-   },
-   "ds-v4-pro": {
-    "value": "$0.44 / $0.87",
-    "unit": "USD/Mtok in/out",
-    "tag": "V",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "list price as relayed by AA data ($0.435/$0.87 unrounded)"
-    ],
-    "comparability_set": "list-price",
-    "stale": false,
-    "history_ref": "api-price.ds-v4-pro"
+    "history_ref": "throughput-ttft.ds-v4-pro"
    }
   },
   "context-window": {
@@ -1189,78 +1647,6 @@
     "comparability_set": "context-window",
     "stale": false,
     "history_ref": "context-window.ds-v4-pro"
-   }
-  },
-  "aa-omniscience": {
-   "fable-5": {
-    "value": 40.15,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "Gemini-graded (AA judge panel)",
-     "accuracy 0.614 — highest accuracy of the five; hallucination rate 0.549"
-    ],
-    "comparability_set": "aa-omniscience",
-    "stale": false,
-    "history_ref": "aa-omniscience.fable-5"
-   },
-   "opus-5": {
-    "value": 31.27,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "Gemini-graded (AA judge panel)",
-     "accuracy 0.542, hallucination rate 0.501"
-    ],
-    "comparability_set": "aa-omniscience",
-    "stale": false,
-    "history_ref": "aa-omniscience.opus-5"
-   },
-   "gpt-5-6-sol": {
-    "value": 21.7,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "Gemini-graded (AA judge panel)",
-     "hallucination rate 0.888 — second-highest of the five (DS V4 Pro: 0.940)"
-    ],
-    "comparability_set": "aa-omniscience",
-    "stale": false,
-    "history_ref": "aa-omniscience.gpt-5-6-sol"
-   },
-   "kimi-k3": {
-    "value": 18.42,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "Gemini-graded (AA judge panel)",
-     "accuracy 0.460, hallucination rate 0.509"
-    ],
-    "comparability_set": "aa-omniscience",
-    "stale": false,
-    "history_ref": "aa-omniscience.kimi-k3"
-   },
-   "ds-v4-pro": {
-    "value": -10.02,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "Gemini-graded (AA judge panel)",
-     "negative: more wrong answers than right; hallucination rate 0.940 — highest of the five"
-    ],
-    "comparability_set": "aa-omniscience",
-    "stale": false,
-    "history_ref": "aa-omniscience.ds-v4-pro"
    }
   },
   "deployment-terms": {
@@ -1333,386 +1719,6 @@
     "stale": false,
     "empty_reason": "not published",
     "history_ref": "deployment-terms.ds-v4-pro"
-   }
-  },
-  "intelligence-per-dollar": {
-   "fable-5": {
-    "value": 19.0,
-    "unit": "index pts per task-USD",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "derived: aa-index (59.86) ÷ cost-per-task ($3.15)",
-     "movement vs seed: driver unresolved (gate-flagged; both endpoints nominally v4.1)"
-    ],
-    "comparability_set": "aa-intelligence-per-usd",
-    "stale": false,
-    "history_ref": "intelligence-per-dollar.fable-5",
-    "derived_from": [
-     "aa-index.fable-5",
-     "cost-per-task.fable-5"
-    ]
-   },
-   "opus-5": {
-    "value": 25.9,
-    "unit": "index pts per task-USD",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "derived: aa-index (60.69) ÷ cost-per-task ($2.34)",
-     "movement vs seed: driver unresolved (gate-flagged; both endpoints nominally v4.1)"
-    ],
-    "comparability_set": "aa-intelligence-per-usd",
-    "stale": false,
-    "history_ref": "intelligence-per-dollar.opus-5",
-    "derived_from": [
-     "aa-index.opus-5",
-     "cost-per-task.opus-5"
-    ]
-   },
-   "gpt-5-6-sol": {
-    "value": 31.7,
-    "unit": "index pts per task-USD",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "derived: aa-index (58.89) ÷ cost-per-task ($1.86)",
-     "movement vs seed: driver unresolved (gate-flagged; both endpoints nominally v4.1)"
-    ],
-    "comparability_set": "aa-intelligence-per-usd",
-    "stale": false,
-    "history_ref": "intelligence-per-dollar.gpt-5-6-sol",
-    "derived_from": [
-     "aa-index.gpt-5-6-sol",
-     "cost-per-task.gpt-5-6-sol"
-    ]
-   },
-   "kimi-k3": {
-    "value": 66.4,
-    "unit": "index pts per task-USD",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "derived: aa-index (57.11) ÷ cost-per-task ($0.86)",
-     "movement vs seed: driver unresolved (gate-flagged; both endpoints nominally v4.1)"
-    ],
-    "comparability_set": "aa-intelligence-per-usd",
-    "stale": false,
-    "history_ref": "intelligence-per-dollar.kimi-k3",
-    "derived_from": [
-     "aa-index.kimi-k3",
-     "cost-per-task.kimi-k3"
-    ]
-   },
-   "ds-v4-pro": {
-    "value": 885.4,
-    "unit": "index pts per task-USD",
-    "tag": "I",
-    "source_id": "S1",
-    "retrieved_at": "2026-08-01T07:45:00Z",
-    "flags": [
-     "derived: aa-index (44.27) ÷ cost-per-task ($0.05)"
-    ],
-    "comparability_set": "aa-intelligence-per-usd",
-    "stale": false,
-    "history_ref": "intelligence-per-dollar.ds-v4-pro",
-    "derived_from": [
-     "aa-index.ds-v4-pro",
-     "cost-per-task.ds-v4-pro"
-    ]
-   }
-  },
-  "epoch-eci": {
-   "fable-5": {
-    "value": 161.55,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S10",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
-     "95% CI 159.02–165.23",
-     "score dated 2026-06-09 (Epoch run date)"
-    ],
-    "comparability_set": "epoch-eci",
-    "stale": false,
-    "history_ref": "epoch-eci.fable-5"
-   },
-   "opus-5": {
-    "value": 161.05,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S10",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
-     "95% CI 158.63–164.1",
-     "score dated 2026-07-24 (Epoch run date)"
-    ],
-    "comparability_set": "epoch-eci",
-    "stale": false,
-    "history_ref": "epoch-eci.opus-5"
-   },
-   "gpt-5-6-sol": {
-    "value": 161.69,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S10",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
-     "95% CI 159.12–165.2",
-     "score dated 2026-07-09 (Epoch run date)"
-    ],
-    "comparability_set": "epoch-eci",
-    "stale": false,
-    "history_ref": "epoch-eci.gpt-5-6-sol"
-   },
-   "kimi-k3": {
-    "value": 157.39,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S10",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
-     "95% CI 155.26–160.32",
-     "score dated 2026-07-16 (Epoch run date)"
-    ],
-    "comparability_set": "epoch-eci",
-    "stale": false,
-    "history_ref": "epoch-eci.kimi-k3"
-   },
-   "ds-v4-pro": {
-    "value": 148.9,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S10",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
-     "95% CI 147.4–150.97",
-     "score dated 2026-04-24 (Epoch run date)"
-    ],
-    "comparability_set": "epoch-eci",
-    "stale": false,
-    "history_ref": "epoch-eci.ds-v4-pro"
-   }
-  },
-  "livebench": {
-   "fable-5": {
-    "value": 83.4,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S12",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
-    ],
-    "comparability_set": "livebench-2026-06-25",
-    "stale": false,
-    "history_ref": "livebench.fable-5"
-   },
-   "opus-5": {
-    "value": 80.5,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S12",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
-    ],
-    "comparability_set": "livebench-2026-06-25",
-    "stale": false,
-    "history_ref": "livebench.opus-5"
-   },
-   "gpt-5-6-sol": {
-    "value": 81.6,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S12",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
-    ],
-    "comparability_set": "livebench-2026-06-25",
-    "stale": false,
-    "history_ref": "livebench.gpt-5-6-sol"
-   },
-   "kimi-k3": {
-    "value": 79.5,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S12",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
-    ],
-    "comparability_set": "livebench-2026-06-25",
-    "stale": false,
-    "history_ref": "livebench.kimi-k3"
-   },
-   "ds-v4-pro": {
-    "value": 72.6,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S12",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
-    ],
-    "comparability_set": "livebench-2026-06-25",
-    "stale": false,
-    "history_ref": "livebench.ds-v4-pro"
-   }
-  },
-  "swe-rebench": {
-   "fable-5": {
-    "value": 64.5,
-    "unit": "%",
-    "tag": "I",
-    "source_id": "S20",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "agent/effort variant: Fable 5 [high]",
-     "±1.41 SEM",
-     "potential contamination: released after the issue-window start (2026-06-09 > 2026-05-15) — board-flagged"
-    ],
-    "comparability_set": "swe-rebench-window-2026-05-15",
-    "stale": false,
-    "history_ref": "swe-rebench.fable-5"
-   },
-   "opus-5": {
-    "value": 63.4,
-    "unit": "%",
-    "tag": "I",
-    "source_id": "S20",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "agent/effort variant: Opus 5 [high]",
-     "±1.35 SEM",
-     "potential contamination: released after the issue-window start (2026-07-24 > 2026-05-15) — board-flagged"
-    ],
-    "comparability_set": "swe-rebench-window-2026-05-15",
-    "stale": false,
-    "history_ref": "swe-rebench.opus-5"
-   },
-   "gpt-5-6-sol": {
-    "value": 62.3,
-    "unit": "%",
-    "tag": "I",
-    "source_id": "S20",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "agent/effort variant: GPT-5.6 Sol [medium]",
-     "±1.83 SEM",
-     "potential contamination: released after the issue-window start (2026-06-26 > 2026-05-15) — board-flagged"
-    ],
-    "comparability_set": "swe-rebench-window-2026-05-15",
-    "stale": false,
-    "history_ref": "swe-rebench.gpt-5-6-sol"
-   },
-   "kimi-k3": {
-    "value": null,
-    "unit": "%",
-    "tag": null,
-    "source_id": null,
-    "retrieved_at": null,
-    "flags": [],
-    "comparability_set": "swe-rebench-window-2026-05-15",
-    "stale": false,
-    "empty_reason": "not evaluated",
-    "history_ref": "swe-rebench.kimi-k3"
-   },
-   "ds-v4-pro": {
-    "value": 40.2,
-    "unit": "%",
-    "tag": "I",
-    "source_id": "S20",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "agent/effort variant: DeepSeek-V4 Pro [high]",
-     "±1.29 SEM"
-    ],
-    "comparability_set": "swe-rebench-window-2026-05-15",
-    "stale": false,
-    "history_ref": "swe-rebench.ds-v4-pro"
-   }
-  },
-  "vals-index": {
-   "fable-5": {
-    "value": 75.1,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S11",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "VC-funded evaluator, no on-site funding disclosure",
-     "weighted composite (Vals Index)"
-    ],
-    "comparability_set": "vals-index-composite",
-    "stale": false,
-    "history_ref": "vals-index.fable-5"
-   },
-   "opus-5": {
-    "value": 74.8,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S11",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "VC-funded evaluator, no on-site funding disclosure",
-     "weighted composite (Vals Index)"
-    ],
-    "comparability_set": "vals-index-composite",
-    "stale": false,
-    "history_ref": "vals-index.opus-5"
-   },
-   "gpt-5-6-sol": {
-    "value": 73.1,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S11",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "VC-funded evaluator, no on-site funding disclosure",
-     "weighted composite (Vals Index)"
-    ],
-    "comparability_set": "vals-index-composite",
-    "stale": false,
-    "history_ref": "vals-index.gpt-5-6-sol"
-   },
-   "kimi-k3": {
-    "value": 74.7,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S11",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "VC-funded evaluator, no on-site funding disclosure",
-     "weighted composite (Vals Index)"
-    ],
-    "comparability_set": "vals-index-composite",
-    "stale": false,
-    "history_ref": "vals-index.kimi-k3"
-   },
-   "ds-v4-pro": {
-    "value": 55.6,
-    "unit": "index",
-    "tag": "I",
-    "source_id": "S11",
-    "retrieved_at": "2026-08-01T09:00:00Z",
-    "flags": [
-     "VC-funded evaluator, no on-site funding disclosure",
-     "weighted composite (Vals Index)"
-    ],
-    "comparability_set": "vals-index-composite",
-    "stale": false,
-    "history_ref": "vals-index.ds-v4-pro"
    }
   }
  },
@@ -1827,7 +1833,7 @@
     "S2",
     "S8"
    ],
-   "note": "Scale-standardized SWE-Pro #1 (61.5), Arena #8, TB 2.1 #8 — already at 2+ independent sources; Phase 3 decides catalog entry."
+   "note": "Scale-standardized SWE-Pro #1 (61.5), Arena #8, TB 2.1 #8 — already at 2+ independent sources; catalog entry RATIFIED at Phase 3 (ORDERING.md D5), column build deferred to the first catalog expansion (RISK-010)."
   },
   {
    "id": "gemini-3-5-pro",
@@ -2211,7 +2217,8 @@
  "notes": [
   "Column rationale (gate-corrected): five columns kept on coverage density + camp representation; DS V4 Pro kept over higher-scoring Flash 0731 because Pro has multi-source coverage today. Open items handed to Phases 2–3: Gemini 3.6 Flash / Google absence-as-signal, DS Flash promotion path, Muse Spark 1.1 catalog decision.",
   "Integrity backdrop (outside 72h tape window, carried for briefs): HF agent-intrusion disclosure (Jul 28); NIST AITE announcement (Jul 27); SWE-bench Pro verification gap crystallized around Opus 5's launch claim (Jul 25).",
-  "Judgment layer status: off (mechanical build; Phase 7 wires the optional editorial layer)."
+  "Judgment layer status: off (mechanical build; Phase 7 wires the optional editorial layer).",
+  "2026-08-01: rows re-grouped to the ratified ordering C (C1 overall … C7 integrity, fold after C4; ADR-005/ADR-006). Values unchanged. throughput-ttft, context-window and deployment-terms moved from the table to the brief layer per the Phase 3 registry."
  ],
  "health": {
   "run_status": "manual-corrected (Phase 1 gate resolution)",
@@ -2480,7 +2487,10 @@
     "aggregated vendor self-reports (0 of 43 verified)",
     "provenance corrected 2026-08-01: seed's 80.3 (tagged I) was Mythos 5's number; Fable 5 self-report is 80.0 (Anthropic PDF)",
     "vendor self-report (launch claim 2026-07-24) — provisional in set: not yet on the llm-stats aggregate or any board",
-    "provenance corrected 2026-08-01: self-report (openai.com), max reasoning effort"
+    "provenance corrected 2026-08-01: self-report (openai.com), max reasoning effort",
+    "self-report source: https://www-cdn.anthropic.com/d00db56fa754a1b115b6dd7cb2e3c342ee809620.pdf",
+    "self-report source: https://openai.com/index/gpt-5-6/",
+    "self-report source: https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro"
    ],
    "date": "2026-08-01",
    "first_stated": "2026-08-01",

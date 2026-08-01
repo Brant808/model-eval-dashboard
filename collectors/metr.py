@@ -17,6 +17,7 @@ class MetrCollector(Collector):
     source_id = "S5"
     name = "metr"
     url = "https://metr.org/assets/benchmark_results_1_1.yaml"
+    fixture = "metr_1_1.yaml"
 
     def parse(self, raw: bytes) -> list[CellValue]:
         data = yaml.safe_load(raw.decode("utf-8"))
