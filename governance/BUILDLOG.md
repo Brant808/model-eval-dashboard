@@ -276,3 +276,33 @@ must exist in cited cells; model/metric-name and date digits allowed),
 rule-5 family separation, rule-7 verbatim flag carry, all-or-nothing
 implication replacement; every rejection degrades loudly to mechanical in the
 health footer. 9 validator attack tests. 111 tests green, linter green.
+
+### Combined gate — Phases 4, 5, 6, 7 (2026-08-01)
+
+Four parallel gate agents: verifier (briefs sentence-by-sentence, all 8
+implications against 5 criteria, all 11 collectors reproduced from fixtures,
+judgment pin recomputed — "every number I could reproduce, reproduced";
+countersign YES-conditional, both conditions resolved), red-team A (briefs +
+implications: 2 BLOCKING / 5 MAJOR / 6 MINOR), red-team B (rendered cold
+read + pipeline attack: 3 BLOCKING / 8 MAJOR / 6 MINOR, cold read PASS
+conditional), innovator (phases 6/7/8 alternatives, 2 defects, 12 riders —
+governance/innovator/phase-6-7-8.md).
+
+Headline resolutions, all mechanical where possible: implication rot
+(cite_values pins → pipeline flips "under review" → renderer badge → linter
+rule → modified-fixture end-to-end drill); IMP-1/2/5 rewritten against the
+cross-aggregator dissent the page itself carries; rule 5 enforced on briefs
+AND rendered page prose; quick-look band trust metadata with cell-for-cell
+linter verification of the embedded state; ordering C actually rendered
+(snapshot group migration + canonical group sort + fold); judgment validator
+hardened (falsifier scan, flag-subset rule, Messages-API transport replacing
+the CI-inert CLI path, widened tamper pin); same-day rerun fix; 72h tape
+carry; real single-source chaos drill via fixture-serving fetch hook — which
+immediately caught collector-vs-snapshot flag drift on llmstats and METR
+(the exact class verifier §C.8 predicted), both fixed at the collector.
+Accepted risks with triggers: RISK-010 (catalog build), RISK-011 (validator
+lexical bounds), RISK-012 (frozen sources), RISK-013 (blanking debounce),
+RISK-014 (innovator riders). ADR-006/007/008. Dispositions:
+governance/redteam/phase-{4,5,6,7}.md. 119 tests green, linter green.
+Phases 4, 5, 6 CLOSED. Phase 7 CLOSED (live-run verification re-confirmed at
+Phase 9's e2e).

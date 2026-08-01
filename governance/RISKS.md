@@ -114,3 +114,66 @@ decisions, not omissions: each one traces to a gate objection.
   field-order caption rider prevents the default from misstating the field.
 - Reversal trigger: a non-AA-indexed model holds #1 on ≥2 independent group-1
   boards ⇒ revisit T2's scoping in an ADR.
+
+## RISK-010 — Ratified 12-model catalog not yet built (5 columns live)
+
+ORDERING.md D5 ratified ~12 catalog models; the page ships 5. Accepted for
+this build: the 7 missing columns are almost entirely reasoned empties
+(D6 rules make them mechanical), and no current row's chip/footnote math is
+affected. Watch copy corrected to say RATIFIED/deferred. **Trigger to
+build**: Muse Spark promotion fires (its hysteresis test case is in the
+watch block), any superseded model re-enters top-3 vendor-best, or the
+Phase 9 cold read flags the thin picker. The ORDERING.md "no catalog model
+without a column" linter rule lands WITH that build (it would fail by
+design today). Reversal: if untriggered by 2026-09-01, either build it or
+formally shrink D5 by ADR.
+
+## RISK-011 — Judgment validator is lexical, not semantic (accepted bounds)
+
+Red-team demonstrated 8 bypass shapes (word-numbers, inverted orderings
+without numbers, cross-cell misattribution via pooled vocab, sign-flip
+narratives, vulgar fractions, date-digit cover). Falsifier scanning,
+flag-subset enforcement, source-id scrubbing and abs/negative handling were
+fixed; the rest is accepted: the validator is a number-grounding backstop —
+the mechanical default, the locked prompt, all-or-nothing implications and
+the constitutional linter are the actual containment. **Reversal trigger**:
+judgment tier turned on AND any post-validation entry found asserting an
+ordering/attribution the cited cells contradict ⇒ tighten to per-cell vocab
+binding + signed deltas, or turn the tier off (7-E.4). Related deferred
+refinement: implication cites render as inert text (no one-tap anchor);
+implement if the Phase 9 cold read flags verification friction.
+
+## RISK-012 — Frozen-content sources never trip staleness (rule 9 blind spot)
+
+retrieved_at = our fetch time for living boards, so a source that keeps
+serving frozen content is re-stamped fresh daily; the STALE badge cannot
+fire. Epoch/LiveBench carry explicit vintage labels; AA/Arena/OpenRouter are
+high-cadence. **Trigger**: any source's tracked cells unchanged for 3× its
+freshness SLA while health says ok ⇒ add last-value-change badging
+("unchanged for Nd", derived from snapshot history) to the renderer.
+
+## RISK-013 — Healthy-source cell vanishing blanks same-day (no debounce)
+
+A slug rename or A/B delisting at a healthy source empties the cell that
+day (loud, reasoned — but the brief promised last-good for source trouble,
+and a rename is indistinguishable from delisting). **Trigger**: first
+observed false blanking ⇒ require N consecutive absent days before
+blanking, carrying last-good + "absent from source (day k/N)" flag
+meanwhile.
+
+## RISK-014 — Innovator riders held with triggers (phases 6–8)
+
+Recorded from governance/innovator/phase-6-7-8.md; owner = builder at the
+named trigger. (a) 6-B change-first layout if a cold read fails on "what
+moved" while trio-state passes, or observed matrix-skipping ≥5 of 7
+mornings; (b) 6-E-lite quick-look sparklines at ≥21 dated snapshots;
+(c) 6-D field view when catalog ≥10 models with ≥50% coverage or the
+footnote cap binds 3 consecutive builds; (d) page-weight guard: >1.0 MB raw
+or picker swap >100ms on phone hardware ⇒ JS-hydrate superseded columns;
+(e) 7-B+8-B paired flip per ADR-008 reversal conditions; (f) scheduler-miss:
+generated_at >26h twice in 14 days is covered by the second cron — if it
+STILL fires, escalate; (g) heartbeat: ≥7 consecutive "no changes to publish"
+runs ⇒ explicit heartbeat commit or monthly enable-workflow API call;
+(h) Cloudflare mirror on ≥2 Pages incidents in the morning window in 90
+days; (i) HANDOFF honesty: iPhone Add-to-Home-Screen is the one
+touch-gesture human step — recorded, not fixable.

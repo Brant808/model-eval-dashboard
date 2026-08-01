@@ -246,3 +246,107 @@ claim-marker, band contract, derived movement-caveat inheritance).
 **Reversal conditions.** Ordering C↔D at the Phase 6 rendered cold read;
 claims-row C7→C3 per condition 2; T2 scoping per RISK-009; catalog seats at
 the collector-build checkpoint.
+
+## ADR-006 — Phases 4+5: briefs and implications as gated, rot-proof prose layers (2026-08-01)
+
+**Decision.** The content layers ship with the same machine discipline as
+cells:
+
+1. *Briefs* (data/briefs.json) are curated, repo-grounded prose, linted:
+   rule 5 per-sentence over every string, key-sync against the snapshot
+   (`_preregistered` allowlist for pre-authored rows), and "begins soon"
+   phrasing banned for populated rows. The rendered page's prose gets the
+   same per-sentence family scan (block-aware; semicolons/mid-dots split
+   enumerations) — authorial discipline is no longer the only defense on any
+   surface a reader sees.
+2. *Implications* pin `cite_values` at authorship. Any cited-cell drift
+   flips the carried implication to visible "under review" (pipeline sets
+   it, renderer badges it, linter enforces it from 2026-08-01; seed
+   grandfathered). This is the third carry-forward state the innovator
+   pre-registered, now mechanical.
+3. *Empty-cell cites are legitimate* when the emptiness is the subject
+   (withheld/not-evaluated reads). Rule 11 requires cites to RESOLVE, not to
+   be populated. The judgment validator stays stricter for machine entries —
+   asymmetry is intentional (curated prose is gate-reviewed; machine prose
+   is not).
+4. *Derived-number policy*: curated implications may state ratios and
+   roundings when every operand is a cited cell value; machine entries are
+   bound to the lexical no-new-facts scan. Exact deltas preferred (the +112
+   became 111.74 under this rule).
+5. Gate rewrites: IMP-1 rescoped to its single evaluator with the
+   cross-aggregator dissent cited (high→med); IMP-2 reframed to "is the AA
+   order the outlier?"; IMP-5 to OPEN with the price-artifact reading named.
+   Editorial superlatives across comparability sets are banned in X copy.
+
+**Rejected.** Free-prose briefs (unlintable), implication regeneration by
+LLM in the daily loop (mechanical default stands; judgment tier optional),
+dropping moved-cite implications silently (the reader must SEE the state).
+
+**Reversal conditions.** Cite→row anchors if the Phase 9 cold read flags
+verification friction (RISK-011); X-panel length revisited at Phase 9.
+
+## ADR-007 — Phase 7: autorefresh architecture (2026-08-01)
+
+**Decision.** Single GitHub Actions workflow, cron 12:30 UTC (+13:15
+idempotent retry against documented schedule drops), workflow_dispatch,
+concurrency-grouped, fetch-depth 1, per-step timeouts.
+Order: fetch (11 collectors, honest per-source degradation, env-capped
+retries in CI) → optional judgment → data-only constitutional gate → commit
+data/ → build → full gate (REQUIRE_HTML=1) → tests → commit docs/. The
+docs commit IS the deploy (pairs with ADR-008); the data commit precedes
+build/tests so a renderer or UI-test failure can never cost a day of
+history; a red run publishes nothing, keeps serving last-good, and uploads
+data/ as a forensic artifact. Commit-back doubles as the 60-day
+scheduled-workflow heartbeat. Measured growth basis: ~2–6 MB/year realistic
+(innovator report) — decades of headroom; artifact-only history is
+constitutionally disqualified (90-day retention vs keep-forever).
+
+*Judgment tier*: off by default; activates only on the ANTHROPIC_API_KEY
+secret via one Messages-API call (`requests`) — the CLI transport was inert
+in CI (innovator D-1). Tamper pin covers prompt + model + max_tokens.
+Output survives only if it parses, matches the narrow schema, cites
+populated cells, introduces no number absent from cited cells (text AND
+falsifier; source-ids scrubbed; abs/negative handled), carries integrity
+flags verbatim, invents no flags (subset rule), and never mixes SWE
+families. Judged tape supersedes mechanical duplicates. All-or-nothing
+implication replacement. Every rejection degrades loudly into the health
+footer. Chip-reassignment explainability is inherent: chips derive from
+values and every value move is tape/changelog-covered; flag-set changes now
+emit changelog entries too.
+
+**Rejected.** 7-B data-only + Actions-Pages deploy (pre-registered reversal,
+flips together with 8-B); 7-C split fetch/publish (salvaged its one decisive
+advantage — early data commit); 7-D event-driven (structurally unavailable:
+no source webhooks; would add standing credentials); 7-E.1 CLI-in-runner
+(heaviest dependency for no reason); 7-E.4 mechanical-permanent (declined:
+the validator architecture is exactly the containment that makes the tier
+acceptable — but it remains the security-maximal option on record).
+
+**Reversal conditions.** RISK-010 (catalog build trigger), RISK-011
+(validator limits), RISK-012 (zombie sources), RISK-013 (blanking debounce),
+plus innovator riders 6/7/9/10/11 recorded in RISKS.md.
+
+## ADR-008 — Phase 8: publishing via Pages deploy-from-branch /docs (2026-08-01)
+
+**Decision.** GitHub Pages, source "Deploy from a branch", default branch,
+folder /docs, with `docs/.nojekyll` (innovator D-2: removes the managed
+Jekyll build failure class). URL:
+https://brant808.github.io/model-eval-dashboard/ (docs/index.html copy makes
+the bare URL resolve). Double last-good: a failed pipeline never pushes, and
+a failed managed Pages build keeps serving the previous deployment. Setup is
+one keyboard-navigable settings form (HANDOFF); zero recurring cost; page is
+30.7 KB gzipped against a 100 GB/month soft cap.
+
+**Rejected.** 8-B Actions-Pages deploy (pre-registered reversal, flips
+together with 7-B — never separately); 8-C gh-pages orphan branch
+(dominated: legacy workaround, standing force-push); 8-D external hosts
+(Cloudflare Pages held as mirror-not-replacement behind an availability
+trigger; Netlify disqualified on credit-based free tier — daily deploys
+exceed it by construction); 8-E raw/CDN serving (text/plain, unaccountable
+third parties).
+
+**Reversal conditions.** Flip 7-B+8-B together on any of: pack size >150 MB,
+checkout >60s, branch protection on the serving branch, or a
+pages-build-deployment failure/stale-serve not explained by our own push.
+Cloudflare mirror on ≥2 Pages incidents intersecting the reader's morning
+window in 90 days (RISKS.md).
