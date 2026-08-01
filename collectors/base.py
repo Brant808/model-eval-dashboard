@@ -163,3 +163,53 @@ def balanced_json_object(text: str, start_key: str):
                 except json.JSONDecodeError as e:
                     raise ParseFailure(f"balanced object at {start_key!r} not valid JSON: {e}") from e
     raise ParseFailure(f"unbalanced object after {start_key!r}")
+
+
+def decode_flight_region(html: str, anchor_escaped: str, back: int = 200, span: int = 2_500_000) -> str:
+    """Next.js flight payloads embed JSON as an escaped JS string
+    (self.__next_f.push([1,"...\\"key\\":...")). Locate the escaped anchor,
+    unescape the surrounding region, and return proper JSON text for
+    balanced parsing. Raises ParseFailure if the anchor is missing (page
+    shape changed -> fail LOUD)."""
+    idx = html.find(anchor_escaped)
+    if idx == -1:
+        raise ParseFailure(f"flight anchor {anchor_escaped!r} not found — page shape changed")
+    window = html[max(0, idx - back): idx + span]
+    return window.replace("\\\\", "\x00").replace('\\"', '"').replace("\x00", "\\")
+
+
+def balanced_json_array(text: str, start_key: str):
+    """Parse the first balanced [...] array that starts at/after start_key."""
+    kidx = text.find(start_key)
+    if kidx == -1:
+        raise ParseFailure(f"start key {start_key!r} not found")
+    oidx = text.find("[", kidx)
+    if oidx == -1:
+        raise ParseFailure(f"no array after {start_key!r}")
+    depth = 0
+    in_str = False
+    esc = False
+    for i in range(oidx, len(text)):
+        c = text[i]
+        if esc:
+            esc = False
+            continue
+        if c == "\\":
+            esc = True
+            continue
+        if c == '"':
+            in_str = not in_str
+            continue
+        if in_str:
+            continue
+        if c in "[{":
+            depth += 1
+        elif c in "]}":
+            depth -= 1
+            if depth == 0:
+                blob = text[oidx: i + 1]
+                try:
+                    return json.loads(blob)
+                except json.JSONDecodeError as e:
+                    raise ParseFailure(f"balanced array at {start_key!r} not valid JSON: {e}") from e
+    raise ParseFailure(f"unbalanced array after {start_key!r}")
