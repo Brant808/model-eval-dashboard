@@ -187,6 +187,42 @@
    "direction": "higher",
    "freshness_sla_hours": 72,
    "primary_source_id": "S1"
+  },
+  "epoch-eci": {
+   "name": "Epoch Capabilities Index",
+   "group": "c1-overall",
+   "unit": "index",
+   "comparability_set": "epoch-eci",
+   "direction": "higher",
+   "freshness_sla_hours": 336,
+   "primary_source_id": "S10"
+  },
+  "livebench": {
+   "name": "LiveBench global average",
+   "group": "c5-knowledge",
+   "unit": "index",
+   "comparability_set": "livebench-2026-06-25",
+   "direction": "higher",
+   "freshness_sla_hours": 1080,
+   "primary_source_id": "S12"
+  },
+  "swe-rebench": {
+   "name": "SWE-rebench (fresh issues)",
+   "group": "c3-coding",
+   "unit": "%",
+   "comparability_set": "swe-rebench-window-2026-05-15",
+   "direction": "higher",
+   "freshness_sla_hours": 1080,
+   "primary_source_id": "S20"
+  },
+  "vals-index": {
+   "name": "Vals professional index",
+   "group": "c2-agentic",
+   "unit": "index",
+   "comparability_set": "vals-index-composite",
+   "direction": "higher",
+   "freshness_sla_hours": 504,
+   "primary_source_id": "S11"
   }
  },
  "cells": {
@@ -1389,6 +1425,295 @@
      "cost-per-task.ds-v4-pro"
     ]
    }
+  },
+  "epoch-eci": {
+   "fable-5": {
+    "value": 161.55,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S10",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
+     "95% CI 159.02–165.23",
+     "score dated 2026-06-09 (Epoch run date)"
+    ],
+    "comparability_set": "epoch-eci",
+    "stale": false,
+    "history_ref": "epoch-eci.fable-5"
+   },
+   "opus-5": {
+    "value": 161.05,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S10",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
+     "95% CI 158.63–164.1",
+     "score dated 2026-07-24 (Epoch run date)"
+    ],
+    "comparability_set": "epoch-eci",
+    "stale": false,
+    "history_ref": "epoch-eci.opus-5"
+   },
+   "gpt-5-6-sol": {
+    "value": 161.69,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S10",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
+     "95% CI 159.12–165.2",
+     "score dated 2026-07-09 (Epoch run date)"
+    ],
+    "comparability_set": "epoch-eci",
+    "stale": false,
+    "history_ref": "epoch-eci.gpt-5-6-sol"
+   },
+   "kimi-k3": {
+    "value": 157.39,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S10",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
+     "95% CI 155.26–160.32",
+     "score dated 2026-07-16 (Epoch run date)"
+    ],
+    "comparability_set": "epoch-eci",
+    "stale": false,
+    "history_ref": "epoch-eci.kimi-k3"
+   },
+   "ds-v4-pro": {
+    "value": 148.9,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S10",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
+     "95% CI 147.4–150.97",
+     "score dated 2026-04-24 (Epoch run date)"
+    ],
+    "comparability_set": "epoch-eci",
+    "stale": false,
+    "history_ref": "epoch-eci.ds-v4-pro"
+   }
+  },
+  "livebench": {
+   "fable-5": {
+    "value": 83.4,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S12",
+    "retrieved_at": "2026-06-25T00:00:00Z",
+    "flags": [
+     "global average over 23 task columns, release 2026-06-25"
+    ],
+    "comparability_set": "livebench-2026-06-25",
+    "stale": false,
+    "history_ref": "livebench.fable-5"
+   },
+   "opus-5": {
+    "value": 80.5,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S12",
+    "retrieved_at": "2026-06-25T00:00:00Z",
+    "flags": [
+     "global average over 23 task columns, release 2026-06-25"
+    ],
+    "comparability_set": "livebench-2026-06-25",
+    "stale": false,
+    "history_ref": "livebench.opus-5"
+   },
+   "gpt-5-6-sol": {
+    "value": 81.6,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S12",
+    "retrieved_at": "2026-06-25T00:00:00Z",
+    "flags": [
+     "global average over 23 task columns, release 2026-06-25"
+    ],
+    "comparability_set": "livebench-2026-06-25",
+    "stale": false,
+    "history_ref": "livebench.gpt-5-6-sol"
+   },
+   "kimi-k3": {
+    "value": 79.5,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S12",
+    "retrieved_at": "2026-06-25T00:00:00Z",
+    "flags": [
+     "global average over 23 task columns, release 2026-06-25"
+    ],
+    "comparability_set": "livebench-2026-06-25",
+    "stale": false,
+    "history_ref": "livebench.kimi-k3"
+   },
+   "ds-v4-pro": {
+    "value": 72.6,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S12",
+    "retrieved_at": "2026-06-25T00:00:00Z",
+    "flags": [
+     "global average over 23 task columns, release 2026-06-25"
+    ],
+    "comparability_set": "livebench-2026-06-25",
+    "stale": false,
+    "history_ref": "livebench.ds-v4-pro"
+   }
+  },
+  "swe-rebench": {
+   "fable-5": {
+    "value": 64.5,
+    "unit": "%",
+    "tag": "I",
+    "source_id": "S20",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "agent/effort variant: Fable 5 [high]",
+     "±1.41 SEM",
+     "potential contamination: released after the issue-window start (2026-06-09 > 2026-05-15) — board-flagged"
+    ],
+    "comparability_set": "swe-rebench-window-2026-05-15",
+    "stale": false,
+    "history_ref": "swe-rebench.fable-5"
+   },
+   "opus-5": {
+    "value": 63.4,
+    "unit": "%",
+    "tag": "I",
+    "source_id": "S20",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "agent/effort variant: Opus 5 [high]",
+     "±1.35 SEM",
+     "potential contamination: released after the issue-window start (2026-07-24 > 2026-05-15) — board-flagged"
+    ],
+    "comparability_set": "swe-rebench-window-2026-05-15",
+    "stale": false,
+    "history_ref": "swe-rebench.opus-5"
+   },
+   "gpt-5-6-sol": {
+    "value": 62.3,
+    "unit": "%",
+    "tag": "I",
+    "source_id": "S20",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "agent/effort variant: GPT-5.6 Sol [medium]",
+     "±1.83 SEM",
+     "potential contamination: released after the issue-window start (2026-06-26 > 2026-05-15) — board-flagged"
+    ],
+    "comparability_set": "swe-rebench-window-2026-05-15",
+    "stale": false,
+    "history_ref": "swe-rebench.gpt-5-6-sol"
+   },
+   "kimi-k3": {
+    "value": null,
+    "unit": "%",
+    "tag": null,
+    "source_id": null,
+    "retrieved_at": null,
+    "flags": [],
+    "comparability_set": "swe-rebench-window-2026-05-15",
+    "stale": false,
+    "empty_reason": "not evaluated",
+    "history_ref": "swe-rebench.kimi-k3"
+   },
+   "ds-v4-pro": {
+    "value": 40.2,
+    "unit": "%",
+    "tag": "I",
+    "source_id": "S20",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "agent/effort variant: DeepSeek-V4 Pro [high]",
+     "±1.29 SEM"
+    ],
+    "comparability_set": "swe-rebench-window-2026-05-15",
+    "stale": false,
+    "history_ref": "swe-rebench.ds-v4-pro"
+   }
+  },
+  "vals-index": {
+   "fable-5": {
+    "value": 75.1,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S11",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "VC-funded evaluator, no on-site funding disclosure",
+     "weighted composite (Vals Index)"
+    ],
+    "comparability_set": "vals-index-composite",
+    "stale": false,
+    "history_ref": "vals-index.fable-5"
+   },
+   "opus-5": {
+    "value": 74.8,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S11",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "VC-funded evaluator, no on-site funding disclosure",
+     "weighted composite (Vals Index)"
+    ],
+    "comparability_set": "vals-index-composite",
+    "stale": false,
+    "history_ref": "vals-index.opus-5"
+   },
+   "gpt-5-6-sol": {
+    "value": 73.1,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S11",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "VC-funded evaluator, no on-site funding disclosure",
+     "weighted composite (Vals Index)"
+    ],
+    "comparability_set": "vals-index-composite",
+    "stale": false,
+    "history_ref": "vals-index.gpt-5-6-sol"
+   },
+   "kimi-k3": {
+    "value": 74.7,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S11",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "VC-funded evaluator, no on-site funding disclosure",
+     "weighted composite (Vals Index)"
+    ],
+    "comparability_set": "vals-index-composite",
+    "stale": false,
+    "history_ref": "vals-index.kimi-k3"
+   },
+   "ds-v4-pro": {
+    "value": 55.6,
+    "unit": "index",
+    "tag": "I",
+    "source_id": "S11",
+    "retrieved_at": "2026-08-01T09:00:00Z",
+    "flags": [
+     "VC-funded evaluator, no on-site funding disclosure",
+     "weighted composite (Vals Index)"
+    ],
+    "comparability_set": "vals-index-composite",
+    "stale": false,
+    "history_ref": "vals-index.ds-v4-pro"
+   }
   }
  },
  "tape": [
@@ -1728,6 +2053,158 @@
     "intelligence-per-dollar.ds-v4-pro"
    ],
    "note": "derived row materialized at Phase 3 gate: 885.4 = aa-index ÷ cost-per-task",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "epoch-eci.fable-5"
+   ],
+   "note": "row activated at Phase 7 collector build: 161.55",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "epoch-eci.opus-5"
+   ],
+   "note": "row activated at Phase 7 collector build: 161.05",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "epoch-eci.gpt-5-6-sol"
+   ],
+   "note": "row activated at Phase 7 collector build: 161.69",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "epoch-eci.kimi-k3"
+   ],
+   "note": "row activated at Phase 7 collector build: 157.39",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "epoch-eci.ds-v4-pro"
+   ],
+   "note": "row activated at Phase 7 collector build: 148.9",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "livebench.fable-5"
+   ],
+   "note": "row activated at Phase 7 collector build: 83.4",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "livebench.opus-5"
+   ],
+   "note": "row activated at Phase 7 collector build: 80.5",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "livebench.gpt-5-6-sol"
+   ],
+   "note": "row activated at Phase 7 collector build: 81.6",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "livebench.kimi-k3"
+   ],
+   "note": "row activated at Phase 7 collector build: 79.5",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "livebench.ds-v4-pro"
+   ],
+   "note": "row activated at Phase 7 collector build: 72.6",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "swe-rebench.fable-5"
+   ],
+   "note": "row activated at Phase 7 collector build: 64.5",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "swe-rebench.opus-5"
+   ],
+   "note": "row activated at Phase 7 collector build: 63.4",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "swe-rebench.gpt-5-6-sol"
+   ],
+   "note": "row activated at Phase 7 collector build: 62.3",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "swe-rebench.ds-v4-pro"
+   ],
+   "note": "row activated at Phase 7 collector build: 40.2",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "vals-index.fable-5"
+   ],
+   "note": "row activated at Phase 7 collector build: 75.1",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "vals-index.opus-5"
+   ],
+   "note": "row activated at Phase 7 collector build: 74.8",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "vals-index.gpt-5-6-sol"
+   ],
+   "note": "row activated at Phase 7 collector build: 73.1",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "vals-index.kimi-k3"
+   ],
+   "note": "row activated at Phase 7 collector build: 74.7",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "vals-index.ds-v4-pro"
+   ],
+   "note": "row activated at Phase 7 collector build: 55.6",
    "class": "appeared"
   }
  ],

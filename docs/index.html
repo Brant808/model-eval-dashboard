@@ -133,10 +133,10 @@ font-size:.68rem;background:#fff}
 <div class="ql-num" data-ql="intelligence-per-dollar" data-slot="0"></div>
 <div class="ql-num" data-ql="intelligence-per-dollar" data-slot="1"></div>
 <div class="ql-num" data-ql="intelligence-per-dollar" data-slot="2"></div>
-<div class="ql-h">GDPval-AA v2 <span class="ql-slot-label">(slot: GDPval until SWE-rebench tracking begins)</span></div>
-<div class="ql-num" data-ql="gdpval-aa" data-slot="0"></div>
-<div class="ql-num" data-ql="gdpval-aa" data-slot="1"></div>
-<div class="ql-num" data-ql="gdpval-aa" data-slot="2"></div>
+<div class="ql-h">SWE-rebench (fresh issues)</div>
+<div class="ql-num" data-ql="swe-rebench" data-slot="0"></div>
+<div class="ql-num" data-ql="swe-rebench" data-slot="1"></div>
+<div class="ql-num" data-ql="swe-rebench" data-slot="2"></div>
 <div class="ql-h">Disclosure watch</div>
 <div class="ql-num" data-ql="disclosure-watch" data-slot="0"></div>
 <div class="ql-num" data-ql="disclosure-watch" data-slot="1"></div>
@@ -299,6 +299,50 @@ font-size:.68rem;background:#fff}
 <td data-tag="I" data-cell-id="intelligence-per-dollar.ds-v4-pro" data-stale="0" data-warn="0" data-chip="1" data-set="aa-intelligence-per-usd" class="cell col-ds-v4-pro"><span class="val">885.4 index pts per task-USD</span><span class="tag tag-I" title="independent">I</span><span class="src">[S1]</span><span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span><span class="note-tag">derived: aa-index (44.27) ÷ cost-per-task ($0.05)</span></td>
 </tr>
 <tr class="fnrow" data-fn-metric="intelligence-per-dollar" data-fn-model="ds-v4-pro" hidden><td colspan="4" class="fieldnote">▲ field #1: DeepSeek V4 Pro 885.4 index pts per task-USD <span class="tag tag-I">I</span> (not in view)</td></tr>
+</tbody>
+<tbody class="grp" data-group="c1-overall">
+<tr class="grow"><th class="rowh grouph" colspan="4"><h2 style="margin:.2rem 0;font-size:.95rem">Overall intelligence</h2></th></tr>
+<tr data-metric="epoch-eci" data-row-set="epoch-eci" class="mrow"><th class="rowh"><button class="rowbtn" data-brief="metric:epoch-eci">Epoch Capabilities Index</button></th>
+<td data-tag="I" data-cell-id="epoch-eci.fable-5" data-stale="0" data-warn="0" data-chip="0" data-set="epoch-eci" class="cell col-fable-5"><span class="val">161.55 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S10]</span><span class="note-tag">mixed-provenance composite (incl. OpenAI-funded FrontierMath)</span><span class="note-tag">95% CI 159.02–165.23</span><span class="note-tag">score dated 2026-06-09 (Epoch run date)</span></td>
+<td data-tag="I" data-cell-id="epoch-eci.opus-5" data-stale="0" data-warn="0" data-chip="0" data-set="epoch-eci" class="cell col-opus-5"><span class="val">161.05 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S10]</span><span class="note-tag">mixed-provenance composite (incl. OpenAI-funded FrontierMath)</span><span class="note-tag">95% CI 158.63–164.1</span><span class="note-tag">score dated 2026-07-24 (Epoch run date)</span></td>
+<td data-tag="I" data-cell-id="epoch-eci.gpt-5-6-sol" data-stale="0" data-warn="0" data-chip="1" data-set="epoch-eci" class="cell col-gpt-5-6-sol"><span class="val">161.69 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S10]</span><span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span><span class="note-tag">mixed-provenance composite (incl. OpenAI-funded FrontierMath)</span><span class="note-tag">95% CI 159.12–165.2</span><span class="note-tag">score dated 2026-07-09 (Epoch run date)</span></td>
+<td data-tag="I" data-cell-id="epoch-eci.kimi-k3" data-stale="0" data-warn="0" data-chip="0" data-set="epoch-eci" class="cell col-kimi-k3"><span class="val">157.39 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S10]</span><span class="note-tag">mixed-provenance composite (incl. OpenAI-funded FrontierMath)</span><span class="note-tag">95% CI 155.26–160.32</span><span class="note-tag">score dated 2026-07-16 (Epoch run date)</span></td>
+<td data-tag="I" data-cell-id="epoch-eci.ds-v4-pro" data-stale="0" data-warn="0" data-chip="0" data-set="epoch-eci" class="cell col-ds-v4-pro"><span class="val">148.9 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S10]</span><span class="note-tag">mixed-provenance composite (incl. OpenAI-funded FrontierMath)</span><span class="note-tag">95% CI 147.4–150.97</span><span class="note-tag">score dated 2026-04-24 (Epoch run date)</span></td>
+</tr>
+<tr class="fnrow" data-fn-metric="epoch-eci" data-fn-model="gpt-5-6-sol" hidden><td colspan="4" class="fieldnote">▲ field #1: GPT-5.6 Sol 161.69 index <span class="tag tag-I">I</span> (not in view)</td></tr>
+</tbody>
+<tbody class="grp" data-group="c5-knowledge">
+<tr class="grow"><th class="rowh grouph" colspan="4"><h2 style="margin:.2rem 0;font-size:.95rem">Knowledge &amp; reliability</h2></th></tr>
+<tr data-metric="livebench" data-row-set="livebench-2026-06-25" class="mrow"><th class="rowh"><button class="rowbtn" data-brief="metric:livebench">LiveBench global average</button></th>
+<td data-tag="I" data-cell-id="livebench.fable-5" data-stale="0" data-warn="0" data-chip="1" data-set="livebench-2026-06-25" class="cell col-fable-5"><span class="val">83.4 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S12]</span><span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span><span class="note-tag">global average over 23 task columns, release 2026-06-25</span></td>
+<td data-tag="I" data-cell-id="livebench.opus-5" data-stale="0" data-warn="0" data-chip="0" data-set="livebench-2026-06-25" class="cell col-opus-5"><span class="val">80.5 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S12]</span><span class="note-tag">global average over 23 task columns, release 2026-06-25</span></td>
+<td data-tag="I" data-cell-id="livebench.gpt-5-6-sol" data-stale="0" data-warn="0" data-chip="0" data-set="livebench-2026-06-25" class="cell col-gpt-5-6-sol"><span class="val">81.6 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S12]</span><span class="note-tag">global average over 23 task columns, release 2026-06-25</span></td>
+<td data-tag="I" data-cell-id="livebench.kimi-k3" data-stale="0" data-warn="0" data-chip="0" data-set="livebench-2026-06-25" class="cell col-kimi-k3"><span class="val">79.5 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S12]</span><span class="note-tag">global average over 23 task columns, release 2026-06-25</span></td>
+<td data-tag="I" data-cell-id="livebench.ds-v4-pro" data-stale="0" data-warn="0" data-chip="0" data-set="livebench-2026-06-25" class="cell col-ds-v4-pro"><span class="val">72.6 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S12]</span><span class="note-tag">global average over 23 task columns, release 2026-06-25</span></td>
+</tr>
+<tr class="fnrow" data-fn-metric="livebench" data-fn-model="fable-5" hidden><td colspan="4" class="fieldnote">▲ field #1: Claude Fable 5 83.4 index <span class="tag tag-I">I</span> (not in view)</td></tr>
+</tbody>
+<tbody class="grp" data-group="c3-coding">
+<tr class="grow"><th class="rowh grouph" colspan="4"><h2 style="margin:.2rem 0;font-size:.95rem">Coding</h2></th></tr>
+<tr data-metric="swe-rebench" data-row-set="swe-rebench-window-2026-05-15" class="mrow"><th class="rowh"><button class="rowbtn" data-brief="metric:swe-rebench">SWE-rebench (fresh issues)</button></th>
+<td data-tag="I" data-cell-id="swe-rebench.fable-5" data-stale="0" data-warn="0" data-chip="1" data-set="swe-rebench-window-2026-05-15" class="cell col-fable-5"><span class="val">64.5 %</span><span class="tag tag-I" title="independent">I</span><span class="src">[S20]</span><span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span><span class="note-tag">agent/effort variant: Fable 5 [high]</span><span class="note-tag">±1.41 SEM</span><span class="note-tag">potential contamination: released after the issue-window start (2026-06-09 &gt; 2026-05-15) — board-flagged</span></td>
+<td data-tag="I" data-cell-id="swe-rebench.opus-5" data-stale="0" data-warn="0" data-chip="0" data-set="swe-rebench-window-2026-05-15" class="cell col-opus-5"><span class="val">63.4 %</span><span class="tag tag-I" title="independent">I</span><span class="src">[S20]</span><span class="note-tag">agent/effort variant: Opus 5 [high]</span><span class="note-tag">±1.35 SEM</span><span class="note-tag">potential contamination: released after the issue-window start (2026-07-24 &gt; 2026-05-15) — board-flagged</span></td>
+<td data-tag="I" data-cell-id="swe-rebench.gpt-5-6-sol" data-stale="0" data-warn="0" data-chip="0" data-set="swe-rebench-window-2026-05-15" class="cell col-gpt-5-6-sol"><span class="val">62.3 %</span><span class="tag tag-I" title="independent">I</span><span class="src">[S20]</span><span class="note-tag">agent/effort variant: GPT-5.6 Sol [medium]</span><span class="note-tag">±1.83 SEM</span><span class="note-tag">potential contamination: released after the issue-window start (2026-06-26 &gt; 2026-05-15) — board-flagged</span></td>
+<td data-empty-reason="not evaluated" data-cell-id="swe-rebench.kimi-k3" data-stale="0" data-warn="0" data-chip="0" data-set="swe-rebench-window-2026-05-15" class="cell col-kimi-k3"><span class="empty">— <em>not evaluated</em></span></td>
+<td data-tag="I" data-cell-id="swe-rebench.ds-v4-pro" data-stale="0" data-warn="0" data-chip="0" data-set="swe-rebench-window-2026-05-15" class="cell col-ds-v4-pro"><span class="val">40.2 %</span><span class="tag tag-I" title="independent">I</span><span class="src">[S20]</span><span class="note-tag">agent/effort variant: DeepSeek-V4 Pro [high]</span><span class="note-tag">±1.29 SEM</span></td>
+</tr>
+<tr class="fnrow" data-fn-metric="swe-rebench" data-fn-model="fable-5" hidden><td colspan="4" class="fieldnote">▲ field #1: Claude Fable 5 64.5 % <span class="tag tag-I">I</span> (not in view)</td></tr>
+</tbody>
+<tbody class="grp" data-group="c2-agentic">
+<tr class="grow"><th class="rowh grouph" colspan="4"><h2 style="margin:.2rem 0;font-size:.95rem">Agentic &amp; real-economy work</h2></th></tr>
+<tr data-metric="vals-index" data-row-set="vals-index-composite" class="mrow"><th class="rowh"><button class="rowbtn" data-brief="metric:vals-index">Vals professional index</button></th>
+<td data-tag="I" data-cell-id="vals-index.fable-5" data-stale="0" data-warn="0" data-chip="1" data-set="vals-index-composite" class="cell col-fable-5"><span class="val">75.1 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S11]</span><span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span><span class="note-tag">VC-funded evaluator, no on-site funding disclosure</span><span class="note-tag">weighted composite (Vals Index)</span></td>
+<td data-tag="I" data-cell-id="vals-index.opus-5" data-stale="0" data-warn="0" data-chip="0" data-set="vals-index-composite" class="cell col-opus-5"><span class="val">74.8 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S11]</span><span class="note-tag">VC-funded evaluator, no on-site funding disclosure</span><span class="note-tag">weighted composite (Vals Index)</span></td>
+<td data-tag="I" data-cell-id="vals-index.gpt-5-6-sol" data-stale="0" data-warn="0" data-chip="0" data-set="vals-index-composite" class="cell col-gpt-5-6-sol"><span class="val">73.1 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S11]</span><span class="note-tag">VC-funded evaluator, no on-site funding disclosure</span><span class="note-tag">weighted composite (Vals Index)</span></td>
+<td data-tag="I" data-cell-id="vals-index.kimi-k3" data-stale="0" data-warn="0" data-chip="0" data-set="vals-index-composite" class="cell col-kimi-k3"><span class="val">74.7 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S11]</span><span class="note-tag">VC-funded evaluator, no on-site funding disclosure</span><span class="note-tag">weighted composite (Vals Index)</span></td>
+<td data-tag="I" data-cell-id="vals-index.ds-v4-pro" data-stale="0" data-warn="0" data-chip="0" data-set="vals-index-composite" class="cell col-ds-v4-pro"><span class="val">55.6 index</span><span class="tag tag-I" title="independent">I</span><span class="src">[S11]</span><span class="note-tag">VC-funded evaluator, no on-site funding disclosure</span><span class="note-tag">weighted composite (Vals Index)</span></td>
+</tr>
+<tr class="fnrow" data-fn-metric="vals-index" data-fn-model="fable-5" hidden><td colspan="4" class="fieldnote">▲ field #1: Claude Fable 5 75.1 index <span class="tag tag-I">I</span> (not in view)</td></tr>
 </tbody>
 </table>
 <section class="grp"><h2 style="font-size:.95rem">New-model watch</h2><ul>
@@ -625,6 +669,79 @@ font-size:.68rem;background:#fff}
 <dd><strong>DeepSeek V4 Pro</strong>: 885.4 index pts per task-USD [S1] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
 <dt>Freshness SLA</dt><dd>72h · primary source S1 (full provenance ledger ships in the repo)</dd>
 </dl></aside>
+<aside class="brief" id="brief-metric-epoch-eci" role="dialog" aria-label="Epoch Capabilities Index details" hidden>
+<button class="close" aria-label="close">✕ esc</button>
+<h3>Epoch Capabilities Index</h3><dl>
+<dt>What it measures</dt><dd>A second aggregate read of the frontier order, published by Epoch AI&#x27;s Benchmarking Hub. It partially re-ingests boards this page already shows (GDPval, METR, Vals, ARC), so agreement with the AA index is weak corroboration — disagreement is the strong signal. At the 2026-08-01 source check its top order disagreed with AA&#x27;s (Sol above Fable 5), which is exactly what the row exists to surface.</dd>
+<dt>Harness &amp; version</dt><dd>Epoch publishes the index as a score file (eci_scores.csv) with a per-benchmark provenance file (eci_benchmarks.csv), both CC-BY (source S10). This page displays the index as published rather than recomputing it.</dd>
+<dt>Cadence &amp; freshness</dt><dd>The hub updates multiple times per month; this page treats the figure as stale after 14 days. Tracking on this page begins soon.</dd>
+<dt>Independence</dt><dd>Independent nonprofit with disclosed lab entanglement: OpenAI funded FrontierMath — an ECI component — with dataset access and a January-2025 disclosure controversy, and the hub is supported by the UK AI Security Institute (source S10).</dd>
+<dt>Known integrity issues</dt>
+<dd><span class="warn-tag">⚠ Mixed-provenance composite: at the 2026-08-01 ledger check roughly 670 of the hub&#x27;s data rows were Epoch-run evaluations, about 270 were sourced to vendor technical reports, and 322 carried an empty source column (counts drift). Every cell will carry the mixed-provenance caveat flag (source S10).</span></dd>
+<dd><span class="warn-tag">⚠ Double-count hazard: ECI ingests results this page also shows directly (including METR, source S5), so &#x27;two aggregators agree&#x27; can be the same underlying data counted twice.</span></dd>
+<dt>Comparability</dt><dd>Comparable within the epoch-eci set only. It is a partially overlapping second read of the frontier order, not a fully independent one — the overlap is declared here rather than hidden.</dd>
+<dt>Current values</dt>
+<dd><strong>Claude Fable 5</strong>: 161.55 index [S10] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>Claude Opus 5</strong>: 161.05 index [S10] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>GPT-5.6 Sol</strong>: 161.69 index [S10] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>Kimi K3</strong>: 157.39 index [S10] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>DeepSeek V4 Pro</strong>: 148.9 index [S10] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dt>Freshness SLA</dt><dd>336h · primary source S10 (full provenance ledger ships in the repo)</dd>
+</dl></aside>
+<aside class="brief" id="brief-metric-livebench" role="dialog" aria-label="LiveBench global average details" hidden>
+<button class="close" aria-label="close">✕ esc</button>
+<h3>LiveBench global average</h3><dl>
+<dt>What it measures</dt><dd>A contamination check on launch numbers: LiveBench rotates its questions monthly and scores against ground truth, so a big launch score that collapses here suggests memorization rather than capability. The tracked value is the global average.</dd>
+<dt>Harness &amp; version</dt><dd>LiveBench publishes per-release CSV tables; the release current at the 2026-08-01 check was dated 2026-06-25 and covered all five tracked models. Scoring is ground truth — no LLM judge, no votes (source S12).</dd>
+<dt>Cadence &amp; freshness</dt><dd>Monthly question rotation; this page treats the figure as stale after 45 days. Tracking on this page begins soon.</dd>
+<dt>Independence</dt><dd>Independent academic-led effort (NYU/Abacus/Nvidia-affiliated researchers) with open methodology (source S12).</dd>
+<dt>Comparability</dt><dd>Each monthly release is its own comparability set (release-stamped): scores are never compared across question rotations, and a rotation is treated as a methodology change, not movement.</dd>
+<dt>Current values</dt>
+<dd><strong>Claude Fable 5</strong>: 83.4 index [S12] · as of 2026-06-25 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>Claude Opus 5</strong>: 80.5 index [S12] · as of 2026-06-25 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>GPT-5.6 Sol</strong>: 81.6 index [S12] · as of 2026-06-25 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>Kimi K3</strong>: 79.5 index [S12] · as of 2026-06-25 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>DeepSeek V4 Pro</strong>: 72.6 index [S12] · as of 2026-06-25 <em>sparkline appears once history accrues</em></dd>
+<dt>Freshness SLA</dt><dd>1080h · primary source S12 (full provenance ledger ships in the repo)</dd>
+</dl></aside>
+<aside class="brief" id="brief-metric-swe-rebench" role="dialog" aria-label="SWE-rebench (fresh issues) details" hidden>
+<button class="close" aria-label="close">✕ esc</button>
+<h3>SWE-rebench (fresh issues)</h3><dl>
+<dt>What it measures</dt><dd>Resolved rate on freshly collected GitHub issues, tracked window-over-window against itself. It answers whether coding performance holds up on problems that did not exist when models trained — the page&#x27;s freshest independent coding read. Despite the similar name, the page treats it as a third, fully separated coding scale.</dd>
+<dt>Harness &amp; version</dt><dd>The board is run by the Nebius team, publishing per-window resolved rates with a methodology paper (arXiv:2505.20411); collection reads the site&#x27;s embedded data payload (source S20).</dd>
+<dt>Cadence &amp; freshness</dt><dd>Issue windows rotate on the board&#x27;s own cadence; this page treats the figure as stale after 45 days. Tracking on this page begins soon — until then the quick-look coding slot shows GDPval, visibly labeled as a stand-in.</dd>
+<dt>Independence</dt><dd>Independent: Nebius is a GPU cloud company, not a frontier lab (source S20).</dd>
+<dt>Known integrity issues</dt>
+<dd><span class="warn-tag">⚠ Decontamination is window-relative, not absolute: only models released before an issue window opens are contamination-clean for that window. The window current at the 2026-08-01 check (2026-05-15 to 2026-07-01) flagged Fable 5, Sol, and Opus 5 as &#x27;Potential contamination&#x27;; DeepSeek V4 Pro was the only clean covered model.</span></dd>
+<dd><span class="warn-tag">⚠ The contamination flag is derived mechanically (release date after window start), and every affected cell must carry it.</span></dd>
+<dt>Comparability</dt><dd>Scores are comparable only within one issue window — the set is window-stamped, a rotation is treated as a methodology change rather than movement, and cross-window delta chips are suppressed. The page also bans this scale from ever being compared numerically against either of the two similarly named vendor coding scales.</dd>
+<dt>Current values</dt>
+<dd><strong>Claude Fable 5</strong>: 64.5 % [S20] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>Claude Opus 5</strong>: 63.4 % [S20] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>GPT-5.6 Sol</strong>: 62.3 % [S20] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>Kimi K3</strong>: — not evaluated <em>sparkline appears once history accrues</em></dd>
+<dd><strong>DeepSeek V4 Pro</strong>: 40.2 % [S20] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dt>Freshness SLA</dt><dd>1080h · primary source S20 (full provenance ledger ships in the repo)</dd>
+</dl></aside>
+<aside class="brief" id="brief-metric-vals-index" role="dialog" aria-label="Vals professional index details" hidden>
+<button class="close" aria-label="close">✕ esc</button>
+<h3>Vals professional index</h3><dl>
+<dt>What it measures</dt><dd>A weighted composite of Vals AI&#x27;s professional-domain benchmarks: does frontier capability convert into completed professional work? Its companion signal is the gap between strict all-pass scoring and weighted scoring, which serves as a live reliability-under-repetition badge.</dd>
+<dt>Harness &amp; version</dt><dd>The Vals Index weighted composite (v1.2 at the 2026-08-01 source check), extracted from Vals&#x27; server-rendered benchmark pages — there is no API or CSV, so this is a scrape with loud-failure parsing (source S11).</dd>
+<dt>Cadence &amp; freshness</dt><dd>Boards update roughly weekly to biweekly; this page treats the figure as stale after 21 days. Tracking on this page begins soon.</dd>
+<dt>Independence</dt><dd>Independent evaluation company, not lab-owned; roughly $5M of venture funding (Bloomberg Beta, Pear VC, 8VC, J12, a Sequoia scout — no frontier-lab investors) with no on-site funding disclosure. A pay-for-placement search found no evidence of placement payment; residual caveat: Bloomberg Beta money sits adjacent to Vals&#x27; Finance Agent benchmark (source S11).</dd>
+<dt>Known integrity issues</dt>
+<dd><span class="warn-tag">⚠ VC-funded evaluator with no on-site funding disclosure — the flag travels on every cell (source S11).</span></dd>
+<dd><span class="warn-tag">⚠ The strict-vs-weighted scoring gap is material: Finance Agent v2 gaps ran about 10.6 to 12.7 points across the five tracked models at the 2026-08-01 check, which is why the gap renders as a visible badge rather than staying buried.</span></dd>
+<dt>Comparability</dt><dd>Comparable within the vals-index-composite set only; the tracked value is the weighted composite, not any single domain board.</dd>
+<dt>Current values</dt>
+<dd><strong>Claude Fable 5</strong>: 75.1 index [S11] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>Claude Opus 5</strong>: 74.8 index [S11] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>GPT-5.6 Sol</strong>: 73.1 index [S11] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>Kimi K3</strong>: 74.7 index [S11] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dd><strong>DeepSeek V4 Pro</strong>: 55.6 index [S11] · as of 2026-08-01 <em>sparkline appears once history accrues</em></dd>
+<dt>Freshness SLA</dt><dd>504h · primary source S11 (full provenance ledger ships in the repo)</dd>
+</dl></aside>
 <aside class="brief" id="brief-model-fable-5" role="dialog" aria-label="Claude Fable 5 details" hidden>
 <button class="close" aria-label="close">✕ esc</button>
 <h3>Claude Fable 5</h3><dl>
@@ -635,7 +752,7 @@ font-size:.68rem;background:#fff}
 <dt>Recent price moves</dt><dd>None recorded in the current tape window.</dd>
 <dt>Deployment &amp; data terms</dt><dd>Not yet curated — the cell renders an honest &#x27;not published&#x27; until a grounded fact lands.</dd>
 <dt>Eval coverage</dt>
-<dd>15 of 17 tracked metrics populated.</dd>
+<dd>19 of 21 tracked metrics populated.</dd>
 <dd>ARC-AGI-3 is empty with reason &#x27;not published&#x27;: Fable 5 has no verified score at any effort tier, and ARC Prize&#x27;s approximate public-demo figure is recorded on the cell as non-comparable. The METR horizon cell is populated but is a proxy measurement of &#x27;Claude Mythos Preview (early)&#x27;, value-disclaimed and excluded from chips. When fresh-issue coding tracking begins, its cell will carry that board&#x27;s &#x27;Potential contamination&#x27; flag for the current window, because the release date falls after the window opened (source S20). Deployment terms read &#x27;not published&#x27; pending curation (true of all five models).</dd>
 <dd><em>ARC-AGI-3: not published</em></dd>
 <dd><em>Deployment and data terms: not published</em></dd>
@@ -650,7 +767,7 @@ font-size:.68rem;background:#fff}
 <dt>Recent price moves</dt><dd>None recorded in the current tape window.</dd>
 <dt>Deployment &amp; data terms</dt><dd>Not yet curated — the cell renders &#x27;not published&#x27; until a grounded fact lands.</dd>
 <dt>Eval coverage</dt>
-<dd>13 of 17 tracked metrics populated.</dd>
+<dd>17 of 21 tracked metrics populated.</dd>
 <dd>Terminal-Bench 2.1: &#x27;not published&#x27; — not on the displayed board (the nearest listed relative is predecessor Opus 4.8, a different model). METR horizon: &#x27;not evaluated&#x27;. SWE-bench Verified: &#x27;not published&#x27;. Its cell in the vendor coding-claims row is populated but provisional: a launch claim not yet ingested by the llm-stats aggregate or any board (flag on the cell, sources S13 and S14).</dd>
 <dd><em>Terminal-Bench 2.1: not published</em></dd>
 <dd><em>METR 50% time horizon: not evaluated</em></dd>
@@ -667,7 +784,7 @@ font-size:.68rem;background:#fff}
 <dt>Recent price moves</dt><dd>OpenAI cut Luna&#x27;s list price to $0.20/$1.20 per million tokens on 2026-07-30 (tape entry, source S15).</dd>
 <dt>Deployment &amp; data terms</dt><dd>Not yet curated — the cell renders &#x27;not published&#x27; until a grounded fact lands.</dd>
 <dt>Eval coverage</dt>
-<dd>14 of 17 tracked metrics populated.</dd>
+<dd>18 of 21 tracked metrics populated.</dd>
 <dd>Terminal-Bench 2.1: &#x27;not published&#x27; — a score exists only as a merged file in the submissions repository and is absent from the displayed official board, which is canonical (flag on the cell, source S8). SWE-bench Verified: &#x27;withheld&#x27; — not published after METR&#x27;s record-gaming flag; the withholding is one of the open items counted on Sol&#x27;s disclosure-watch cell. Its ARC-AGI-3 and METR cells are populated but heavily flagged: the vendor&#x27;s modified-harness claim is excluded from the verified ARC cell, and the METR figure is blog-only, NDA&#x27;d, and disclaimed by METR itself.</dd>
 <dd><em>Terminal-Bench 2.1: not published</em></dd>
 <dd><em>SWE-bench Verified (self-reported): withheld</em></dd>
@@ -683,7 +800,7 @@ font-size:.68rem;background:#fff}
 <dt>Recent price moves</dt><dd>None recorded in the current tape window.</dd>
 <dt>Deployment &amp; data terms</dt><dd>Not yet curated — the cell renders &#x27;not published&#x27; until a grounded fact lands.</dd>
 <dt>Eval coverage</dt>
-<dd>10 of 17 tracked metrics populated.</dd>
+<dd>13 of 21 tracked metrics populated.</dd>
 <dd>The widest gap set of the five. Terminal-Bench 2.1: &#x27;not published&#x27;. Vendor coding-claims aggregate: &#x27;not published&#x27; — no row for it on the aggregate (source S13). Self-reported verified-set coding row: &#x27;not published&#x27;. ARC-AGI-3: &#x27;not evaluated&#x27; — scored on the earlier ARC-AGI-1/2 boards only (flag on the cell). METR horizon: &#x27;not evaluated&#x27;. OpenRouter provider share: &#x27;not published&#x27; — Moonshot has sat below the top-9 authors since May, bucketed into &#x27;others&#x27;; the cell notes that per-model spend is visible via the task-spend view instead (source S3). It is also absent from the fresh-issue coding board (source S20).</dd>
 <dd><em>Terminal-Bench 2.1: not published</em></dd>
 <dd><em>SWE-bench Pro (vendor claims, llm-stats aggregate): not published</em></dd>
@@ -692,6 +809,7 @@ font-size:.68rem;background:#fff}
 <dd><em>OpenRouter provider token share: not published</em></dd>
 <dd><em>SWE-bench Verified (self-reported): not published</em></dd>
 <dd><em>Deployment and data terms: not published</em></dd>
+<dd><em>SWE-rebench (fresh issues): not evaluated</em></dd>
 </dl></aside>
 <aside class="brief" id="brief-model-ds-v4-pro" role="dialog" aria-label="DeepSeek V4 Pro details" hidden>
 <button class="close" aria-label="close">✕ esc</button>
@@ -703,7 +821,7 @@ font-size:.68rem;background:#fff}
 <dt>Recent price moves</dt><dd>None recorded in the current tape window.</dd>
 <dt>Deployment &amp; data terms</dt><dd>Not yet curated — the cell renders &#x27;not published&#x27; until a grounded fact lands.</dd>
 <dt>Eval coverage</dt>
-<dd>13 of 17 tracked metrics populated.</dd>
+<dd>17 of 21 tracked metrics populated.</dd>
 <dd>Terminal-Bench 2.1: &#x27;not published&#x27; — the nearest DeepSeek datapoint is a V3.2-era score on the older 2.0 set, a different comparability set (source S8). ARC-AGI-3: &#x27;not evaluated&#x27; — absent from the verified board entirely. METR horizon: &#x27;not evaluated&#x27; — METR&#x27;s DeepSeek coverage is V3-era only (source S5).</dd>
 <dd><em>Terminal-Bench 2.1: not published</em></dd>
 <dd><em>ARC-AGI-3: not evaluated</em></dd>
@@ -716,7 +834,7 @@ font-size:.68rem;background:#fff}
 <p>Attribution: Artificial Analysis · Arena/LMArena leaderboard data (CC-BY-4.0) · Epoch AI (CC-BY) · ARC Prize · METR · Terminal-Bench (Apache-2.0 data) · llm-stats · OpenRouter · Scale · SWE-rebench (Nebius) · Vals AI · LiveBench.</p>
 </footer>
 </div>
-<script id="state" type="application/json">{"fncap": 4, "models": ["fable-5", "opus-5", "gpt-5-6-sol", "kimi-k3", "ds-v4-pro"], "moved": ["ds-v4-pro", "fable-5", "gpt-5-6-sol", "kimi-k3", "opus-5"], "names": {"ds-v4-pro": "DeepSeek V4 Pro", "fable-5": "Claude Fable 5", "gpt-5-6-sol": "GPT-5.6 Sol", "kimi-k3": "Kimi K3", "opus-5": "Claude Opus 5"}, "ql": {"aa-index": {"ds-v4-pro": "44.27 index", "fable-5": "59.86 index", "gpt-5-6-sol": "58.89 index", "kimi-k3": "57.11 index", "opus-5": "60.69 index"}, "arena-elo": {"ds-v4-pro": "1457.1 Elo", "fable-5": "1507.6 Elo", "gpt-5-6-sol": "1484.9 Elo", "kimi-k3": "1485.8 Elo", "opus-5": "1494.6 Elo"}, "disclosure-watch": {"ds-v4-pro": "none noted", "fable-5": "none noted", "gpt-5-6-sol": "3 open items", "kimi-k3": "none noted", "opus-5": "none noted"}, "gdpval-aa": {"ds-v4-pro": "1304.49 Elo", "fable-5": "1746.06 Elo", "gpt-5-6-sol": "1732.5 Elo", "kimi-k3": "1687.43 Elo", "opus-5": "1857.8 Elo"}, "intelligence-per-dollar": {"ds-v4-pro": "885.4 index pts per task-USD", "fable-5": "19.0 index pts per task-USD", "gpt-5-6-sol": "31.7 index pts per task-USD", "kimi-k3": "66.4 index pts per task-USD", "opus-5": "25.9 index pts per task-USD"}}, "trio": ["opus-5", "gpt-5-6-sol", "kimi-k3"]}</script>
+<script id="state" type="application/json">{"fncap": 4, "models": ["fable-5", "opus-5", "gpt-5-6-sol", "kimi-k3", "ds-v4-pro"], "moved": ["ds-v4-pro", "fable-5", "gpt-5-6-sol", "kimi-k3", "opus-5"], "names": {"ds-v4-pro": "DeepSeek V4 Pro", "fable-5": "Claude Fable 5", "gpt-5-6-sol": "GPT-5.6 Sol", "kimi-k3": "Kimi K3", "opus-5": "Claude Opus 5"}, "ql": {"aa-index": {"ds-v4-pro": "44.27 index", "fable-5": "59.86 index", "gpt-5-6-sol": "58.89 index", "kimi-k3": "57.11 index", "opus-5": "60.69 index"}, "arena-elo": {"ds-v4-pro": "1457.1 Elo", "fable-5": "1507.6 Elo", "gpt-5-6-sol": "1484.9 Elo", "kimi-k3": "1485.8 Elo", "opus-5": "1494.6 Elo"}, "disclosure-watch": {"ds-v4-pro": "none noted", "fable-5": "none noted", "gpt-5-6-sol": "3 open items", "kimi-k3": "none noted", "opus-5": "none noted"}, "intelligence-per-dollar": {"ds-v4-pro": "885.4 index pts per task-USD", "fable-5": "19.0 index pts per task-USD", "gpt-5-6-sol": "31.7 index pts per task-USD", "kimi-k3": "66.4 index pts per task-USD", "opus-5": "25.9 index pts per task-USD"}, "swe-rebench": {"ds-v4-pro": "40.2 %", "fable-5": "64.5 %", "gpt-5-6-sol": "62.3 %", "kimi-k3": "\u2014", "opus-5": "63.4 %"}}, "trio": ["opus-5", "gpt-5-6-sol", "kimi-k3"]}</script>
 <script>
 (function(){
 "use strict";

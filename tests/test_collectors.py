@@ -175,3 +175,46 @@ def test_tbench_best_displayed_row_per_model():
 def test_tbench_shape_change_fails_loud():
     with pytest.raises(ParseFailure):
         TbenchCollector(now=NOW).parse(b"<html>redesign</html>")
+
+
+# --- Phase 2 additions (Epoch, LiveBench, SWE-rebench, Vals) -------------------
+
+def test_new_collectors_match_gate_verified_values():
+    from collectors.newrows import (
+        EpochCollector, LiveBenchCollector, SweRebenchCollector, ValsCollector,
+    )
+
+    d = by_key(EpochCollector(now=NOW).parse(load("epoch_eci_scores.csv")))
+    assert d[("epoch-eci", "gpt-5-6-sol")].value == 161.69  # Sol > Fable: the
+    assert d[("epoch-eci", "fable-5")].value == 161.55      # cross-aggregator dissent
+    assert all("mixed-provenance composite" in " ".join(c.flags) for c in d.values())
+
+    d = by_key(LiveBenchCollector(now=NOW).parse(load("livebench_2026_06_25.csv")))
+    assert d[("livebench", "fable-5")].value == 83.4
+    assert len(d) == 5
+
+    d = by_key(SweRebenchCollector(now=NOW).parse(load("swe_rebench.html.gz")))
+    assert d[("swe-rebench", "fable-5")].value == 64.5
+    assert d[("swe-rebench", "ds-v4-pro")].value == 40.2
+    assert ("swe-rebench", "kimi-k3") not in d  # absent from board -> honest empty
+    for key in (("swe-rebench", "fable-5"), ("swe-rebench", "opus-5"), ("swe-rebench", "gpt-5-6-sol")):
+        assert any("potential contamination" in f for f in d[key].flags), key
+    assert not any("potential contamination" in f for f in d[("swe-rebench", "ds-v4-pro")].flags)
+    assert all(c.comparability_set == "swe-rebench-window-2026-05-15" for c in d.values())
+
+    d = by_key(ValsCollector(now=NOW).parse(load("vals_index.html.gz")))
+    assert d[("vals-index", "fable-5")].value == 75.1
+    assert d[("vals-index", "ds-v4-pro")].value == 55.6  # gate-corrected 5/5
+    assert all("VC-funded evaluator" in " ".join(c.flags) for c in d.values())
+
+
+def test_new_collectors_fail_loud_on_garbage():
+    import pytest as _pytest
+
+    from collectors.newrows import (
+        EpochCollector, LiveBenchCollector, SweRebenchCollector, ValsCollector,
+    )
+
+    for cls in (EpochCollector, LiveBenchCollector, SweRebenchCollector, ValsCollector):
+        with _pytest.raises(ParseFailure):
+            cls(now=NOW).parse(b"<html>redesign</html>")

@@ -215,3 +215,31 @@ def balanced_json_array(text: str, start_key: str):
                 except json.JSONDecodeError as e:
                     raise ParseFailure(f"balanced array at {start_key!r} not valid JSON: {e}") from e
     raise ParseFailure(f"unbalanced array after {start_key!r}")
+
+
+FLIGHT_CHUNK_RE = None  # compiled lazily (import-time regex cost)
+
+
+def flight_text(html: str) -> str:
+    """Concatenate ALL Next.js flight chunks (self.__next_f.push([1,"..."]))
+    into one decoded payload string. Needed when an embedded array spans chunk
+    boundaries (large SSR pages split payloads). Raises ParseFailure when no
+    chunks exist — the page shape changed."""
+    global FLIGHT_CHUNK_RE
+    import re as _re
+
+    if FLIGHT_CHUNK_RE is None:
+        FLIGHT_CHUNK_RE = _re.compile(
+            r'self\.__next_f\.push\(\[1,\s*"((?:[^"\\]|\\.)*)"\]\)', _re.S
+        )
+    parts = FLIGHT_CHUNK_RE.findall(html)
+    if not parts:
+        raise ParseFailure("no flight chunks found — page shape changed")
+    decoded = []
+    for s in parts:
+        try:
+            decoded.append(json.loads('"' + s + '"'))
+        except json.JSONDecodeError:
+            # fall back to the cheap unescape for odd chunks
+            decoded.append(s.replace("\\\\", "\x00").replace('\\"', '"').replace("\x00", "\\"))
+    return "".join(decoded)

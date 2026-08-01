@@ -72,6 +72,12 @@ def all_collectors(now):
     from collectors.llmstats import LlmStatsCollector
     from collectors.metr import MetrCollector
     from collectors.openrouter import OpenRouterCollector
+    from collectors.newrows import (
+        EpochCollector,
+        LiveBenchCollector,
+        SweRebenchCollector,
+        ValsCollector,
+    )
     from collectors.tbench import TbenchCollector
 
     return [
@@ -82,6 +88,10 @@ def all_collectors(now):
         MetrCollector(now=now),
         LlmStatsCollector(now=now),
         TbenchCollector(now=now),
+        EpochCollector(now=now),
+        LiveBenchCollector(now=now),
+        SweRebenchCollector(now=now),
+        ValsCollector(now=now),
     ]
 
 
