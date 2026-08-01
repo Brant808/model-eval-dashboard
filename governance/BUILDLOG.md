@@ -306,3 +306,28 @@ RISK-014 (innovator riders). ADR-006/007/008. Dispositions:
 governance/redteam/phase-{4,5,6,7}.md. 119 tests green, linter green.
 Phases 4, 5, 6 CLOSED. Phase 7 CLOSED (live-run verification re-confirmed at
 Phase 9's e2e).
+
+### Phase 8 — Easy access (2026-08-01)
+
+Publishing decision ADR-008: Pages deploy-from-branch /docs on the default
+branch (innovator swept 5 alternatives with web-grounded platform facts;
+8-B pre-registered as the paired reversal with 7-B). docs/.nojekyll added
+(defect D-2). HANDOFF carries the keyboard-only Pages toggle, the URL
+(https://brant808.github.io/model-eval-dashboard/), the first-dispatch
+verification step, and the iPhone home-screen step (recorded honestly as the
+one touch-gesture action).
+
+30-day unattended analysis (what rots, what catches it): schedule drops →
+second cron retries same morning (RISK-014f); scheduled-workflow auto-
+disable at 60 days → daily data commit is the heartbeat, ≥7 quiet runs
+triggers an explicit one (RISK-014g); source dies → per-source degradation,
+last-good + flags, then SLA staleness badges, health footer names it;
+source freezes while serving 200s → RISK-012 trigger (3× SLA unchanged);
+release-dated boards age out → their SLA fires on the release date
+semantics (LiveBench 45d); implications rot under moving cells → mechanical
+under-review flips; page weight/growth → decades of headroom measured,
+guard at 1.0 MB (RISK-014d); Pages outage at read time → last-good serves
+from CDN cache or the reader waits an hour (mirror trigger RISK-014h);
+tape goes quiet ≥72h with healthy sources → visible as an empty tape, which
+is itself information. Phase 8 CLOSED (deploy toggle is a human action —
+HANDOFF).

@@ -40,6 +40,7 @@ from collectors.model_map import MODELS  # noqa: E402
 from tools.check_invariants import (  # noqa: E402
     integrity_flags,
     load_json_strict,
+    load_sources_ledger,
     parse_iso,
 )
 from tools.make_changelog import diff_entries  # noqa: E402
@@ -138,6 +139,35 @@ def empty_cell(metric_id, model_id, meta, reason, flags=None) -> dict:
     }
 
 
+def harden_carried_cell(cell, metric_id, model_id, meta, ledger):
+    """Carried/override cells must satisfy TODAY's constitution even when
+    recorded under an older one (live e2e finding, Phase 9): a set rename
+    since recording makes the value non-comparable (honest empty, never a
+    silent re-label); ledger caveat flags added since recording are appended
+    (the ledger is the authority); a claims-family V cell that predates the
+    claim-marker rule gets the mechanical self-report marker."""
+    if cell.get("value") is None:
+        return cell
+    if cell.get("comparability_set") != meta["comparability_set"]:
+        return empty_cell(
+            metric_id, model_id, meta, meta["empty_default"],
+            [f"prior value not comparable: comparability set changed "
+             f"(was {cell.get('comparability_set')!r})"],
+        )
+    entry = ledger.get(cell.get("source_id")) or {}
+    for flag, scope in entry.get("caveat_flags", []):
+        if scope and not metric_id.startswith(scope):
+            continue
+        if flag not in cell.get("flags", []):
+            cell["flags"] = list(cell.get("flags", [])) + [flag]
+    cset = cell.get("comparability_set") or ""
+    if (cell.get("tag") == "V" and ("self-report" in cset or "vendor" in cset)
+            and not integrity_flags(cell)):
+        cell["flags"] = list(cell.get("flags", [])) + [
+            "self-report: vendor-claimed value (marker applied on carry)"]
+    return cell
+
+
 def recompute_stale(cell, meta, now):
     if cell.get("value") is None or not cell.get("retrieved_at"):
         return
@@ -192,6 +222,7 @@ def mechanical_tape(prev, cells, date_str, metrics):
 def collect(date_str: str, now: datetime) -> Path:
     prev_path = newest_dated_snapshot(before=date_str)
     prev = load_json_strict(prev_path)
+    ledger = load_sources_ledger(REPO / "governance" / "SOURCES.md")
     fail_sources = set(filter(None, os.environ.get("FAIL_SOURCES", "").split(",")))
     offline = os.environ.get("OFFLINE") == "1"
 
@@ -234,11 +265,13 @@ def collect(date_str: str, now: datetime) -> Path:
 
         row = {}
         for model_id in models:
+            fresh = False
             ov = overrides.get("cells", {}).get(metric_id, {}).get(model_id)
             if ov is not None:
                 cell = json.loads(json.dumps(ov))  # deep copy
             elif (metric_id, model_id) in observed:
                 cell = cell_from_value(observed[(metric_id, model_id)], meta)
+                fresh = True
             else:
                 prev_cell = prev.get("cells", {}).get(metric_id, {}).get(model_id)
                 if prev_cell and prev_cell.get("value") is not None:
@@ -265,6 +298,11 @@ def collect(date_str: str, now: datetime) -> Path:
                     if prev_cell and prev_cell.get("value") is None:
                         reason = prev_cell.get("empty_reason", reason)
                     cell = empty_cell(metric_id, model_id, meta, reason, [])
+            if not fresh:
+                # fresh collector cells must be right at the source (a set
+                # mismatch there is a code bug that SHOULD fail the gate);
+                # carried/override cells get constitution-migration hygiene
+                cell = harden_carried_cell(cell, metric_id, model_id, meta, ledger)
             recompute_stale(cell, meta, now)
             row[model_id] = cell
         cells[metric_id] = row
@@ -276,7 +314,16 @@ def collect(date_str: str, now: datetime) -> Path:
     # the constitutional gate rather than publish a stale read as current.
     implications = json.loads(json.dumps(prev.get("implications", [])))
     for imp in implications:
-        pinned = imp.get("cite_values") or {}
+        pinned = imp.get("cite_values")
+        if not isinstance(pinned, dict):
+            # Carried from a pre-pin snapshot (the seed): baseline at first
+            # collection — rot detection starts here, matching the linter's
+            # CAVEAT_ENFORCE_FROM grandfathering.
+            imp["cite_values"] = {
+                c: cells.get(c.partition(".")[0], {}).get(c.partition(".")[2], {}).get("value")
+                for c in imp.get("cites", [])
+            }
+            continue
         moved = sorted(
             c for c, pv in pinned.items()
             if cells.get(c.partition(".")[0], {}).get(c.partition(".")[2], {}).get("value") != pv
@@ -306,6 +353,30 @@ def collect(date_str: str, now: datetime) -> Path:
         },
         "default_trio": pick_default_trio(cells, models),
     }
+
+    # Brief promotion: a pre-registered row that just went live leaves the
+    # allowlist and its cadence stops claiming the future (otherwise the
+    # briefs<->snapshot sync tests red the first run that activates a
+    # pre-authored row — live-e2e finding, Phase 9).
+    briefs_path = DATA / "briefs.json"
+    if briefs_path.exists():
+        briefs = load_json_strict(briefs_path)
+        pre = briefs.get("_preregistered", [])
+        promoted = [mid for mid in pre
+                    if any(c.get("value") is not None for c in cells.get(mid, {}).values())]
+        if promoted:
+            briefs["_preregistered"] = [m for m in pre if m not in promoted]
+            for mid in promoted:
+                b = briefs.get("metrics", {}).get(mid, {})
+                for k, text in list(b.items()):
+                    if isinstance(text, str) and "begins soon" in text:
+                        b[k] = text.replace(
+                            "Tracking on this page begins soon",
+                            f"Tracking on this page began {date_str} "
+                            "(row activated by the daily pipeline)")
+            briefs_path.write_text(json.dumps(briefs, indent=1, ensure_ascii=False) + "\n",
+                                   encoding="utf-8")
+            print(f"fetch: promoted pre-registered briefs: {', '.join(promoted)}")
 
     snap["tape"] = mechanical_tape(prev, cells, date_str, metrics_meta)
     # The tape header promises ~72h of movement, but a fresh diff only covers
