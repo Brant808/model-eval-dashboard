@@ -504,16 +504,30 @@ def render(snap, history=None, briefs=None) -> str:
     if snap.get("implications"):
         A('<div class="imps"><h2>Read — interpretation layer (X)</h2><ul>')
         for imp in snap["implications"]:
-            flags_txt = "".join(
-                f'<span class="warn-tag">⚠ {esc(f)}</span>' for f in imp.get("flags_carried", [])
+            fl = imp.get("flags_carried", [])
+            if len(fl) > 2:
+                flags_txt = (
+                    f'<details><summary class="warn-tag">⚠×{len(fl)} integrity flags '
+                    "carried (expand)</summary>"
+                    + "".join(f'<span class="warn-tag">⚠ {esc(f)}</span>' for f in fl)
+                    + "</details>"
+                )
+            else:
+                flags_txt = "".join(f'<span class="warn-tag">⚠ {esc(f)}</span>' for f in fl)
+            lens = imp.get("lens", "")
+            open_badge = (
+                '<span class="claim-band-label" style="background:#555">OPEN</span> '
+                if imp.get("status") == "OPEN"
+                else ""
             )
             A(
                 f'<li data-imp-id="{esc(imp["id"])}" data-imp-tag="{esc(imp.get("tag", ""))}" '
                 f'data-imp-conf="{esc(imp.get("confidence", ""))}" '
                 f'data-imp-falsifier="{esc(imp.get("falsifier", ""))}">'
-                f'<span class="x">[X]</span> {esc(imp["text"])} '
+                f'<span class="x">[X{(" · " + esc(lens)) if lens else ""}]</span> {open_badge}'
+                f'{esc(imp["text"])} '
                 f'<em>confidence {esc(imp.get("confidence", ""))} · since '
-                f'{esc(imp.get("date", snap["snapshot_date"]))} · '
+                f'{esc(imp.get("first_stated", imp.get("date", snap["snapshot_date"])))} · '
                 f'reverses if: {esc(imp.get("falsifier", ""))}</em> '
                 f'<span class="src">cites {esc(", ".join(imp.get("cites", [])))}</span>'
                 f"{flags_txt}</li>"
