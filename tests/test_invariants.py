@@ -362,3 +362,71 @@ def test_gate_latest_rot_guard():
         assert check_latest_rot(latest, now=old_now) == []
     finally:
         del _os.environ["CHECK_ALLOW_OLD_LATEST"]
+
+
+# ---------------------------------------------------------------------------
+# Phase 1 gate hardening: source sunset + machine-read caveat flags.
+# ---------------------------------------------------------------------------
+
+
+def _post_seed(snap):
+    snap["snapshot_date"] = "2026-08-02"
+    snap["generated_at"] = "2026-08-02T00:00:00Z"
+    # refresh retrieved_at so rule 9 noise doesn't pollute these tests
+    for row in snap["cells"].values():
+        for cell in row.values():
+            if cell.get("retrieved_at"):
+                cell["retrieved_at"] = "2026-08-02T00:00:00Z"
+    for t in snap["tape"]:
+        t["date"] = "2026-08-02"
+    return snap
+
+
+def test_gate1_sunset_source_rejected_after_cutoff(snap, ledger):
+    """BLOCKING resolution: S6 is sunset 2026-07-31 — newer snapshots citing it fail."""
+    post = _post_seed(snap)
+    out = check_snapshot(post, "post", ledger)
+    assert any("sunset" in x and "S6" in x for x in out)
+
+
+def test_gate1_seed_still_resolves_sunset_source(seed, ledger):
+    """The frozen 2026-07-31 baseline still lints clean (grandfathered)."""
+    assert check_snapshot(seed, "seed", ledger) == []
+
+
+def test_gate1_caveat_flags_required_post_baseline(snap, ledger):
+    post = _post_seed(snap)
+    # remove S6 citations so only the caveat check is under test
+    for row in post["cells"].values():
+        for cell in row.values():
+            if cell.get("source_id") == "S6":
+                cell["source_id"] = "S13"
+                cell["tag"] = "V"
+    out = check_snapshot(post, "post", ledger)
+    # gdpval cells cite S1 without the Gemini-graded caveat flag -> RULE7
+    assert any(
+        x.startswith("RULE7") and "Gemini-graded" in x and "gdpval-aa" in x for x in out
+    )
+    # aa-index cells cite S1 too but the flag is scoped to gdpval/omniscience only
+    assert not any("aa-index" in x and "Gemini-graded" in x for x in out)
+    # arena cells must carry the private-variant-testing caveat
+    assert any("private variant testing" in x for x in out)
+    # adding the flags clears those violations
+    for mid in ("gdpval-aa",):
+        for cell in post["cells"][mid].values():
+            if cell.get("source_id") == "S1":
+                cell["flags"] = list(cell["flags"]) + ["Gemini-graded (AA judge panel)"]
+    for cell in post["cells"]["arena-elo"].values():
+        if cell.get("source_id") == "S2":
+            cell["flags"] = list(cell["flags"]) + ["private variant testing active (Arena)"]
+    out2 = check_snapshot(post, "post", ledger)
+    assert not any("Gemini-graded" in x and "gdpval-aa" in x for x in out2)
+    assert not any("private variant testing" in x for x in out2)
+
+
+def test_gate1_ledger_parses_new_lines(ledger):
+    assert ledger["S6"]["sunset"] == "2026-07-31"
+    assert ("private variant testing active (Arena)", "") in ledger["S2"]["caveat_flags"]
+    assert ("Gemini-graded (AA judge panel)", "gdpval-aa") in ledger["S1"]["caveat_flags"]
+    assert ledger["S13"]["independence"] == "vendor"
+    assert ledger["S18"]["independence"] == "independent"

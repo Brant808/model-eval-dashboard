@@ -104,3 +104,43 @@ SWE-bench Pro board with target-model coverage appears (watch: Scale adds the
 five). RISK-006 trigger stands down OpenRouter collection. LiveBench flips
 INCLUDE↔HOLD on measured coverage. Arena flips to a faster channel only if
 Arena publishes a sanctioned API.
+
+## ADR-003 — Phase 1 gate resolutions: sunset + caveat-flag mechanisms, corrected 2026-08-01 snapshot (2026-08-01)
+
+**Context.** The Phase 1 gate (redteam/phase-1.md) proved the ledger's prose
+corrections had no machine teeth: the refuted S6 still fed an I-tagged, chipped
+80.3 on the built page, and every independence caveat lived in text no
+collector or linter reads.
+
+**Options considered.**
+1. *Retiring refuted sources*: (a) reclassify S6 as vendor (breaks the frozen
+   seed's lint); (b) rewrite the seed's tags (corrupts the regression
+   baseline the brief mandates verbatim); (c) a machine-read `Sunset:` line —
+   seed grandfathered, all newer snapshots banned from citing the source.
+2. *Caveat visibility*: (a) keep caveats as ledger prose + Phase 4 briefs;
+   (b) machine-read `Caveat-flags:` (metric-scopable) that the linter requires
+   verbatim on citing cells from 2026-08-01 onward.
+3. *When to correct the page*: (a) defer to the first Phase 7 live snapshot;
+   (b) build a gate-verified corrected snapshot immediately.
+
+**Choices.** 1(c), 2(b), 3(b). The seed stays byte-honest as history; the
+constitution gains two enforcement surfaces (both with negative tests); and
+`data/2026-08-01.json` — every value from the gate verifier's live re-fetches —
+became `latest.json`, so the page stopped showing a vendor number as the
+independent leader today, not at Phase 9. Rejected 1(a)/1(b) as history
+rewriting; 2(a) because rule 7 needs something to propagate mechanically;
+3(a) because a knowingly-wrong publishable artifact is exactly what the
+constitution exists to prevent.
+
+**Also ratified at this gate:** S10 Epoch downgraded A→B with mixed-provenance
+caveat; S1 AA independence restated (lab-revenue exposure + Gemini-grader flag
+enforced on GDPval/Omniscience cells); S8 TB restated (self-run, log-audited);
+RISK-007 closed with cap-table evidence; RISK-008 accepted (adoption
+single-source residual, S19 contingency); LiveBench conditional resolved to
+INCLUDE (gate-verified 5/5 coverage); delta classifications downgraded where
+evidence was thin (cost-per-task driver unresolved; OpenRouter unit-comparability
+unresolved; Arena Kimi reclassified category-board conflation).
+
+**Reversal conditions.** Sunset/caveat mechanisms are permanent constitution
+machinery; individual caveat flags retire when their factual basis changes
+(e.g., AA drops Gemini graders; TB re-executes submissions; Scale divests).

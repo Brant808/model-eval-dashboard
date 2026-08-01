@@ -157,7 +157,7 @@ final classification re-run against fetch day in Phase 9):**
 
 | Cell / claim | Seed | Live 2026-08-01 | Class |
 |---|---|---|---|
-| arena-elo.kimi-k3 | 1547 #2 | 1485.3 #12; full history never exceeded ~1487 | **seed transcription/conflation error** |
+| arena-elo.kimi-k3 | 1547 #2 | 1485.3 #12; OVERALL style-control history max 1486.82, best rank 8 (verifier). K3-max hit 1540–1542 RANK 1 on the industry_legal_and_government category board Jul 26–30 (gate) | **likely category-board conflation of a real number** (gate-rescoped; not "never existed") |
 | swe-bench-pro.fable-5 | 80.3 (I) | 80.0, self-reported; 80.3 was Mythos 5's number | **misattribution + provenance error (I→V)** |
 | swe-bench-pro.gpt-5-6-sol | 64.6 (I) | 64.6 self-reported | **provenance error (I→V)** |
 | swe-bench-pro.ds-v4-pro | not published | 55.4 on aggregate ("V4-Pro-Max") | **seed gap** |
@@ -166,17 +166,26 @@ final classification re-run against fetch day in Phase 9):**
 | metr-horizon.fable-5 | ≥16h | 17.4h [8.5–55.1], Mythos Preview (early), >16h-unreliable notice | **imprecision corrected** |
 | gdpval.opus-5 / sol | 1861 / ~1748 | 1857.8 / 1732.5 | **real movement (Elo refit)** |
 | gdpval.ds-v4-pro | not published | 1304.49 | **new data** |
-| cost-per-task (all) | 2.75/2.03/1.04/0.94 | 3.15/2.34/1.86/0.86 (+DS 0.05) | **real movement (v4.1 cache-aware costing predates seed)** |
-| openrouter anthropic | ~13% | 9.1% (wk 07-20) | **real movement (decline)** |
-| openrouter deepseek | ~16% #1 | 17.4% #2 behind xiaomi 19.1%; 20.9% #1 partial wk | **real movement + seed gap (xiaomi)** |
+| cost-per-task (all) | 2.75/2.03/1.04/0.94 | 3.15/2.34/1.86/0.86 (+DS 0.05) | **movement, driver unresolved** (gate-downgraded: both endpoints nominally v4.1; no price/endpoint/effort driver identified for +55–79% swings; cells carry the unresolved flag until a driver is named) |
+| openrouter anthropic | ~13% | 9.1% (wk 07-20) | **movement, unit-comparability unresolved** (gate-downgraded: seed unit unknown vs endpoint's unlabeled counts; the ambiguity flag propagates into any tape/implication citing these cells) |
+| openrouter deepseek | ~16% #1 | 17.4% #2 behind xiaomi 19.1%; 20.9% #1 partial wk | **movement, unit-comparability unresolved + seed gap (xiaomi)** |
 | aa-index all 5 | 61/60/59/57/44 | 60.69/59.86/58.89/57.11/44.27 | **match (display rounding)** |
 | DS V4 Flash 0731 = 50 | tape item | confirmed verbatim by AA article | **match** |
 | Opus 5 79.2 Pro claim | not on board | still not on any board | **match** |
 
-**Landscape / column proposal (input to Phases 2–3):** keep the five columns
-(Fable 5, Opus 5, GPT-5.6 Sol, Kimi K3, DS V4 Pro) — AA top-4 + the
-open-weights value frontier; no Google model within ~9 pts of the leader
-(best: Gemini 3.6 Flash 50; 3.5 Pro delayed indefinitely per Bloomberg).
+**Landscape / column proposal (input to Phases 2–3, rationale gate-corrected):**
+keep the five columns (Fable 5, Opus 5, GPT-5.6 Sol, Kimi K3, DS V4 Pro). The
+honest rationale is COVERAGE DENSITY plus camp representation, not score
+proximity: the top-4 are the AA index top-4; DS V4 Pro (AA 44) is kept over its
+higher-scoring sibling Flash 0731 (AA 50) because Pro has multi-source coverage
+today (GDPval, Arena, cost, SWE-Pro aggregate, Verified) while Flash has one
+independent source and would be a column of empty cells — the earlier "no
+Google within ~9 pts" proximity argument is withdrawn (it contradicted the
+fifth column). Explicit open items handed to Phases 2–3: (a) Gemini 3.6 Flash
+(AA 50) and Google's structural absence — absence-as-signal belongs somewhere
+visible (tape/watch), (b) DS Flash 0731 promotion path (currently 1 group-1
+source), (c) Muse Spark 1.1 (Meta): Scale-standardized #1, Arena #8, TB #8 —
+strongest catalog candidate, decide catalog vs column at Phase 3.
 Catalog/watch candidates for Phase 3: Opus 4.8 / 4.7 / 4.6 (Arena top-5,
 boards), Mythos Preview (METR/llm-stats), Sonnet 5, GPT-5.5 / Terra / Luna,
 Grok 4.5, Muse Spark 1.1 (Meta — Scale #1, Arena #8, TB #8), Gemini 3.1 Pro /
@@ -185,3 +194,15 @@ source so far), Qwen3.8-Max (preview only — watch), Gemini 3.5 Pro (unreleased
 — watch). Integrity items for the disclosure-watch row: HF agent-intrusion
 disclosure (Jul 28), NIST AITE launch (Jul 27), SWE-bench Pro verification gap
 (Jul 25), Sol ARC modified-harness claim (Jul 30), Sol METR cheating flag.
+
+**Phase 1 gate (2026-08-01):** verifier countersigned YES — all 12 collectable
+sources live-fetched and parsed via the ledger's claimed methods, 3 spot-claims
+reproduced verbatim. Red-team: 1 BLOCKING + 10 MAJOR + 5 MINOR, all resolved
+same-day (redteam/phase-1.md): two new constitution mechanisms (source Sunset,
+machine-read Caveat-flags — both linter-enforced with negative tests), honest
+independence restatements (AA lab-revenue, Epoch/OpenAI, TB self-run-audited,
+Vals cap table), delta downgrades where evidence was thin, and the corrected
+snapshot `data/2026-08-01.json` (all values gate-verified) so the page stopped
+rendering the refuted 80.3-as-independent immediately. 57 tests green;
+`make all` green over seed + corrected snapshot with full explainability
+(8 tape entries + 21 changelog entries). ADR-003. Phase 1 CLOSED.

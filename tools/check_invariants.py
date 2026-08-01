@@ -101,12 +101,25 @@ def load_json_strict(path: Path):
     return json.loads(path.read_text(encoding="utf-8"), parse_constant=_reject_nonfinite_const)
 
 
-def load_sources_ledger(path: Path):
-    """Parse SOURCES.md into {source_id: {url, method, retrieved, independence}}.
+# Cells in snapshots dated on/after this date must carry their source's
+# declared caveat flags (the seed of 2026-07-31 is a frozen historical baseline
+# and is grandfathered; everything the pipeline produces is not).
+CAVEAT_ENFORCE_FROM = "2026-08-01"
 
-    The Independence: line is machine-read: a value starting with 'vendor'
-    marks a vendor source (cells citing it must be tagged V); 'independent'
-    marks an independent source; anything else is neutral (no tag constraint).
+
+def load_sources_ledger(path: Path):
+    """Parse SOURCES.md into
+    {source_id: {url, method, retrieved, independence, sunset, caveat_flags}}.
+
+    Machine-read lines (Phase 1 gate hardening):
+    - Independence: value starting 'vendor' => cells citing it must be tagged V;
+      'independent' => I or V allowed; anything else is neutral.
+    - Sunset: YYYY-MM-DD => no snapshot dated after this may cite the source
+      (used to retire refuted sources like S6 without rewriting the seed).
+    - Caveat-flags: semicolon-separated flags, each optionally scoped with
+      '@metric-prefix'. Every populated cell citing the source (in snapshots
+      dated >= CAVEAT_ENFORCE_FROM, within scope) must carry the flag verbatim
+      in its flags[] so the page renders the caveat (rule 7 at source level).
     """
     ledger = {}
     if not path.exists():
@@ -116,10 +129,17 @@ def load_sources_ledger(path: Path):
         m = re.match(r"^###\s+(S\d+)\b", line)
         if m:
             current = m.group(1)
-            ledger[current] = {"url": None, "method": None, "retrieved": None, "independence": "neutral"}
+            ledger[current] = {
+                "url": None,
+                "method": None,
+                "retrieved": None,
+                "independence": "neutral",
+                "sunset": None,
+                "caveat_flags": [],
+            }
             continue
         if current:
-            lm = re.match(r"^-\s*(URL|Method|Retrieved-at|Independence):\s*(.+)$", line)
+            lm = re.match(r"^-\s*(URL|Method|Retrieved-at|Independence|Sunset|Caveat-flags):\s*(.+)$", line)
             if lm:
                 key = lm.group(1).lower()
                 val = lm.group(2).strip()
@@ -133,6 +153,21 @@ def load_sources_ledger(path: Path):
                         ledger[current]["independence"] = "independent"
                     else:
                         ledger[current]["independence"] = "neutral"
+                elif key == "sunset":
+                    dm = re.match(r"\d{4}-\d{2}-\d{2}", val)
+                    ledger[current]["sunset"] = dm.group(0) if dm else val
+                elif key == "caveat-flags":
+                    flags = []
+                    for part in val.split(";"):
+                        part = part.strip()
+                        if not part:
+                            continue
+                        if "@" in part:
+                            flag, _, scope = part.rpartition("@")
+                            flags.append((flag.strip(), scope.strip()))
+                        else:
+                            flags.append((part, ""))
+                    ledger[current]["caveat_flags"] = flags
                 else:
                     ledger[current][key] = val
     return ledger
@@ -256,6 +291,25 @@ def check_snapshot(snap, snap_name, ledger):
                         f"RULE10 {where}: cell cites vendor source {sid} but is tagged I "
                         "(vendor values must be V and never compete for chips)"
                     )
+                # Source sunset: a retired/refuted source may not feed any
+                # snapshot dated after its sunset date (Phase 1 gate, BLOCKING).
+                sunset = entry.get("sunset")
+                if sunset and snap_date and snap_date > sunset:
+                    v.append(
+                        f"RULE2 {where}: source {sid} was sunset on {sunset} and may not "
+                        "be cited by newer snapshots"
+                    )
+                # Source-level caveat flags must reach the cell (rule 7 at the
+                # source level) for all post-baseline snapshots.
+                if snap_date and snap_date >= CAVEAT_ENFORCE_FROM:
+                    for flag, scope in entry.get("caveat_flags", []):
+                        if scope and not metric_id.startswith(scope):
+                            continue
+                        if flag not in cell.get("flags", []):
+                            v.append(
+                                f"RULE7 {where}: cell cites {sid} but does not carry its "
+                                f"declared caveat flag {flag!r}"
+                            )
             if not cell.get("retrieved_at"):
                 v.append(f"RULE2 {where}: populated cell lacks retrieved_at")
             else:
@@ -341,6 +395,8 @@ def check_snapshot(snap, snap_name, ledger):
         sid = entry.get("source_id")
         if not sid or sid not in ledger:
             v.append(f"RULE8 {where}: tape entry source id {sid!r} unresolved")
+        elif ledger[sid].get("sunset") and snap_date and snap_date > ledger[sid]["sunset"]:
+            v.append(f"RULE8 {where}: tape cites sunset source {sid}")
         for cid in entry.get("cell_ids", []):
             if cid not in cell_ids:
                 v.append(f"RULE8 {where}: tape cites unknown cell {cid}")

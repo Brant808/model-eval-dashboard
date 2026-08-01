@@ -75,11 +75,33 @@ decisions, not omissions: each one traces to a gate objection.
 - Reversal trigger: any 4xx block, robots change, or objection from OpenRouter
   ⇒ collector stands down permanently (cells go "source down (last-good
   shown)" then empty), and we request written permission or drop the rows.
+- Amendment (Phase 1 gate): exposure is understated by the fetch-only framing —
+  the dashboard also REPUBLISHES derived rankings figures daily, which is the
+  use anti-scraping clauses most directly target. Posture: display derived
+  percentages only (never bulk data), with visible attribution; the reversal
+  trigger above covers takedown requests too. See also RISK-008 (fallback).
 
 ## RISK-007 — Vals AI funding/pay-for-placement not publicly disclosed
-- Status: OPEN (Phase 1) — verify before any Vals cell ships I-tagged
-- Context: Vals AI is scouted-in for the professional-agentic axis; no public
-  funding or placement-fee disclosure was found during Phase 1.
-- Mitigation: Phase 2 gate must either find satisfactory disclosure or ship
-  Vals cells with a visible independence caveat flag (or V-tag equivalent).
+- Status: CLOSED (Phase 1 gate, 2026-08-01) — with a standing caveat flag
+- Context: Vals AI is scouted-in for the professional-agentic axis; the Phase 1
+  pass found no public funding disclosure.
+- Resolution: the gate red-team resolved the premise — funding IS publicly
+  discoverable (~$5M: Bloomberg Beta, Pear VC, 8VC, J12, Sequoia scout; no
+  frontier-lab investors), and an active pay-for-placement search found no
+  evidence. S11 now declares machine-read caveat flags ("VC-funded evaluator,
+  no on-site funding disclosure") that every Vals cell must carry, and the
+  ledger notes the Bloomberg-Beta-adjacent-to-Finance-Agent residual.
 - Reversal trigger: credible evidence of pay-for-placement ⇒ source dropped.
+
+## RISK-008 — Adoption lens has a single collectable source (OpenRouter)
+- Status: ACCEPTED (Phase 1 gate)
+- Context: S3 is the only adoption/usage source, and RISK-006 commits its
+  collector to stand down permanently on any block or objection — a designed
+  single point of permanent failure for one of the four standing lenses.
+- Mitigation: S19 records the scouted fallback (HF download telemetry for
+  open-weights models; vendor disclosures as V-tagged last resort). Residual
+  accepted: no independent public fallback exists for closed-model adoption —
+  if S3 dies, the adoption lens degrades to open-weights-only coverage and the
+  page says so via empty-cell reasons.
+- Reversal trigger: a second independent adoption source with closed-model
+  coverage appears ⇒ collect it and close this risk.

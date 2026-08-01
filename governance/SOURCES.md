@@ -5,19 +5,25 @@ fetch method, retrieved-at, and a machine-read `Independence:` line — the
 invariant linter enforces that no cell citing a `vendor`-classified source can
 ever be tagged `I` (rule 10 hardening, Phase 0 gate).
 
-Ledger status: **Phase 1 verified (2026-08-01)** — every live entry below was
-directly probed by the Phase 1 research pass (9 agents, all six brief sources
-plus scouted candidates; transcripts under session workflow `wf_3d319f0f`).
-`Retrieved-at` on live entries = the Phase 1 verification fetch. Collector
-convention (Phase 7): `retrieved_at` on cells = the source's own declared data
-vintage where it declares one (ARC `generatedAt`, Arena `leaderboard_publish_date`,
-METR page LAST-UPDATED), else the fetch time.
+Ledger status: **Phase 1 verified (2026-08-01), gate-corrected** — entries
+S1–S13 were directly probed by the Phase 1 research pass and re-fetched by the
+gate verifier (workflows `wf_3d319f0f`, `wf_23a0fe43`); S14 was verifier-probed;
+S15–S17 are declared from AA-relayed data and probed at collector build.
+`Retrieved-at` carries date-only precision except where a source declares its
+own data vintage. Collector convention (Phase 7): `retrieved_at` on cells = the
+source's own declared data vintage where it declares one (ARC `generatedAt`,
+Arena `leaderboard_publish_date`, METR page LAST-UPDATED), else the fetch time.
+
+Machine-read lines the linter enforces: `Independence:` (first word:
+vendor ⇒ cells must be V), `Sunset: YYYY-MM-DD` (no newer snapshot may cite the
+source), `Caveat-flags: a; b@metric-prefix` (cells citing the source must carry
+these flags verbatim so the page renders the caveat — rule 7 at source level).
 
 ## Fetch-feasibility matrix
 
 | id | Source | Best method | Endpoint | Auth | ToS posture | Cadence | SLA (h) | Grade | Breakage |
 |---|---|---|---|---|---|---|---|---|---|
-| S1 | Artificial Analysis | json-api (+embedded-json fallback) | `/api/v2/language/models/free`; keyless: flight JSON in `/models` | free key (100 req/d) for API; none for embedded | robots open; attribution required on all tiers | same/next-day on releases; perf daily | 72 | A | low |
+| S1 | Artificial Analysis | json-api (+embedded-json fallback) | `/api/v2/language/models/free`; keyless: flight JSON in `/models` | free key (100 req/d) for API; none for embedded | robots open; attribution required on all tiers | same/next-day on releases; perf daily | 72 | A | low (API) / medium (embedded path — sole channel for GDPval + Omniscience) |
 | S2 | Arena (text Elo) | json-api (official HF dataset) | HF `lmarena-ai/leaderboard-dataset`, config `text_style_control`, split `latest` | none | arena.ai ToS bars scraping the SITE; HF dataset (CC-BY-4.0) is the sanctioned channel | daily ~03:00 UTC, 1–2d lag | 96 | A | low |
 | S3 | OpenRouter | json-api (undocumented frontend) | `/api/frontend/v1/rankings/market-share`, `.../task-spend` | none | robots open; ToS (upd. 2026-07-27) has anti-scraping clause — tension, see RISK-006 | market-share weekly buckets w/ intra-week updates; task-spend rolling 30d | 72 | B | medium |
 | S4 | ARC Prize (ARC-AGI-3) | json-api | `arcprize.org/media/data/leaderboard/v3.json` | none | robots open; ToS boilerplate anti-datamine; fetching the frontend's own JSON 1×/day = low risk; optional written OK via published contact | file regenerated ~daily; results ≤30d post-release per policy | 1080 (45d) | A | medium |
@@ -45,7 +51,8 @@ METR page LAST-UPDATED), else the fetch time.
 - URL: https://artificialanalysis.ai
 - Method: json-api — documented Data API v2 (`/api/v2/language/models/free`, x-api-key header, free tier 100 req/day) covers AA Index + cost-per-task + output speed + TTFT/TTFA; GDPval-AA and AA-Omniscience are Pro-gated in the API but present keyless in the `/models` page embedded flight JSON (`initialModels`), which is the Phase 7 fallback channel
 - Retrieved-at: 2026-08-01T00:00:00Z
-- Independence: independent benchmarking company (self-run evals on first-party endpoints; funding per secondary sources: AI Grant/Friedman/Gross/Ng, no lab money found; caveat: uses Gemini models as graders for GDPval-AA/Omniscience — methodological, not commercial, dependency; verify Terms-of-Use PDF posture at collector build)
+- Independence: independent evaluator with disclosed lab-revenue exposure (gate-corrected 2026-08-01): AA runs its own evals on first-party endpoints, but its business model is enterprise insight subscriptions AND private custom benchmarking sold to AI companies — i.e., ranked labs can be paying customers, separated from the public leaderboard only by AA's stated policy ("no one pays to be on the leaderboard"; "mystery shopper" accounts). Equity per secondary sources: AI Grant/Friedman/Gross/Ng. Methodological dependency: Gemini models are the graders for GDPval-AA and AA-Omniscience (LLM-judge family bias risk — escalates to a conflict if a Google model is ever scored by its own family; auto-escalation noted in RUNBOOK). Terms-of-Use PDF posture: verify at collector build.
+- Caveat-flags: Gemini-graded (AA judge panel)@gdpval-aa; Gemini-graded (AA judge panel)@aa-omniscience
 - Freshness SLA: 72h
 - Covers: AA Intelligence Index v4.1 (confirmed current version, "June 2026—current"), GDPval-AA v2 Elo, cost per task (v4.1 cache-aware methodology), throughput/TTFT, AA-Omniscience, context windows, list prices
 - Grade: A. Breakage: low (documented API) / medium (embedded-JSON path).
@@ -57,6 +64,8 @@ METR page LAST-UPDATED), else the fetch time.
 - Method: json-api — official HuggingFace dataset (CC-BY-4.0), config `text_style_control` (matches the site's default Style Control board), split `latest`; parquet or datasets-server filter API; committed daily ~03:00–03:05 UTC with 1–2 day lag vs site
 - Retrieved-at: 2026-08-01T03:00:00Z
 - Independence: independent crowdsourced pairwise preference (Bradley–Terry), not vendor-run; caveats: VC-funded company with commercial lab relationships; "Leaderboard Illusion" critique (private variant testing — demonstrably still active via anonymized codenames); style bias mitigated by Style Control (default board)
+- Caveat-flags: private variant testing active (Arena)
+- Attribution: HF dataset is CC-BY-4.0 — page must attribute Arena/LMArena, link the license, and note any transformation.
 - Freshness SLA: 96h
 - Covers: Arena text Elo. Collector MUST pin (board=text, category=overall, style_control=on) — raw vs style-control boards reorder the top (SC #1 Fable 5 1508.6; raw #1 Opus 5 Max 1511.6). Ratings shift on daily whole-board refits: store rank+rating+publish_date together. Display-name churn hazard: kimi-k3 → kimi-k3-max (Jul 26); deepseek-v4-pro-high-preview (site) = deepseek-v4-pro-thinking (HF).
 - Grade: A. Breakage: low.
@@ -75,7 +84,7 @@ METR page LAST-UPDATED), else the fetch time.
 
 ### S4 — ARC Prize (ARC-AGI-3 Verified Leaderboard)
 - URL: https://arcprize.org/leaderboard (values); collection: https://arcprize.org/media/data/leaderboard/v3.json
-- Method: json-api — the leaderboard front-end's own pre-joined JSON (`version: v3`, `generatedAt` timestamp, per-row modelId/displayName/score/cost); on 404, re-derive path from `/scripts/leaderboard/data.js`
+- Method: json-api — the leaderboard front-end's own pre-joined JSON: top-level keys `{version, generatedAt, datasets, evaluations}`; rows live under `evaluations[]` with `modelId` / `modelDisplayName` / `score` (a 0–1 FRACTION — multiply by 100 for display; 0.3016 = 30.16%) / `cost`; on 404, re-derive path from `/scripts/leaderboard/data.js` (gate-corrected field names/units)
 - Retrieved-at: 2026-07-31T22:31:25Z (file generatedAt; fetched 2026-08-01)
 - Independence: independent nonprofit; ALL official scores run by ARC Prize Foundation on the Semi-Private set with academic oversight (NYU/SFI/Columbia); vendor self-reports categorically excluded; donor labs disclosed, no privileged access. Footnote: the published $10k per-run cost cap is evidently waived for headline runs (three rows pinned at exactly $10,000 vs $20.6k Opus 5 and $25.1k Sol Max records)
 - Freshness SLA: 1080h (45d; policy publishes ≤30d after release/eval)
@@ -85,7 +94,7 @@ METR page LAST-UPDATED), else the fetch time.
 
 ### S5 — METR time horizons
 - URL: https://metr.org/time-horizons/
-- Method: csv/yaml — `metr.org/assets/benchmark_results_1_1.yaml` (per-model p50/p80 + CIs, SOTA flags, doubling time; version-suffixed filename — collectors should follow the page's `#raw-data-link` href); equivalent embedded JSON (`benchmarkDataV1_1`) in the page; analysis code + raw runs at github.com/METR/eval-analysis-public
+- Method: csv/yaml — `metr.org/assets/benchmark_results_1_1.yaml` (per-model p50/p80 + CIs, SOTA flags, doubling time; version-suffixed filename — collectors should follow the page's `#raw-data-link` href AND assert the suite version from file CONTENT, since page JS toggles the same href between the v1.0 and v1.1 files); equivalent embedded JSON (`benchmarkDataV1_1`) in the page; analysis code + raw runs at github.com/METR/eval-analysis-public
 - Retrieved-at: 2026-08-01T00:00:00Z (data vintage: page LAST UPDATED 2026-05-08)
 - Independence: independent nonprofit, self-run evals; caveats carried as flags: Sol pre-deployment eval was NDA'd with OpenAI comms/legal review of the post; Anthropic early access implies lab cooperation
 - Freshness SLA: 2160h (90d — METR's own cadence is event-driven/irregular; page warns coverage is incomplete)
@@ -93,12 +102,13 @@ METR page LAST-UPDATED), else the fetch time.
 - Grade: B (methodology/transparency best-in-class; cadence irregular, Sol datum prose-only). Breakage: low.
 - Verified values: **Fable 5 → measured as "Claude Mythos Preview (early)"**: p50 17.4h, 95% CI 8.5–55.1h, is_sota, with METR's notice "Measurements above 16 hrs are unreliable with our current task suite" (seed's "≥16h" corrected to point estimate + CI + unreliability flag). **Sol: 11.3h [5–40h] exists ONLY in the 2026-06-26 blog post** (not in any leaderboard/data file); METR's own term is "cheating" ("detected cheating rate was higher than any public model we have evaluated"; alternates: >270h counting cheats as successes, 71h discarding them; "we do not consider any of these numbers to represent a robust measurement"). Opus 5 / Kimi K3 / DS V4 Pro: not evaluated (confirmed; closest: Opus 4.6 11.98h, Kimi K2 Thinking 0.96h on v1.0, DeepSeek V3-era only).
 
-### S6 — "Morph-tracked SWE-bench Pro board" (DEMOTED at Phase 1 gate — do not collect)
+### S6 — "Morph-tracked SWE-bench Pro board" (DEMOTED and SUNSET at Phase 1 gate — do not collect)
 - URL: https://www.morphllm.com/swe-bench-pro
 - Method: none viable (every request incl. robots.txt returns HTTP 429 Vercel Security Checkpoint; latest Wayback capture 2026-07-01, content "verified June 28")
 - Retrieved-at: 2026-08-01T00:00:00Z (verification attempt)
-- Independence: presumed-independent in the seed — REFUTED 2026-08-01. Morph is a code-tooling vendor; the page is editorial/SEO aggregation republishing (a) Scale's SEAL standardized board and (b) llm-stats.com's vendor-self-report aggregate. The seed's S6 numbers trace to llm-stats (verified_count: 0, self_reported_count: 43) — vendor-grade data that the seed mistakenly carried as independent.
-- Status: replaced by S13 (llm-stats aggregate, vendor-classified) + S9 (Scale SEAL standardized, independent). S6 remains in the ledger only so seed cells resolve; no new snapshot may cite S6 (ADR-002).
+- Sunset: 2026-07-31
+- Independence: presumed-independent in the seed — REFUTED 2026-08-01 (classification deliberately neutral so the frozen 2026-07-31 seed still resolves; the Sunset line is the machine-enforced ban). Morph is a code-tooling vendor; the page is editorial/SEO aggregation republishing (a) Scale's SEAL standardized board and (b) llm-stats.com's vendor-self-report aggregate. The seed's S6 numbers trace to llm-stats (verified_count: 0, self_reported_count: 43) — vendor-grade data that the seed mistakenly carried as independent.
+- Status: replaced by S13 (llm-stats aggregate, vendor-classified) + S9 (Scale SEAL standardized, independent). The linter rejects any snapshot dated after 2026-07-31 that cites S6 (Phase 1 gate BLOCKING resolution); the corrected 2026-08-01 snapshot re-sources and re-tags these cells.
 
 ### S7 — Vendor disclosures (generic, seed-era)
 - URL: per-vendor pages (see S14–S17 for the split introduced in Phase 1)
@@ -111,7 +121,8 @@ METR page LAST-UPDATED), else the fetch time.
 - URL: https://www.tbench.ai/leaderboard/terminal-bench/2.1
 - Method: embedded-json — full leaderboard in the page's RSC flight payload AND as SSR HTML table (no JS needed); fallback github-data: per-submission JSONs (Apache-2.0) at github.com/harbor-framework/terminal-bench-2-1 (raw.githubusercontent reachable from sandbox; api.github.com is not)
 - Retrieved-at: 2026-08-01T00:00:00Z (board updated_at 2026-07-14; newest row 2026-07-11)
-- Independence: independent maintainers (Stanford/Laude Institute lineage, harbor-framework org) who verify vendor-submitted runs and apply an LLM reward-hack judge with visible deductions; maintainers also run a neutral reference agent (Terminus 2)
+- Independence: independent maintainers (Stanford/Laude Institute lineage, harbor-framework org) — gate-corrected 2026-08-01: submitters RUN THEIR OWN trials ("you must run at least 5 trials per task and upload them", repo README); maintainer verification is log-level review plus an LLM reward-hack judge with visible deductions, NOT re-execution. Materially weaker than evaluator-executed sources (ARC/METR/AA); maintainers do also run a neutral reference agent (Terminus 2) on some rows.
+- Caveat-flags: self-run by vendor, log-audited by maintainers
 - Freshness SLA: 1080h (45d; event-driven submission cadence)
 - Covers: Terminal-Bench 2.1 accuracy. COMPARABILITY HAZARD: every score is an agent+model+effort tuple (Fable 5 spans 83.8 Claude-Code-xhigh to 80.4 Terminus-2-high). Dashboard policy (Phase 2): best-per-model with agent+effort recorded in the cell flags.
 - Grade: B. Breakage: medium.
@@ -122,6 +133,7 @@ METR page LAST-UPDATED), else the fetch time.
 - Method: embedded-json — 25-row entries[] in the page's flight payload (model/rank/score/CI/createdAt); harness open-sourced (github.com/scaleapi/SWE-bench_Pro-os)
 - Retrieved-at: 2026-08-01T00:00:00Z
 - Independence: independent-run standardized evals (Scale runs the harness itself) — BUT organizational caveat: Meta holds ~49% of Scale (Jun 2025), so treat Meta-model rows with a conflict flag; for non-Meta comparisons the standardized harness is the only independent SWE-bench Pro view that exists
+- Caveat-flags: operator conflict — Meta owns ~49% of Scale
 - Freshness SLA: 2160h (90d; batch additions every 1–3 months)
 - Covers: SWE-bench Pro standardized Pass@1, public 731-task set. Coverage gap: NONE of the five dashboard models are on it (leader: Muse Spark 1.1* 61.5; the standardized leader sits ~20pts below vendor-harness claims — the cross-harness gap is itself a dashboard-worthy integrity signal).
 - Grade: B. Breakage: medium.
@@ -130,27 +142,30 @@ METR page LAST-UPDATED), else the fetch time.
 - URL: https://epoch.ai/benchmarks
 - Method: csv — https://epoch.ai/data/eci_benchmarks.csv (verified: 2,208 rows; columns model/benchmark/performance/date/source), CC-BY; python client + public repo available
 - Retrieved-at: 2026-08-01T00:00:00Z
-- Independence: independent nonprofit; hub supported by UK AI Security Institute; no lab funding found. Per-row `source` column drives provenance where rows mirror external boards.
+- Independence: independent nonprofit with disclosed lab entanglement (gate-corrected 2026-08-01): OpenAI funded FrontierMath — an ECI component (165 rows in the live CSV) — with dataset access and a disclosure controversy (Jan 2025, TechCrunch et al.); the hub is supported by the UK AI Security Institute. Per-row provenance is MIXED: 670 rows "Epoch evaluations" (evaluator-run), ~270 rows sourced to vendor technical reports, 322 rows with an empty source column, plus rows mirroring GDPval (OpenAI-built), METR (already our S5 — double-count hazard for "two aggregators agree"), Vals, ARC. The per-row `source` column MUST drive per-cell handling; the composite carries a caveat flag.
+- Caveat-flags: mixed-provenance composite (incl. OpenAI-funded FrontierMath)
+- Attribution: data CC-BY — page must attribute Epoch AI and link the license.
 - Freshness SLA: 336h (14d)
-- Covers: ECI aggregate capability index; 5/5 target models verified present in the CSV. Scouted-in (ADR-002): cross-checks the AA index so the frontier-race read never rests on a single aggregator.
-- Grade: A. Breakage: low.
+- Covers: ECI aggregate capability index; 5/5 target models verified in the CSV (2,207 data rows: Fable 16, Opus 5 17, Sol 19, Kimi 14, DS-V4-Pro 14). Scouted-in (ADR-002) as a cross-check of the AA index — with the caveat above, it is a partially-overlapping second read, not a fully independent one; Phase 2 decides whether the row computes over Epoch-run rows only.
+- Grade: B (downgraded from A at the Phase 1 gate). Breakage: low.
 
 ### S11 — Vals AI professional-domain benchmarks
 - URL: https://www.vals.ai/benchmarks
 - Method: dom-scrape of SSR HTML (Astro islands; no API/CSV found) — needs fixture tests + loud parse failure
 - Retrieved-at: 2026-08-01T00:00:00Z
-- Independence: independent eval company (SF), not lab-owned; open question logged for gate: no public funding/pay-for-placement disclosure found — verify before I-tag ships
+- Independence: independent eval company (SF), not lab-owned. Gate-resolved 2026-08-01 (RISK-007): funding IS publicly discoverable — ~$5M from Bloomberg Beta, Pear VC, 8VC, J12, Sequoia scout (no frontier-lab investors); a pay-for-placement search found no evidence and Vals publicly claims neutral third-party posture with private datasets. Residual caveat: Bloomberg Beta money adjacent to Vals' Finance Agent benchmark.
+- Caveat-flags: VC-funded evaluator, no on-site funding disclosure
 - Freshness SLA: 504h (21d)
 - Covers: Vals Index composite + professional agentic boards (Finance Agent v2, Legal Research). 4/5 models covered (no DeepSeek V4 Pro). Strict-vs-weighted scoring gap = live reliability signal. Scouted-in (ADR-002), single composite row proposed.
 - Grade: B. Breakage: high (DOM).
 
 ### S12 — LiveBench
 - URL: https://livebench.ai
-- Method: github-data / HF datasets (site itself is JS-only shell); monthly releases as data files
+- Method: csv — `https://livebench.ai/table_{release}.csv` with release like `2026_06_25` (pattern taken from the site JS bundle; current file verified: `table_2026_06_25.csv`, 36 rows). Discover the current release string from the site bundle or by probing recent dates; fail loud if the pattern moves.
 - Retrieved-at: 2026-08-01T00:00:00Z
 - Independence: independent academic-led (NYU/Abacus/Nvidia-affiliated researchers), open methodology, ground-truth scoring (no LLM judge, no votes), monthly question rotation = contamination-resistant
 - Freshness SLA: 1080h (45d; monthly rotation)
-- Covers: contamination-resistant capability. Coverage caveat: only Fable 5 (#1 coding, 86.0, Jul coverage) verified among the five; current release 2026-06-25. Scouted-in conditionally (ADR-002): promote to a row only if collector-time verification finds ≥3/5 target models; else HOLD.
+- Covers: contamination-resistant capability. Gate-verified 2026-08-01: the 2026-06-25 release covers **5/5** target models (claude-fable-5-max-effort, claude-opus-5-max-effort, gpt-5.6-sol-max, kimi-k3, deepseek-v4-pro); Fable coding avg 86.0 rank 1 reproduces. ADR-002's ≥3/5 condition is met ⇒ resolves to INCLUDE (Phase 2 decides the row).
 - Grade: B. Breakage: medium.
 
 ### S13 — llm-stats SWE-bench Pro aggregate (vendor self-reports)
@@ -158,6 +173,7 @@ METR page LAST-UPDATED), else the fetch time.
 - Method: embedded-json — full benchmark object in flight payload (43 rows: rank/score/self_reported/source/analysis_method/updated_at); robots allows pages, disallows /api/
 - Retrieved-at: 2026-07-31T22:44:25Z (benchmark updated_at; fetched 2026-08-01)
 - Independence: vendor-claimed — the aggregate is 100% self-reported (verified_count: 0 of 43), each row citing the vendor's own blog/PDF on the vendor's own scaffold. Cells citing S13 MUST be tagged V (linter-enforced). This is the true upstream of the seed's "Morph board" numbers.
+- Caveat-flags: aggregated vendor self-reports (0 of 43 verified)
 - Freshness SLA: 72h
 - Covers: SWE-bench Pro vendor-claim aggregate. Verified values (2026-07-31 file): Fable 5 80.0 #1 (seed's "80.3" was Mythos 5's number — misattribution), Mythos Preview 77.8 #2, Opus 4.8 69.2 #3, Grok 4.5 64.7 #4, Sol 64.6 #5, DS-V4-Pro-Max 55.4 #29 (seed said "not published" — wrong), Opus 5 NOT on board (79.2 launch claim still un-ingested — seed status holds), no Kimi K3 row (confirmed).
 - Grade: B (as a vendor-claim tracker; it is honest about self_reported). Breakage: medium.
@@ -189,3 +205,20 @@ METR page LAST-UPDATED), else the fetch time.
 - Retrieved-at: 2026-08-01T00:00:00Z
 - Independence: vendor
 - Freshness SLA: 336h
+
+### S18 — METR pre-deployment evaluation of GPT-5.6 Sol (blog post)
+- URL: https://metr.org/blog/2026-06-26-gpt-5-6-sol/
+- Method: page fetch (prose-only figure; NOT present in any METR data file — verified by gate)
+- Retrieved-at: 2026-06-26T00:00:00Z (publication date; verifier re-fetched 2026-08-01)
+- Independence: independent nonprofit evaluator, with disclosed constraints on this specific publication: conducted under a standard NDA; OpenAI's comms and legal team required review and approval of the post; METR itself says it "shouldn't be interpreted as robust formal oversight."
+- Caveat-flags: blog-only figure — not on the METR leaderboard; NDA'd pre-deployment eval — vendor reviewed the publication
+- Freshness SLA: 2160h (90d, matching S5)
+- Covers: the Sol 50%-horizon figure only (11.3h [5–40h] standard methodology; >270h counting detected cheating as success; 71h [13–11,400h] discarding cheating runs; METR: "we do not consider any of these numbers to represent a robust measurement").
+
+### S19 — Adoption-signal fallback (contingency, NOT collected)
+- URL: https://huggingface.co/models (open-weights download/like telemetry); vendor usage disclosures as published
+- Method: none yet — contingency ledger entry only (Phase 1 gate: the adoption lens must not have an undocumented single point of permanent failure)
+- Retrieved-at: 2026-08-01T00:00:00Z (scouting date)
+- Independence: independent platform telemetry (HF) / vendor-claimed (disclosures)
+- Freshness SLA: n/a until activated
+- Covers: if RISK-006 fires and S3 stands down, HF download stats can partially cover OPEN-WEIGHTS adoption (Kimi, DeepSeek); no independent public fallback exists for closed-model adoption — that residual is RISK-008.
