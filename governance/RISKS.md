@@ -38,3 +38,16 @@ decisions, not omissions: each one traces to a gate objection.
   automatically.
 - Reversal trigger: if a future session shows the hook not firing on a real
   edit, debug the matcher/config then.
+
+## RISK-004 — Repo write access denied from the sandbox (push 403)
+- Status: OPEN (Phase 0) — retry at every phase boundary
+- Context: `git push` via the platform git relay returns 403 on
+  `git-receive-pack`, and the GitHub API returns "Resource not accessible by
+  integration" for ref creation. Reads work. All work is committed locally.
+- Impact if unresolved: the sandbox is ephemeral; unpushed work dies with it.
+  Also blocks Definition-of-Done items (workflow merged, Pages live).
+- Mitigation: retry push at each phase boundary; if still failing at Phase 9,
+  HANDOFF gains a BLOCKER entry (grant the Claude GitHub App write access to
+  brant808/model-eval-dashboard via claude.ai/settings or GitHub App settings,
+  then push from a fresh session).
+- Reversal trigger: first successful push closes this risk.
