@@ -52,24 +52,31 @@ def test_rendered_page_passes_html_invariants(seed, tmp_path):
 
 def test_rendered_page_shows_required_elements(seed):
     html = render(seed)
-    assert "Today's tape" in html
-    assert 'data-tape-item="1"' in html
+    assert "tape" in html and 'data-tape-item="1"' in html
     assert 'data-health="1"' in html
     assert "chip-glyph" in html and "chip-label" in html  # shape + label, not color alone
-    assert "STALE" not in html  # nothing stale in seed at seed time
+    assert "STALE" not in html.replace("STALE</span> = older", "")  # nothing stale in seed (legend text aside)
     assert "⚠" in html  # integrity flags visible (Sol METR/ARC flags)
     assert "data-empty-reason" in html  # blanks are never silent
+
+
+def _flip_attr_in_cell(html, cell_id, attr, old, new):
+    """Flip one data-attr inside the td carrying cell_id, order-agnostic."""
+    import re as _re
+
+    pat = _re.compile(r'<td[^>]*data-cell-id="' + _re.escape(cell_id) + r'"[^>]*>')
+    m = pat.search(html)
+    assert m, f"cell {cell_id} not found — renderer contract changed"
+    tag = m.group(0)
+    forged_tag = tag.replace(f'{attr}="{old}"', f'{attr}="{new}"')
+    assert forged_tag != tag, f"{attr}={old} not present in {cell_id}"
+    return html[: m.start()] + forged_tag + html[m.end():]
 
 
 def test_forged_chip_on_vendor_cell_is_caught(seed, tmp_path):
     """Render output where a V cell displays a chip -> linter must object."""
     html = render(seed)
-    # forge: flip the V-tagged SWE-bench Pro launch-claim cell's chip attr
-    forged = html.replace(
-        'data-cell-id="swe-bench-pro.opus-5" data-tag="V" data-stale="0" data-warn="0" data-chip="0"',
-        'data-cell-id="swe-bench-pro.opus-5" data-tag="V" data-stale="0" data-warn="0" data-chip="1"',
-    )
-    assert forged != html, "forgery target not found — renderer contract changed"
+    forged = _flip_attr_in_cell(html, "swe-bench-pro.opus-5", "data-chip", "0", "1")
     p = tmp_path / "forged.html"
     p.write_text(forged, encoding="utf-8")
     ledger = load_sources_ledger(REPO / "governance" / "SOURCES.md")
@@ -80,11 +87,7 @@ def test_forged_chip_on_vendor_cell_is_caught(seed, tmp_path):
 def test_hidden_warning_tag_is_caught(seed, tmp_path):
     """Render output where an integrity-flagged cell hides its warning -> caught."""
     html = render(seed)
-    forged = html.replace(
-        'data-cell-id="metr-horizon.gpt-5-6-sol" data-tag="I" data-stale="0" data-warn="1"',
-        'data-cell-id="metr-horizon.gpt-5-6-sol" data-tag="I" data-stale="0" data-warn="0"',
-    )
-    assert forged != html
+    forged = _flip_attr_in_cell(html, "metr-horizon.gpt-5-6-sol", "data-warn", "1", "0")
     p = tmp_path / "forged.html"
     p.write_text(forged, encoding="utf-8")
     ledger = load_sources_ledger(REPO / "governance" / "SOURCES.md")
@@ -98,8 +101,11 @@ def test_stale_cell_renders_badge(seed, tmp_path):
     cell["stale"] = True
     cell["flags"] = list(cell["flags"]) + ["source down (last-good shown)"]
     html = render(stale_snap)
-    assert "STALE" in html
-    assert 'data-cell-id="arena-elo.kimi-k3" data-tag="I" data-stale="1"' in html
+    assert '<span class="stale-badge">STALE</span>' in html
+    import re as _re
+
+    m = _re.search(r'<td[^>]*data-cell-id="arena-elo.kimi-k3"[^>]*>', html)
+    assert m and 'data-stale="1"' in m.group(0)
 
 
 # ---------------------------------------------------------------------------
@@ -115,12 +121,14 @@ def _check(html_text, seed, tmp_path, fname="f.html"):
 
 
 def test_gate_single_quoted_chip_forgery_caught(seed, tmp_path):
+    import re as _re
+
     html = render(seed)
-    forged = html.replace(
-        'data-cell-id="swe-bench-pro.opus-5" data-tag="V" data-stale="0" data-warn="0" data-chip="0"',
-        "data-cell-id='swe-bench-pro.opus-5' data-tag='V' data-stale='0' data-warn='0' data-chip='1'",
-    )
-    assert forged != html
+    pat = _re.compile(r'<td[^>]*data-cell-id="swe-bench-pro.opus-5"[^>]*>')
+    m = pat.search(html)
+    assert m
+    tag = m.group(0).replace('data-chip="0"', "data-chip='1'")
+    forged = html[: m.start()] + tag + html[m.end():]
     out = _check(forged, seed, tmp_path)
     assert any(x.startswith("RULE10") for x in out)
 
@@ -132,7 +140,8 @@ def test_gate_duplicate_cell_id_caught(seed, tmp_path):
         'data-chip="1" data-set="aa-index-v4.1"><span class="val">60 index</span>'
         '<span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span></td>'
     )
-    forged = html.replace("<h2>Today's tape</h2>", dup + "<h2>Today's tape</h2>")
+    forged = html.replace('<footer class="health"', dup + '<footer class="health"')
+    assert forged != html
     out = _check(forged, seed, tmp_path)
     assert any("duplicate rendered cell id" in x for x in out)
 
@@ -143,7 +152,8 @@ def test_gate_fabricated_cell_caught(seed, tmp_path):
         '<td data-cell-id="fake-bench.opus-5" data-tag="I" data-stale="0" data-warn="0" '
         'data-chip="0" data-set="fake"><span class="val">99.9 %</span></td>'
     )
-    forged = html.replace("<h2>Today's tape</h2>", fake + "<h2>Today's tape</h2>")
+    forged = html.replace('<footer class="health"', fake + '<footer class="health"')
+    assert forged != html
     out = _check(forged, seed, tmp_path)
     assert any("does not exist in the snapshot" in x for x in out)
 

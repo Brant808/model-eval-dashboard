@@ -735,7 +735,11 @@ def check_repo_hygiene():
             for pat in REPO_BANNED:
                 if pat.search(text) or pat.search(flat):
                     v.append(f"RULE12 {rel}: banned pattern {pat.pattern!r}")
-        for source in (text, flat):
+        # The collapsed scan reassembles identifiers followed by decorators
+        # into fake addresses in source code, so it applies to prose/data
+        # files only; code files get the plain-text scan.
+        sources = (text,) if p.suffix in {".py", ".js", ".sh"} else (text, flat)
+        for source in sources:
             for m in EMAIL_RE.finditer(source):
                 if m.group(1).lower() not in EMAIL_DOMAIN_ALLOWLIST:
                     v.append(
