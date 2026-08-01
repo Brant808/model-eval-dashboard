@@ -176,6 +176,15 @@
    "direction": "none",
    "freshness_sla_hours": 720,
    "primary_source_id": "S7"
+  },
+  "intelligence-per-dollar": {
+   "name": "Intelligence per dollar",
+   "group": "economics-deployment",
+   "unit": "index pts per task-USD",
+   "comparability_set": "aa-intelligence-per-usd",
+   "direction": "higher",
+   "freshness_sla_hours": 72,
+   "primary_source_id": "S1"
   }
  },
  "cells": {
@@ -1287,6 +1296,93 @@
     "empty_reason": "not published",
     "history_ref": "deployment-terms.ds-v4-pro"
    }
+  },
+  "intelligence-per-dollar": {
+   "fable-5": {
+    "value": 19.0,
+    "unit": "index pts per task-USD",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "derived: aa-index (59.86) ÷ cost-per-task ($3.15)"
+    ],
+    "comparability_set": "aa-intelligence-per-usd",
+    "stale": false,
+    "history_ref": "intelligence-per-dollar.fable-5",
+    "derived_from": [
+     "aa-index.fable-5",
+     "cost-per-task.fable-5"
+    ]
+   },
+   "opus-5": {
+    "value": 25.9,
+    "unit": "index pts per task-USD",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "derived: aa-index (60.69) ÷ cost-per-task ($2.34)"
+    ],
+    "comparability_set": "aa-intelligence-per-usd",
+    "stale": false,
+    "history_ref": "intelligence-per-dollar.opus-5",
+    "derived_from": [
+     "aa-index.opus-5",
+     "cost-per-task.opus-5"
+    ]
+   },
+   "gpt-5-6-sol": {
+    "value": 31.7,
+    "unit": "index pts per task-USD",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "derived: aa-index (58.89) ÷ cost-per-task ($1.86)"
+    ],
+    "comparability_set": "aa-intelligence-per-usd",
+    "stale": false,
+    "history_ref": "intelligence-per-dollar.gpt-5-6-sol",
+    "derived_from": [
+     "aa-index.gpt-5-6-sol",
+     "cost-per-task.gpt-5-6-sol"
+    ]
+   },
+   "kimi-k3": {
+    "value": 66.4,
+    "unit": "index pts per task-USD",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "derived: aa-index (57.11) ÷ cost-per-task ($0.86)"
+    ],
+    "comparability_set": "aa-intelligence-per-usd",
+    "stale": false,
+    "history_ref": "intelligence-per-dollar.kimi-k3",
+    "derived_from": [
+     "aa-index.kimi-k3",
+     "cost-per-task.kimi-k3"
+    ]
+   },
+   "ds-v4-pro": {
+    "value": 885.4,
+    "unit": "index pts per task-USD",
+    "tag": "I",
+    "source_id": "S1",
+    "retrieved_at": "2026-08-01T07:45:00Z",
+    "flags": [
+     "derived: aa-index (44.27) ÷ cost-per-task ($0.05)"
+    ],
+    "comparability_set": "aa-intelligence-per-usd",
+    "stale": false,
+    "history_ref": "intelligence-per-dollar.ds-v4-pro",
+    "derived_from": [
+     "aa-index.ds-v4-pro",
+     "cost-per-task.ds-v4-pro"
+    ]
+   }
   }
  },
  "tape": [
@@ -1587,6 +1683,46 @@
    ],
    "note": "value None -> '53.6 tok/s; TTFA 92.0 s' (newly captured in the corrected snapshot; class: changed)",
    "class": "changed"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "intelligence-per-dollar.fable-5"
+   ],
+   "note": "derived row materialized at Phase 3 gate: 19.0 = aa-index ÷ cost-per-task",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "intelligence-per-dollar.opus-5"
+   ],
+   "note": "derived row materialized at Phase 3 gate: 25.9 = aa-index ÷ cost-per-task",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "intelligence-per-dollar.gpt-5-6-sol"
+   ],
+   "note": "derived row materialized at Phase 3 gate: 31.7 = aa-index ÷ cost-per-task",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "intelligence-per-dollar.kimi-k3"
+   ],
+   "note": "derived row materialized at Phase 3 gate: 66.4 = aa-index ÷ cost-per-task",
+   "class": "appeared"
+  },
+  {
+   "date": "2026-08-01",
+   "cell_ids": [
+    "intelligence-per-dollar.ds-v4-pro"
+   ],
+   "note": "derived row materialized at Phase 3 gate: 885.4 = aa-index ÷ cost-per-task",
+   "class": "appeared"
   }
  ],
  "notes": [

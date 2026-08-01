@@ -54,8 +54,10 @@ number up top).
 
 Today: **Claude Opus 5 / GPT-5.6 Sol / Kimi K3**, slots ordered by AA Index
 (mobile 2-up shows Opus + Sol — cross-vendor even at iPhone width).
-Scope: vendors with AA Index coverage (stated scoping; keeps un-indexed
-watch models out of the rule).
+Scope: vendors with AA Index coverage (stated scoping). Gate note: this
+scope excludes almost nobody in practice (even watch-promoted Muse Spark is
+AA-indexed at 50.62) — the operative filter is the top-3-vendor cutoff, which
+is the point: rule-driven, outcome-blind.
 Why the RULE, not the trio: it is the only candidate that is both rule-neutral
 and outcome-clean — it cannot produce a same-vendor pair by construction, so
 no data drift can ever make the first load look like home cooking (hazard H2:
@@ -90,9 +92,12 @@ the 3-independent-source floor):
 - Lineage: opus-4-8 (Opus line), sonnet-5 (Anthropic mid line), gpt-5-5
   (OpenAI predecessor), kimi-k2-6 (Moonshot predecessor)
 - Price-point siblings: gpt-5-6-terra, gpt-5-6-luna
-- Watch-promoted today: **muse-spark-1-1** (Meta — Scale S9 + Arena + TB = 3
+- Watch-promoted today: **muse-spark-1-1** (Meta — AA S1 (index 50.62, not
+  estimated, per the recorded fixture) + Scale S9 + Arena S2 + TB S8 = 4
   independent sources; the promotion rule's first public test). Enters the
-  catalog, NOT the default (no AA index value → outside T2's stated scope).
+  catalog, NOT the default: Meta is IN T2's scope, but its best AA (50.62)
+  ranks below the #3 vendor cutoff (Moonshot/Kimi 57.11). (Gate-corrected —
+  the earlier 'no AA index' premise was refuted by our own S1 fixture.)
 - Field seats (conditional on the 3-source floor at collector build):
   grok-4-5 (AA + Arena + SWE-rebench + TB — expected pass), gemini-3-6-flash
   (AA + ? — verify; this is how "Google absence-as-signal" becomes a visible,
@@ -107,6 +112,12 @@ Picker grouping mirrors Apple: "Current frontier" / "Recent & superseded"
 first scoping judgment.
 
 ## D6 — Promotion mechanics: M1 (event-driven + hysteresis)
+
+Operational pin (gate): a **"group-1 source"** for the promotion floor is an
+independent-classified ledger source feeding a CAPABILITY-domain matrix row
+(groups C1–C3): S1, S2, S10, S11, S8, S20, S12. Vendor sources and S9 (no
+matrix row) never count. Muse Spark passes on S1+S2+S8 (3); DS V4 Flash 0731
+has S1 only (1) and stays watch.
 
 - Watch → catalog at ≥2 independent group-1 sources (brief). On promotion:
   picker entry under an "Added <date>" divider + movement dot, tape entry with
