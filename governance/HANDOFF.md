@@ -30,3 +30,38 @@ written in Phase 9; items accrue here as phases discover them.
   JSON their site loads, once daily. Their ToS has boilerplate anti-datamining
   language; a one-line email to the address on arcprize.org's rate-limits doc
   asking for written OK to poll v3.json daily removes all ambiguity.
+
+### From Phase 7
+
+- **BLOCKER — grant push access (RISK-004).** Every `git push` from this
+  session returns 403 at the relay, and the GitHub API refuses writes
+  ("Resource not accessible by integration"). All work is committed locally
+  on `claude/frontier-model-eval-dashboard-urlfzc`. Keyboard steps to fix:
+  open https://github.com/settings/installations, Tab to the Claude GitHub
+  App, Enter → Configure, grant **Read and write** access to
+  `Brant808/model-eval-dashboard` (repository contents + pull requests),
+  Save. Then re-run the session's push, or from any clone with your own
+  credentials: `git push -u origin claude/frontier-model-eval-dashboard-urlfzc`.
+- **Optional — judgment layer key.** The page ships in mechanical-tape mode
+  by default (designed). To turn on the validated `claude -p` judgment tier:
+  repo → Settings → Secrets and variables → Actions → New repository secret,
+  name `ANTHROPIC_API_KEY`, paste a key, Enter. The workflow detects it; the
+  health footer will say which mode produced each page. Delete the secret to
+  turn it back off. Never commit the key anywhere.
+- **After merge — first scheduled run.** The `daily-refresh` workflow only
+  fires on the default branch. After merging the PR: repo → Actions →
+  `daily-refresh` → Run workflow → Enter, and check the run goes green and
+  commits back `data/<today>.json` + rebuilt `docs/`.
+
+### From Phase 8
+
+- **Turn on GitHub Pages (one-time, ~30s).** Repo → Settings → Pages
+  (left sidebar; on small screens press `.` to open github.dev is NOT needed —
+  the Pages form is plain HTML, fully keyboard-reachable). Under
+  "Build and deployment": Source = **Deploy from a branch**; Branch = the
+  default branch, folder = **/docs**; Save (Tab to Save, Enter). Within ~2
+  minutes the page serves at
+  https://brant808.github.io/model-eval-dashboard/ — bookmark it.
+- **iPhone home-screen icon.** Open the URL in Safari → Share →
+  "Add to Home Screen" → Add. The page is self-contained and renders its
+  last-fetched state offline once cached.

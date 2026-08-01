@@ -240,3 +240,39 @@ rule + machine band contract; position-9 rationale ⇒ claims rows to C7;
 footnote superlatives ⇒ chip-winner-only redefinition) + 5 MAJOR + 5 MINOR,
 all resolved with binding riders and 4 new regression tests. 85 tests green.
 ADR-005, RISK-009. Phase 3 CLOSED.
+
+### Phases 4–6 — Briefs, Implications, UI (2026-08-01, built; combined gate running)
+
+Builder deliverables landed in three commits: briefs content layer
+(data/briefs.json, 23 metric + 5 model briefs, 280 sentences, repo-grounded);
+implications layer (8 X-tagged reads, composite format with lens labels,
+collapsed flag stacks, OPEN state for driver-unresolved movements); Apple-
+compare UI (static all-column render + JS visibility flip, custom pickers,
+URL-hash/localStorage persistence, keyboard map 1/2/3-j/k-Enter-Esc-/, 2-up
+mobile, 100-test automated gate incl. offline-Playwright suite). Gates for
+4/5/6 run combined with Phase 7's (below) — verifier fact-check of briefs +
+implication citations, red-team opposite-readings + rendered cold read (the
+ADR-005 reversal condition).
+
+### Phase 7 — Autorefresh (2026-08-01, built; gate running)
+
+Collector fleet complete: 11 collectors, all fixture-tested with fail-loud
+garbage tests. Final four (Epoch ECI S10, LiveBench S12, SWE-rebench S20,
+Vals S11) merged 19 populated cells + honest empties into 2026-08-01.json.
+One semantics correction under RULE9 pressure: Epoch cells now carry
+retrieved_at = OUR fetch of the living board, with the per-model run date as
+a visible "score dated" flag — staleness tracks our copy of the source, not
+Epoch's cadence (the alternative silently barred the row from chips forever).
+LiveBench keeps release-date-as-retrieved_at by design: its source IS a dated
+release, so an aging release earns its staleness badge honestly.
+
+Scheduler: .github/workflows/daily.yml — 12:30 UTC cron + dispatch,
+concurrency-grouped, per-step timeouts, REQUIRE_HTML=1 constitutional gate
+BEFORE commit-back; commit-back to the serving branch is the deploy, so a red
+gate publishes nothing and last-good keeps serving. Judgment layer
+(tools/judgment.py): off-by-default claude -p tier; sha256-pinned locked
+prompt, strict schema, no-new-facts validator (every number in generated text
+must exist in cited cells; model/metric-name and date digits allowed),
+rule-5 family separation, rule-7 verbatim flag carry, all-or-nothing
+implication replacement; every rejection degrades loudly to mechanical in the
+health footer. 9 validator attack tests. 111 tests green, linter green.
