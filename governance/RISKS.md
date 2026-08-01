@@ -62,3 +62,24 @@ decisions, not omissions: each one traces to a gate objection.
   without passing the linter in CI.
 - Reversal trigger: if a Bash-written violation ever reaches a pushed commit
   without CI catching it, add a pre-commit git hook as a second tripwire.
+
+## RISK-006 — OpenRouter ToS anti-scraping clause vs unauthenticated frontend endpoints
+- Status: ACCEPTED (Phase 1, ADR-002)
+- Context: openrouter.ai/rankings data loads from unauthenticated
+  /api/frontend/v1/rankings/* JSON endpoints; robots.txt is permissive, but the
+  ToS (updated 2026-07-27) contains a broad anti-scraping clause.
+- Rationale: adoption/momentum is a standing lens of the dashboard; collection
+  is one polite GET per endpoint per day with an honest identifying UA — the
+  same requests the public page issues, no circumvention of any technical
+  measure. Exposure is minimal and the failure mode is graceful.
+- Reversal trigger: any 4xx block, robots change, or objection from OpenRouter
+  ⇒ collector stands down permanently (cells go "source down (last-good
+  shown)" then empty), and we request written permission or drop the rows.
+
+## RISK-007 — Vals AI funding/pay-for-placement not publicly disclosed
+- Status: OPEN (Phase 1) — verify before any Vals cell ships I-tagged
+- Context: Vals AI is scouted-in for the professional-agentic axis; no public
+  funding or placement-fee disclosure was found during Phase 1.
+- Mitigation: Phase 2 gate must either find satisfactory disclosure or ship
+  Vals cells with a visible independence caveat flag (or V-tag equivalent).
+- Reversal trigger: credible evidence of pay-for-placement ⇒ source dropped.

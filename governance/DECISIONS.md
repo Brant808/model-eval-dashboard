@@ -51,3 +51,56 @@ headless browser (would add a Node/Playwright sidecar, not replace Python).
 Chip semantics revisit at Phase 3 (tie handling, per-trio vs field-wide).
 Linter architecture reverses only if the single-file linter exceeds ~1kloc or
 needs sandboxed execution of untrusted input.
+
+## ADR-002 — Phase 1: source grounding, re-sourcing SWE-bench Pro, scouted additions (2026-08-01)
+
+**Context.** Phase 1 live-verified every brief source. Most held up; the
+"Morph-tracked SWE-bench Pro board" did not — it is a bot-blocked editorial
+page whose numbers are llm-stats' 100%-self-reported aggregate, i.e. the seed
+carried vendor-grade data with an independent tag. Two brief-listed channels
+have ToS friction (arena.ai, openrouter.ai).
+
+**Options considered.**
+1. *SWE-bench Pro sourcing*: (a) keep "Morph board" as S6; (b) drop the metric
+   entirely; (c) split into S13 llm-stats aggregate (kept, honestly V-tagged) +
+   S9 Scale SEAL standardized (kept, independent, no target-model coverage yet,
+   Meta-ownership conflict flag).
+2. *Arena channel*: (a) scrape arena.ai embedded JSON (fresher, ToS-barred);
+   (b) official HuggingFace dataset CC-BY-4.0 (1–2d lag, sanctioned).
+3. *OpenRouter*: (a) drop the metric; (b) poll the page DOM; (c) one polite
+   daily fetch of the two frontend JSON endpoints the page itself loads,
+   honest UA, with a stand-down reversal trigger.
+4. *Scouted sources*: include/exclude per candidate (Epoch ECI, Vals, LiveBench,
+   Scale SEAL general, HLE standalone, HAL).
+5. *ARC channel*: (a) DOM; (b) v3.json the frontend loads, daily, honest UA.
+
+**Choices.** 1(c) — the metric survives with honest provenance; the ~20-pt
+vendor-vs-standardized gap becomes a first-class integrity signal instead of a
+hidden contamination (rejected a: unfetchable, stale, mislabeled; rejected b:
+premature — Phase 2 decides row survival with correct tags in hand).
+2(b) — constitution rule 12 aside, building a pipeline on a ToS-barred channel
+is exactly the silent-rot risk the brief bans; the official dataset is the
+same data, licensed (rejected a).
+3(c) with RISK-006 — the endpoints are unauthenticated, load-bearing for the
+page, and polled once daily with an honest UA; any block or objection flips
+the source to "source down (last-good shown)" (rejected a: adoption-momentum
+is a standing lens; rejected b: DOM is strictly worse under the same ToS).
+4 — INCLUDE Epoch ECI (independent cross-check of the AA index; 5/5 coverage,
+CSV/CC-BY); INCLUDE Vals AI (only live independent professional-agentic signal;
+funding-disclosure question logged for the gate); INCLUDE LiveBench conditional
+on ≥3/5 coverage at collector build; EXCLUDE Scale SEAL as a general source
+(Meta ~49% ownership fails independence for a trust-ranked matrix; retained
+narrowly as S9 with conflict flag), EXCLUDE standalone HLE (duplicates the AA
+fetch), EXCLUDE HAL (paused, 0/5 coverage).
+5(b).
+
+**Seed corrections adopted** (regression baseline preserved; corrections land
+in the first live snapshot and are classified in BUILDLOG): Fable ARC-AGI-3 →
+no official score; Fable SWE-Pro 80.0 (V) not 80.3 (I); Sol SWE-Pro V-tag;
+METR Fable = Mythos Preview 17.4h [8.5–55.1]; Arena Kimi 1547 = seed error.
+
+**Reversal conditions.** S13/S9 split reverses if a genuinely independent
+SWE-bench Pro board with target-model coverage appears (watch: Scale adds the
+five). RISK-006 trigger stands down OpenRouter collection. LiveBench flips
+INCLUDE↔HOLD on measured coverage. Arena flips to a faster channel only if
+Arena publishes a sanctioned API.

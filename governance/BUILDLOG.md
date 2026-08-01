@@ -108,3 +108,80 @@ Anything not pushed does not exist.
   byte-identical (53 tests). Push blocked by RISK-004 (403) — commits local,
   retrying each boundary.
 
+### Phase 1 — Research (2026-08-01)
+
+Nine parallel research agents live-verified every brief source plus scouted
+candidates (workflow `wf_3d319f0f`, 312 tool calls). Full detail in
+`governance/SOURCES.md` (ledger + fetch-feasibility matrix). Headlines:
+
+**Source verdicts.**
+- Artificial Analysis: grade A. Index still v4.1. Documented API v2 (free key
+  covers index/cost/speed/TTFT) + keyless embedded-JSON fallback carrying ALL
+  five metric families. All five models + context windows (~1M each) verified.
+- Arena: canonical domain is arena.ai (brief was right; lmarena.ai redirects).
+  Site ToS bars scraping; the OFFICIAL HuggingFace dataset (CC-BY-4.0) is the
+  sanctioned machine channel. Style Control is the default board and reorders
+  the top vs raw — collector must pin board variant.
+- OpenRouter: unauthenticated frontend JSON endpoints found (market-share,
+  task-spend). ToS updated Jul 27 has an anti-scraping clause → RISK-006.
+  Task-spend gives PER-MODEL spend share — better than the seed's
+  provider-level-only view; Kimi K3 becomes capturable.
+- ARC Prize: canonical JSON (v3.json) their own frontend loads. Sol's official
+  7.8 is tier **Max** (seed tier resolved). **Fable 5 has NO verified ARC-AGI-3
+  score** — seed's 16.6 traces to nothing official (X post: "~20% on Public
+  Demo", non-comparable).
+- METR: machine-readable YAML. Fable's number is really Mythos Preview (early)
+  at 17.4h [8.5–55.1] with "unreliable above 16h" notice. Sol's 11.3h lives
+  ONLY in a June 26 NDA'd blog post; METR's term is "cheating", not "record
+  gaming". Last site update May 8 (~12 weeks) — irregular cadence priced into
+  a 90d SLA.
+- **"Morph-tracked board" REFUTED**: morphllm.com is a bot-blocked editorial/SEO
+  page republishing Scale SEAL (independent, but covers none of our 5 models)
+  and llm-stats (100% vendor self-reports; 0 of 43 verified). The seed's
+  I-tagged SWE-bench Pro cells were vendor-grade all along. S6 demoted;
+  replaced by S13 (llm-stats, vendor-classified) + S9 (Scale standardized).
+- Terminal-Bench 2.1: live, embedded-JSON + Apache-2.0 GitHub data. Scores are
+  agent+model+effort tuples. Fable 5 #1 (83.8±1.2); Sol repo-only (76.2, not
+  displayed); Opus 5 / Kimi K3 / DS V4 Pro absent.
+- Scouted: **INCLUDE Epoch ECI** (CSV, CC-BY, 5/5 coverage — second independent
+  aggregate so the frontier-race read never rests on AA alone), **INCLUDE
+  Vals AI** (professional agentic + strict-vs-weighted reliability gap; 4/5),
+  **INCLUDE LiveBench conditionally** (contamination-resistant; promote only if
+  ≥3/5 coverage at collector time). **EXCLUDE Scale SEAL as a general source**
+  (Meta owns ~49% — kept only as S9 for the standardized SWE-Pro view with
+  conflict flag), **EXCLUDE standalone HLE** (duplicates AA fetch), **EXCLUDE
+  HAL** (paused; 0/5 coverage).
+
+**Seed-vs-live delta classification (the pipeline's first adversarial trial —
+final classification re-run against fetch day in Phase 9):**
+
+| Cell / claim | Seed | Live 2026-08-01 | Class |
+|---|---|---|---|
+| arena-elo.kimi-k3 | 1547 #2 | 1485.3 #12; full history never exceeded ~1487 | **seed transcription/conflation error** |
+| swe-bench-pro.fable-5 | 80.3 (I) | 80.0, self-reported; 80.3 was Mythos 5's number | **misattribution + provenance error (I→V)** |
+| swe-bench-pro.gpt-5-6-sol | 64.6 (I) | 64.6 self-reported | **provenance error (I→V)** |
+| swe-bench-pro.ds-v4-pro | not published | 55.4 on aggregate ("V4-Pro-Max") | **seed gap** |
+| arc-agi-3.fable-5 | 16.6 | absent from verified board; "~20% Public Demo" only | **unverifiable provenance → becomes empty("not published") + note** |
+| arc-agi-3.gpt-5-6-sol tier | unspecified | Max ($25,064/run) | **resolved** |
+| metr-horizon.fable-5 | ≥16h | 17.4h [8.5–55.1], Mythos Preview (early), >16h-unreliable notice | **imprecision corrected** |
+| gdpval.opus-5 / sol | 1861 / ~1748 | 1857.8 / 1732.5 | **real movement (Elo refit)** |
+| gdpval.ds-v4-pro | not published | 1304.49 | **new data** |
+| cost-per-task (all) | 2.75/2.03/1.04/0.94 | 3.15/2.34/1.86/0.86 (+DS 0.05) | **real movement (v4.1 cache-aware costing predates seed)** |
+| openrouter anthropic | ~13% | 9.1% (wk 07-20) | **real movement (decline)** |
+| openrouter deepseek | ~16% #1 | 17.4% #2 behind xiaomi 19.1%; 20.9% #1 partial wk | **real movement + seed gap (xiaomi)** |
+| aa-index all 5 | 61/60/59/57/44 | 60.69/59.86/58.89/57.11/44.27 | **match (display rounding)** |
+| DS V4 Flash 0731 = 50 | tape item | confirmed verbatim by AA article | **match** |
+| Opus 5 79.2 Pro claim | not on board | still not on any board | **match** |
+
+**Landscape / column proposal (input to Phases 2–3):** keep the five columns
+(Fable 5, Opus 5, GPT-5.6 Sol, Kimi K3, DS V4 Pro) — AA top-4 + the
+open-weights value frontier; no Google model within ~9 pts of the leader
+(best: Gemini 3.6 Flash 50; 3.5 Pro delayed indefinitely per Bloomberg).
+Catalog/watch candidates for Phase 3: Opus 4.8 / 4.7 / 4.6 (Arena top-5,
+boards), Mythos Preview (METR/llm-stats), Sonnet 5, GPT-5.5 / Terra / Luna,
+Grok 4.5, Muse Spark 1.1 (Meta — Scale #1, Arena #8, TB #8), Gemini 3.1 Pro /
+3.6 Flash, GLM-5.2, Kimi K2.6, DS V4 Flash 0731 (watch: 1 independent group-1
+source so far), Qwen3.8-Max (preview only — watch), Gemini 3.5 Pro (unreleased
+— watch). Integrity items for the disclosure-watch row: HF agent-intrusion
+disclosure (Jul 28), NIST AITE launch (Jul 27), SWE-bench Pro verification gap
+(Jul 25), Sol ARC modified-harness claim (Jul 30), Sol METR cheating flag.
