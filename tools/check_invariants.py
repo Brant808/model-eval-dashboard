@@ -750,11 +750,15 @@ def check_explainability(snapshots):
             if cid in explained:
                 continue
             if cid not in new_cells:
+                if old_cells[cid].get("value") is None:
+                    continue  # an empty cell disappearing is schema churn, not data
                 v.append(
                     f"EXPLAIN {older_name}->{newer_name}:{cid}: cell removed but appears in "
                     "neither tape nor changelog"
                 )
             elif cid not in old_cells:
+                if new_cells[cid].get("value") is None:
+                    continue  # a new empty cell explains itself via empty_reason
                 v.append(
                     f"EXPLAIN {older_name}->{newer_name}:{cid}: cell newly appeared but appears "
                     "in neither tape nor changelog"
@@ -813,7 +817,10 @@ def main(argv=None):
     else:
         snapshots = {}
         data_dir = Path(args.data_dir)
+        snapshot_name = re.compile(r"^(\d{4}-\d{2}-\d{2}(\.seed)?|latest)\.json$")
         for p in sorted(data_dir.glob("*.json")):
+            if not snapshot_name.match(p.name):
+                continue  # auxiliary files (e.g. overrides.json) are not snapshots
             try:
                 snapshots[p.stem.replace(".seed", "")] = load_json_strict(p)
             except (json.JSONDecodeError, ValueError) as e:

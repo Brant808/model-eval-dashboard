@@ -29,9 +29,13 @@ def diff_entries(older, newer):
         if cid in explained:
             continue
         if cid not in new_cells:
+            if old_cells[cid].get("value") is None:
+                continue  # an empty cell disappearing is schema churn, not data
             out.append({"date": date, "cell_ids": [cid], "note": "cell removed", "class": "removed"})
         elif cid not in old_cells:
             nv = new_cells[cid].get("value")
+            if nv is None:
+                continue  # a new empty cell explains itself via empty_reason
             out.append(
                 {"date": date, "cell_ids": [cid], "note": f"cell newly populated: {nv!r}", "class": "appeared"}
             )
