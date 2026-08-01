@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frontier Model Eval Monitor</title>
+<style>
+body{background:#f7f5f0;color:#1a1a1a;font-family:'Public Sans',system-ui,-apple-system,'Segoe UI',sans-serif;margin:2rem;max-width:1200px}h1,h2{font-family:'Archivo','Public Sans',system-ui,sans-serif}code,.src,.val{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace}table{border-collapse:collapse;width:100%;margin-bottom:1.5rem}td,th{border:1px solid #d8d4ca;padding:.4rem .6rem;vertical-align:top;font-size:.85rem}th{background:#eceadf;text-align:left}.tag{font-weight:700;border:1px solid;border-radius:3px;padding:0 .25rem;margin-left:.35rem;font-size:.7rem}.tag-I{color:#1e40c9;border-color:#1e40c9}.tag-V{color:#9a6b00;border-color:#9a6b00}.chip{margin-left:.35rem;font-size:.7rem;font-weight:700;color:#1e40c9}.stale-badge{background:#9a6b00;color:#fff;font-size:.65rem;padding:0 .3rem;margin-left:.35rem;border-radius:3px}.warn-tag{display:block;color:#8a2b00;font-size:.7rem;margin-top:.15rem}.note-tag{display:block;color:#666;font-size:.7rem;margin-top:.15rem}.empty em{color:#777}.src{color:#888;font-size:.7rem;margin-left:.3rem}.tier{display:block;font-size:.7rem;color:#444}footer{border-top:2px solid #1e40c9;margin-top:2rem;padding-top:.5rem;font-size:.8rem;color:#555}.tape li{margin-bottom:.3rem}
+</style></head><body>
+<h1>Frontier Model Eval Monitor</h1>
+<p class="meta">Snapshot <code>2026-07-31</code> (generated 2026-07-31T00:00:00Z). Provenance: <span class="tag tag-I">I</span> independent, <span class="tag tag-V">V</span> vendor-claimed.</p>
+<h2>Today's tape</h2><ul class="tape">
+<li data-tape-item="1" data-tape-date="2026-07-31" data-tape-src="S1"><strong>2026-07-31</strong> — DeepSeek V4 Flash 0731 debuts at 50 on the AA Intelligence Index. Watch item: needs a second independent group-1 source before it earns a catalog slot. <span class="src">[S1]</span></li>
+<li data-tape-item="1" data-tape-date="2026-07-30" data-tape-src="S4"><strong>2026-07-30</strong> — OpenAI claims 38.3 on ARC-AGI-3 for Sol on a vendor-modified harness; the official leaderboard score remains 7.8. Modified-harness flag applied. <span class="src">[S4]</span></li>
+<li data-tape-item="1" data-tape-date="2026-07-30" data-tape-src="S7"><strong>2026-07-30</strong> — OpenAI cuts Luna pricing to $0.20/$1.20 per Mtok. Sol line now: Sol $5/$30, Terra $2/$12, Luna $0.20/$1.20. <span class="src">[S7]</span></li>
+</ul>
+<h2>Independent core</h2>
+<table><thead><tr><th>Metric</th>
+<th>Claude Fable 5</th>
+<th>Claude Opus 5</th>
+<th>GPT-5.6 Sol</th>
+<th>Kimi K3</th>
+<th>DeepSeek V4 Pro</th>
+</tr></thead><tbody>
+<tr data-metric="aa-index" data-row-set="aa-index-v4.1"><th>AA Intelligence Index v4.1</th>
+<td data-cell-id="aa-index.fable-5" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="aa-index-v4.1"><span class="val">60 index</span><span class="tag tag-I">I</span><span class="src">[S1]</span></td>
+<td data-cell-id="aa-index.opus-5" data-tag="I" data-stale="0" data-warn="0" data-chip="1" data-set="aa-index-v4.1"><span class="val">61 index</span><span class="tag tag-I">I</span><span class="src">[S1]</span><span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span><span class="note-tag">#1 on index</span></td>
+<td data-cell-id="aa-index.gpt-5-6-sol" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="aa-index-v4.1"><span class="val">59 index</span><span class="tag tag-I">I</span><span class="src">[S1]</span></td>
+<td data-cell-id="aa-index.kimi-k3" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="aa-index-v4.1"><span class="val">57 index</span><span class="tag tag-I">I</span><span class="src">[S1]</span></td>
+<td data-cell-id="aa-index.ds-v4-pro" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="aa-index-v4.1"><span class="val">44 index</span><span class="tag tag-I">I</span><span class="src">[S1]</span></td>
+</tr>
+<tr data-metric="gdpval-aa" data-row-set="gdpval-aa-v2"><th>GDPval-AA v2</th>
+<td data-cell-id="gdpval-aa.fable-5" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="gdpval-aa-v2"><span class="val">1747 Elo</span><span class="tag tag-I">I</span><span class="src">[S1]</span><span class="note-tag">approximate (~)</span></td>
+<td data-cell-id="gdpval-aa.opus-5" data-tag="I" data-stale="0" data-warn="0" data-chip="1" data-set="gdpval-aa-v2"><span class="val">1861 Elo</span><span class="tag tag-I">I</span><span class="src">[S1]</span><span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span></td>
+<td data-cell-id="gdpval-aa.gpt-5-6-sol" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="gdpval-aa-v2"><span class="val">1748 Elo</span><span class="tag tag-I">I</span><span class="src">[S1]</span><span class="note-tag">approximate (~)</span></td>
+<td data-cell-id="gdpval-aa.kimi-k3" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="gdpval-aa-v2"><span class="val">1687 Elo</span><span class="tag tag-I">I</span><span class="src">[S1]</span></td>
+<td data-cell-id="gdpval-aa.ds-v4-pro" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="gdpval-aa-v2"><span class="empty">— <em>not published</em></span></td>
+</tr>
+<tr data-metric="terminal-bench" data-row-set="terminal-bench-2.1"><th>Terminal-Bench 2.1</th>
+<td data-cell-id="terminal-bench.fable-5" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="terminal-bench-2.1"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="terminal-bench.opus-5" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="terminal-bench-2.1"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="terminal-bench.gpt-5-6-sol" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="terminal-bench-2.1"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="terminal-bench.kimi-k3" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="terminal-bench-2.1"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="terminal-bench.ds-v4-pro" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="terminal-bench-2.1"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+</tr>
+<tr data-metric="cost-per-task" data-row-set="aa-cost-per-task"><th>Cost per task</th>
+<td data-cell-id="cost-per-task.fable-5" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="aa-cost-per-task"><span class="val">2.75 USD/task</span><span class="tag tag-I">I</span><span class="src">[S1]</span></td>
+<td data-cell-id="cost-per-task.opus-5" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="aa-cost-per-task"><span class="val">2.03 USD/task</span><span class="tag tag-I">I</span><span class="src">[S1]</span></td>
+<td data-cell-id="cost-per-task.gpt-5-6-sol" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="aa-cost-per-task"><span class="val">1.04 USD/task</span><span class="tag tag-I">I</span><span class="src">[S1]</span></td>
+<td data-cell-id="cost-per-task.kimi-k3" data-tag="I" data-stale="0" data-warn="0" data-chip="1" data-set="aa-cost-per-task"><span class="val">0.94 USD/task</span><span class="tag tag-I">I</span><span class="src">[S1]</span><span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span></td>
+<td data-cell-id="cost-per-task.ds-v4-pro" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="aa-cost-per-task"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+</tr>
+<tr data-metric="throughput-ttft" data-row-set="aa-throughput"><th>Throughput / TTFT</th>
+<td data-cell-id="throughput-ttft.fable-5" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="aa-throughput"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="throughput-ttft.opus-5" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="aa-throughput"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="throughput-ttft.gpt-5-6-sol" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="aa-throughput"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="throughput-ttft.kimi-k3" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="aa-throughput"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="throughput-ttft.ds-v4-pro" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="aa-throughput"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+</tr>
+</tbody></table>
+<h2>Frontier headroom</h2>
+<table><thead><tr><th>Metric</th>
+<th>Claude Fable 5</th>
+<th>Claude Opus 5</th>
+<th>GPT-5.6 Sol</th>
+<th>Kimi K3</th>
+<th>DeepSeek V4 Pro</th>
+</tr></thead><tbody>
+<tr data-metric="swe-bench-pro" data-row-set="swe-bench-pro-morph"><th>SWE-bench Pro (Morph-tracked)</th>
+<td data-cell-id="swe-bench-pro.fable-5" data-tag="I" data-stale="0" data-warn="0" data-chip="1" data-set="swe-bench-pro-morph"><span class="val">80.3 %</span><span class="tag tag-I">I</span><span class="src">[S6]</span><span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span></td>
+<td data-cell-id="swe-bench-pro.opus-5" data-tag="V" data-stale="0" data-warn="0" data-chip="0" data-set="swe-bench-pro-morph"><span class="val">79.2 %</span><span class="tag tag-V">V</span><span class="src">[S7]</span><span class="note-tag">launch claim — not yet on the Morph-tracked board</span></td>
+<td data-cell-id="swe-bench-pro.gpt-5-6-sol" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="swe-bench-pro-morph"><span class="val">64.6 %</span><span class="tag tag-I">I</span><span class="src">[S6]</span></td>
+<td data-cell-id="swe-bench-pro.kimi-k3" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="swe-bench-pro-morph"><span class="empty">— <em>not published</em></span></td>
+<td data-cell-id="swe-bench-pro.ds-v4-pro" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="swe-bench-pro-morph"><span class="empty">— <em>not published</em></span></td>
+</tr>
+<tr data-metric="arc-agi-3" data-row-set="arc-agi-3-official"><th>ARC-AGI-3</th>
+<td data-cell-id="arc-agi-3.fable-5" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="arc-agi-3-official"><span class="val">16.6 %</span><span class="tier">tier: unspecified in seed</span><span class="tag tag-I">I</span><span class="src">[S4]</span><span class="note-tag">effort tier not recorded in v2 seed — resolve in Phase 1</span></td>
+<td data-cell-id="arc-agi-3.opus-5" data-tag="I" data-stale="0" data-warn="0" data-chip="1" data-set="arc-agi-3-official"><span class="val">30.2 %</span><span class="tier">tier: High</span><span class="tag tag-I">I</span><span class="src">[S4]</span><span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span><span class="note-tag">record score (set Jul 24)</span></td>
+<td data-cell-id="arc-agi-3.gpt-5-6-sol" data-tag="I" data-stale="0" data-warn="1" data-chip="0" data-set="arc-agi-3-official"><span class="val">7.8 %</span><span class="tier">tier: unspecified in seed</span><span class="tag tag-I">I</span><span class="src">[S4]</span><span class="note-tag">effort tier not recorded in v2 seed — resolve in Phase 1</span><span class="warn-tag">⚠ modified harness: vendor claims 38.3 on a modified harness (Jul 30); not comparable, excluded from this cell</span></td>
+<td data-cell-id="arc-agi-3.kimi-k3" data-empty-reason="not evaluated" data-stale="0" data-warn="0" data-chip="0" data-set="arc-agi-3-official"><span class="empty">— <em>not evaluated</em></span></td>
+<td data-cell-id="arc-agi-3.ds-v4-pro" data-empty-reason="not evaluated" data-stale="0" data-warn="0" data-chip="0" data-set="arc-agi-3-official"><span class="empty">— <em>not evaluated</em></span></td>
+</tr>
+<tr data-metric="metr-horizon" data-row-set="metr-50pct-horizon"><th>METR 50% time horizon</th>
+<td data-cell-id="metr-horizon.fable-5" data-tag="I" data-stale="0" data-warn="0" data-chip="1" data-set="metr-50pct-horizon"><span class="val">16 hours</span><span class="tag tag-I">I</span><span class="src">[S5]</span><span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span><span class="note-tag">lower bound (16h or more)</span><span class="note-tag">measured on Mythos Preview (Fable base), not Fable 5 itself</span></td>
+<td data-cell-id="metr-horizon.opus-5" data-empty-reason="not evaluated" data-stale="0" data-warn="0" data-chip="0" data-set="metr-50pct-horizon"><span class="empty">— <em>not evaluated</em></span></td>
+<td data-cell-id="metr-horizon.gpt-5-6-sol" data-tag="I" data-stale="0" data-warn="1" data-chip="0" data-set="metr-50pct-horizon"><span class="val">11.3 hours</span><span class="tag tag-I">I</span><span class="src">[S5]</span><span class="note-tag">approximate (~)</span><span class="warn-tag">⚠ record gaming: flagged non-robust by METR</span><span class="note-tag">wide confidence interval (5 to 40h)</span></td>
+<td data-cell-id="metr-horizon.kimi-k3" data-empty-reason="not evaluated" data-stale="0" data-warn="0" data-chip="0" data-set="metr-50pct-horizon"><span class="empty">— <em>not evaluated</em></span></td>
+<td data-cell-id="metr-horizon.ds-v4-pro" data-empty-reason="not evaluated" data-stale="0" data-warn="0" data-chip="0" data-set="metr-50pct-horizon"><span class="empty">— <em>not evaluated</em></span></td>
+</tr>
+</tbody></table>
+<h2>Daily movers</h2>
+<table><thead><tr><th>Metric</th>
+<th>Claude Fable 5</th>
+<th>Claude Opus 5</th>
+<th>GPT-5.6 Sol</th>
+<th>Kimi K3</th>
+<th>DeepSeek V4 Pro</th>
+</tr></thead><tbody>
+<tr data-metric="arena-elo" data-row-set="arena-text"><th>Arena text Elo</th>
+<td data-cell-id="arena-elo.fable-5" data-empty-reason="settling" data-stale="0" data-warn="0" data-chip="0" data-set="arena-text"><span class="empty">— <em>settling</em></span><span class="note-tag">#1 in a mid-July snapshot; leaderboard in flux, number not stable in seed</span></td>
+<td data-cell-id="arena-elo.opus-5" data-empty-reason="settling" data-stale="0" data-warn="0" data-chip="0" data-set="arena-text"><span class="empty">— <em>settling</em></span></td>
+<td data-cell-id="arena-elo.gpt-5-6-sol" data-empty-reason="settling" data-stale="0" data-warn="0" data-chip="0" data-set="arena-text"><span class="empty">— <em>settling</em></span></td>
+<td data-cell-id="arena-elo.kimi-k3" data-tag="I" data-stale="0" data-warn="0" data-chip="1" data-set="arena-text"><span class="val">1547 Elo</span><span class="tag tag-I">I</span><span class="src">[S2]</span><span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span><span class="note-tag">#2 in mid-July snapshot</span></td>
+<td data-cell-id="arena-elo.ds-v4-pro" data-empty-reason="settling" data-stale="0" data-warn="0" data-chip="0" data-set="arena-text"><span class="empty">— <em>settling</em></span></td>
+</tr>
+<tr data-metric="openrouter-share" data-row-set="openrouter-provider-share"><th>OpenRouter provider token share</th>
+<td data-cell-id="openrouter-share.fable-5" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="openrouter-provider-share"><span class="val">13 % tokens</span><span class="tag tag-I">I</span><span class="src">[S3]</span><span class="note-tag">approximate (~)</span><span class="note-tag">provider-level: Anthropic total, not per-model</span><span class="note-tag">premium lane; leads programming spend</span></td>
+<td data-cell-id="openrouter-share.opus-5" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="openrouter-provider-share"><span class="val">13 % tokens</span><span class="tag tag-I">I</span><span class="src">[S3]</span><span class="note-tag">approximate (~)</span><span class="note-tag">provider-level: Anthropic total, not per-model</span></td>
+<td data-cell-id="openrouter-share.gpt-5-6-sol" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="openrouter-provider-share"><span class="val">8 % tokens</span><span class="tag tag-I">I</span><span class="src">[S3]</span><span class="note-tag">approximate (~)</span><span class="note-tag">provider-level: OpenAI total, not per-model</span></td>
+<td data-cell-id="openrouter-share.kimi-k3" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="openrouter-provider-share"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="openrouter-share.ds-v4-pro" data-tag="I" data-stale="0" data-warn="0" data-chip="1" data-set="openrouter-provider-share"><span class="val">16 % tokens</span><span class="tag tag-I">I</span><span class="src">[S3]</span><span class="chip"><span class="chip-glyph">▲</span><span class="chip-label">LEAD</span></span><span class="note-tag">approximate (~)</span><span class="note-tag">provider-level: DeepSeek total, not per-model</span><span class="note-tag">#1 provider by token share</span></td>
+</tr>
+</tbody></table>
+<h2>Lab-claimed</h2>
+<table><thead><tr><th>Metric</th>
+<th>Claude Fable 5</th>
+<th>Claude Opus 5</th>
+<th>GPT-5.6 Sol</th>
+<th>Kimi K3</th>
+<th>DeepSeek V4 Pro</th>
+</tr></thead><tbody>
+<tr data-metric="swe-bench-verified" data-row-set="swe-bench-verified-self-report"><th>SWE-bench Verified (self-reported)</th>
+<td data-cell-id="swe-bench-verified.fable-5" data-tag="V" data-stale="0" data-warn="0" data-chip="0" data-set="swe-bench-verified-self-report"><span class="val">95.0 %</span><span class="tag tag-V">V</span><span class="src">[S7]</span></td>
+<td data-cell-id="swe-bench-verified.opus-5" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="swe-bench-verified-self-report"><span class="empty">— <em>not published</em></span></td>
+<td data-cell-id="swe-bench-verified.gpt-5-6-sol" data-empty-reason="withheld" data-stale="0" data-warn="1" data-chip="0" data-set="swe-bench-verified-self-report"><span class="empty">— <em>withheld</em></span><span class="warn-tag">⚠ withheld disclosure: not published after METR record-gaming flag</span></td>
+<td data-cell-id="swe-bench-verified.kimi-k3" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="swe-bench-verified-self-report"><span class="empty">— <em>not published</em></span></td>
+<td data-cell-id="swe-bench-verified.ds-v4-pro" data-tag="V" data-stale="0" data-warn="0" data-chip="0" data-set="swe-bench-verified-self-report"><span class="val">80.6 %</span><span class="tag tag-V">V</span><span class="src">[S7]</span></td>
+</tr>
+<tr data-metric="disclosure-watch" data-row-set="disclosure-watch"><th>Disclosure watch</th>
+<td data-cell-id="disclosure-watch.fable-5" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="disclosure-watch"><span class="val">none noted in seed</span><span class="tag tag-I">I</span><span class="src">[S0]</span></td>
+<td data-cell-id="disclosure-watch.opus-5" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="disclosure-watch"><span class="val">none noted in seed</span><span class="tag tag-I">I</span><span class="src">[S0]</span></td>
+<td data-cell-id="disclosure-watch.gpt-5-6-sol" data-tag="I" data-stale="0" data-warn="1" data-chip="0" data-set="disclosure-watch"><span class="val">2 open items</span><span class="tag tag-I">I</span><span class="src">[S0]</span><span class="warn-tag">⚠ withheld disclosure: SWE-bench Verified withheld post-METR flag</span><span class="warn-tag">⚠ modified harness: ARC-AGI-3 38.3 claim on vendor-modified harness (Jul 30)</span></td>
+<td data-cell-id="disclosure-watch.kimi-k3" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="disclosure-watch"><span class="val">none noted in seed</span><span class="tag tag-I">I</span><span class="src">[S0]</span></td>
+<td data-cell-id="disclosure-watch.ds-v4-pro" data-tag="I" data-stale="0" data-warn="0" data-chip="0" data-set="disclosure-watch"><span class="val">none noted in seed</span><span class="tag tag-I">I</span><span class="src">[S0]</span></td>
+</tr>
+</tbody></table>
+<h2>Economics and deployment</h2>
+<table><thead><tr><th>Metric</th>
+<th>Claude Fable 5</th>
+<th>Claude Opus 5</th>
+<th>GPT-5.6 Sol</th>
+<th>Kimi K3</th>
+<th>DeepSeek V4 Pro</th>
+</tr></thead><tbody>
+<tr data-metric="api-price" data-row-set="list-price"><th>API list price (in/out per Mtok)</th>
+<td data-cell-id="api-price.fable-5" data-tag="V" data-stale="0" data-warn="0" data-chip="0" data-set="list-price"><span class="val">$10 / $50 USD/Mtok in/out</span><span class="tag tag-V">V</span><span class="src">[S7]</span></td>
+<td data-cell-id="api-price.opus-5" data-tag="V" data-stale="0" data-warn="0" data-chip="0" data-set="list-price"><span class="val">$5 / $25 USD/Mtok in/out</span><span class="tag tag-V">V</span><span class="src">[S7]</span></td>
+<td data-cell-id="api-price.gpt-5-6-sol" data-tag="V" data-stale="0" data-warn="0" data-chip="0" data-set="list-price"><span class="val">$5 / $30 USD/Mtok in/out</span><span class="tag tag-V">V</span><span class="src">[S7]</span><span class="note-tag">line variants: Terra $2/$12, Luna $0.20/$1.20 (after Jul 30 cut)</span><span class="note-tag">input rate increases past 272K context</span></td>
+<td data-cell-id="api-price.kimi-k3" data-tag="V" data-stale="0" data-warn="0" data-chip="0" data-set="list-price"><span class="val">$3 / $15 USD/Mtok in/out</span><span class="tag tag-V">V</span><span class="src">[S7]</span></td>
+<td data-cell-id="api-price.ds-v4-pro" data-tag="V" data-stale="0" data-warn="0" data-chip="0" data-set="list-price"><span class="val">$0.44 / $0.87 USD/Mtok in/out</span><span class="tag tag-V">V</span><span class="src">[S7]</span></td>
+</tr>
+<tr data-metric="context-window" data-row-set="context-window"><th>Context window</th>
+<td data-cell-id="context-window.fable-5" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="context-window"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="context-window.opus-5" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="context-window"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="context-window.gpt-5-6-sol" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="context-window"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span><span class="note-tag">pricing tier boundary at 272K implies window of at least 272K</span></td>
+<td data-cell-id="context-window.kimi-k3" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="context-window"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="context-window.ds-v4-pro" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="context-window"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+</tr>
+<tr data-metric="aa-omniscience" data-row-set="aa-omniscience"><th>AA-Omniscience factuality</th>
+<td data-cell-id="aa-omniscience.fable-5" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="aa-omniscience"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="aa-omniscience.opus-5" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="aa-omniscience"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="aa-omniscience.gpt-5-6-sol" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="aa-omniscience"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="aa-omniscience.kimi-k3" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="aa-omniscience"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="aa-omniscience.ds-v4-pro" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="aa-omniscience"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+</tr>
+<tr data-metric="deployment-terms" data-row-set="deployment-terms"><th>Deployment and data terms</th>
+<td data-cell-id="deployment-terms.fable-5" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="deployment-terms"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="deployment-terms.opus-5" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="deployment-terms"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="deployment-terms.gpt-5-6-sol" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="deployment-terms"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="deployment-terms.kimi-k3" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="deployment-terms"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+<td data-cell-id="deployment-terms.ds-v4-pro" data-empty-reason="not published" data-stale="0" data-warn="0" data-chip="0" data-set="deployment-terms"><span class="empty">— <em>not published</em></span><span class="note-tag">not captured in v2 seed</span></td>
+</tr>
+</tbody></table>
+<h2>New-model watch</h2><ul class="watch">
+<li><strong>DeepSeek V4 Flash 0731</strong> (first seen 2026-07-31, sources: S1) — AA Index 50 on Jul 31. Promotes to catalog when present in 2+ independent group-1 sources.</li>
+</ul>
+<footer data-health="1">
+<p>Pipeline health: run status <code>seed</code>; judgment layer <code>off (seed)</code>; data generated <code>2026-07-31T00:00:00Z</code>.</p>
+</footer>
+</body></html>
