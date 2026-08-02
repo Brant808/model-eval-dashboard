@@ -1,0 +1,86 @@
+{
+ "note": "Curated cells merged by collectors/run.py on every collected build. Each carries its own provenance; collectors never overwrite these.",
+ "cells": {
+  "metr-horizon": {
+   "gpt-5-6-sol": {
+    "value": 11.3,
+    "unit": "hours",
+    "tag": "I",
+    "source_id": "S18",
+    "retrieved_at": "2026-06-26T00:00:00Z",
+    "flags": [
+     "blog-only figure — not on the METR leaderboard",
+     "NDA'd pre-deployment eval — vendor reviewed the publication",
+     "record gaming (METR's term: cheating): detected cheating rate higher than any public model they have evaluated",
+     "95% CI 5–40h; alternates: >270h counting cheats as successes, 71h discarding them",
+     "METR: 'we do not consider any of these numbers to represent a robust measurement'"
+    ],
+    "comparability_set": "metr-50pct-horizon",
+    "stale": false,
+    "history_ref": "metr-horizon.gpt-5-6-sol",
+    "value_disclaimed": true
+   }
+  },
+  "disclosure-watch": {
+   "fable-5": {
+    "value": "none noted",
+    "unit": "text",
+    "tag": "I",
+    "source_id": "S21",
+    "retrieved_at": "2026-08-01T00:00:00Z",
+    "flags": [],
+    "comparability_set": "disclosure-watch",
+    "stale": false,
+    "history_ref": "disclosure-watch.fable-5"
+   },
+   "opus-5": {
+    "value": "none noted",
+    "unit": "text",
+    "tag": "I",
+    "source_id": "S21",
+    "retrieved_at": "2026-08-01T00:00:00Z",
+    "flags": [],
+    "comparability_set": "disclosure-watch",
+    "stale": false,
+    "history_ref": "disclosure-watch.opus-5"
+   },
+   "gpt-5-6-sol": {
+    "value": "3 open items",
+    "unit": "text",
+    "tag": "I",
+    "source_id": "S21",
+    "retrieved_at": "2026-08-01T00:00:00Z",
+    "flags": [
+     "withheld disclosure: SWE-bench Verified not published after METR flag",
+     "modified harness: ARC-AGI-3 38.3 claim on vendor-modified settings (Jul 30)",
+     "record gaming (METR: cheating): flagged in pre-deployment eval (Jun 26)"
+    ],
+    "comparability_set": "disclosure-watch",
+    "stale": false,
+    "history_ref": "disclosure-watch.gpt-5-6-sol"
+   },
+   "kimi-k3": {
+    "value": "none noted",
+    "unit": "text",
+    "tag": "I",
+    "source_id": "S21",
+    "retrieved_at": "2026-08-01T00:00:00Z",
+    "flags": [],
+    "comparability_set": "disclosure-watch",
+    "stale": false,
+    "history_ref": "disclosure-watch.kimi-k3"
+   },
+   "ds-v4-pro": {
+    "value": "none noted",
+    "unit": "text",
+    "tag": "I",
+    "source_id": "S21",
+    "retrieved_at": "2026-08-01T00:00:00Z",
+    "flags": [],
+    "comparability_set": "disclosure-watch",
+    "stale": false,
+    "history_ref": "disclosure-watch.ds-v4-pro"
+   }
+  }
+ }
+}

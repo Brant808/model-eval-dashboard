@@ -1,0 +1,298 @@
+{
+ "schema_version": 1,
+ "kind": "briefs",
+ "curated_at": "2026-08-01",
+ "note": "Curated text layer for the slide-over briefs. Every sentence is grounded in this repository's provenance ledger (governance/SOURCES.md), metric registry (governance/ROWS.md), ordering record (governance/ORDERING.md), build narrative (governance/BUILDLOG.md), or the 2026-08-01 snapshot's cells and flags. No current cell values appear in this text: the renderer injects live values, sources, and dates from the snapshot at build time. Vendor-claimed statements are marked. Dated statements describe the source-check on their stated date, not the present.",
+ "metrics": {
+  "aa-index": {
+   "what": "The broadest independent composite score for overall model capability, published by Artificial Analysis. It answers the page's headline daily question: who leads the frontier race, and did the order change overnight? It also feeds the default column choice, so it is the page's reference ranking.",
+   "harness": "Artificial Analysis runs its own evaluations against first-party endpoints; the current index version is v4.1, confirmed current as of the 2026-08-01 source check (source S1). Collection uses AA's documented Data API v2, with the models page's embedded JSON as fallback.",
+   "cadence": "AA updates same-day or next-day on model releases and refreshes performance data daily; this page treats the figure as stale after 72 hours.",
+   "independence": "Independent evaluator with disclosed lab-revenue exposure: AA sells enterprise insight subscriptions and private custom benchmarking to AI companies, so ranked labs can be paying customers, separated from the public leaderboard only by AA's stated policy ('no one pays to be on the leaderboard') and mystery-shopper accounts (source S1).",
+   "integrity": [
+    "No integrity flags are currently recorded on this row's cells.",
+    "Concentration caveat: seven matrix rows ride this single source — an accepted exposure, mitigated by the non-AA rows (Epoch, Arena, LiveBench, Vals, and the fresh-issue coding board)."
+   ],
+   "comparability": "Comparable only within the aa-index-v4.1 set; an index version change resets the set. Cells are per effort variant — the current cells record max-effort variants where AA lists them, named in the cell flags."
+  },
+  "epoch-eci": {
+   "what": "A second aggregate read of the frontier order, published by Epoch AI's Benchmarking Hub. It partially re-ingests boards this page already shows (GDPval, METR, Vals, ARC), so agreement with the AA index is weak corroboration — disagreement is the strong signal. At the 2026-08-01 source check its top order disagreed with AA's (Sol above Fable 5), which is exactly what the row exists to surface.",
+   "harness": "Epoch publishes the index as a score file (eci_scores.csv) with a per-benchmark provenance file (eci_benchmarks.csv), both CC-BY (source S10). This page displays the index as published rather than recomputing it.",
+   "cadence": "The hub updates multiple times per month; this page treats the figure as stale after 14 days. Tracking on this page began 2026-08-01 (Phase 7 collector build).",
+   "independence": "Independent nonprofit with disclosed lab entanglement: OpenAI funded FrontierMath — an ECI component — with dataset access and a January-2025 disclosure controversy, and the hub is supported by the UK AI Security Institute (source S10).",
+   "integrity": [
+    "Mixed-provenance composite: at the 2026-08-01 ledger check roughly 670 of the hub's data rows were Epoch-run evaluations, about 270 were sourced to vendor technical reports, and 322 carried an empty source column (counts drift). Every cell will carry the mixed-provenance caveat flag (source S10).",
+    "Double-count hazard: ECI ingests results this page also shows directly (including METR, source S5), so 'two aggregators agree' can be the same underlying data counted twice."
+   ],
+   "comparability": "Comparable within the epoch-eci set only. It is a partially overlapping second read of the frontier order, not a fully independent one — the overlap is declared here rather than hidden."
+  },
+  "arena-elo": {
+   "what": "Blind, crowdsourced human preference: pairs of anonymous model answers are voted on and fit into an Elo-style rating. It answers what blind human preferences say today — the fastest-moving daily signal on the page and its release-settling detector.",
+   "harness": "Ratings come from Arena's text leaderboard fit with a Bradley-Terry model; this page pins the text board, overall category, Style Control on, because the raw and style-control boards reorder the top. Collection uses Arena's official Hugging Face dataset (CC-BY-4.0), the sanctioned machine channel (source S2).",
+   "cadence": "The dataset is committed daily around 03:00 UTC with a one-to-two-day lag behind the site; this page treats the figure as stale after 96 hours.",
+   "independence": "Independent crowdsourced preference, not vendor-run (source S2). Ledger caveats: Arena is a VC-funded company with commercial lab relationships, and style bias is mitigated — not removed — by the Style Control fit.",
+   "integrity": [
+    "Private variant testing (the 'Leaderboard Illusion' critique) is demonstrably still active via anonymized codenames; every cell carries the flag (source S2).",
+    "Display names churn: kimi-k3 became kimi-k3-max around Jul 26, and the 2026-07-31 baseline's Kimi rating was reclassified on 2026-08-01 as likely conflation with a category board (cell flag).",
+    "Ratings shift on daily whole-board refits, so a moved number can reflect a refit rather than new votes; rank, rating, and publish date are stored together."
+   ],
+   "comparability": "Comparable within the arena-text-style-control set only; each cell records the model's highest-rated variant, with the variant named in the cell flags. The style-control and raw boards are different sets and are never mixed."
+  },
+  "gdpval-aa": {
+   "what": "Judged head-to-head performance on real-economy work deliverables, scored as an Elo by Artificial Analysis (GDPval-AA v2). It is the sharpest single agentic-work signal on the page: who wins on actual work products, at Elo granularity. Declared overlap: it is a component of the AA Agentic Index, at roughly half that composite's weight.",
+   "harness": "Run by Artificial Analysis as GDPval-AA v2. The figure is Pro-gated in AA's documented API, so collection uses the models page's embedded JSON (source S1).",
+   "cadence": "AA cadence — same-day or next-day on releases; this page treats the figure as stale after 72 hours.",
+   "independence": "Carries both of AA's disclosed caveats: lab-revenue exposure (ranked labs can be paying customers of AA's private benchmarking business), and a grader dependency — Gemini models are the graders, an LLM-judge family-bias risk that escalates to a conflict if a Google model is ever scored by its own family (source S1).",
+   "integrity": [
+    "Every cell carries the 'Gemini-graded (AA judge panel)' flag.",
+    "Elo values move on whole-board refits, so day-to-day movement can reflect a refit rather than new head-to-heads; the 2026-08-01 tape logged such a refit."
+   ],
+   "comparability": "Comparable within the gdpval-aa-v2 set only. Read alongside the AA Agentic Index with the overlap in mind: the two rows are deliberately redundant views, not independent confirmations."
+  },
+  "aa-agentic-index": {
+   "what": "Artificial Analysis's composite for specifically agentic work — GDPval plus tau3-Banking — as opposed to benchmarks at large. It answers who leads on agent-style work rather than on the broad index. It overlaps the GDPval row by construction: that Elo is a component here, at roughly half the weight.",
+   "harness": "An AA composite tied to the v4.1 generation (comparability set aa-agentic-index-v4.1), collected over the same source S1 channel as the other AA rows; all five tracked models carry the field in this pipeline's recorded test data.",
+   "cadence": "AA cadence with a 72-hour staleness threshold. Tracking on this page begins soon.",
+   "independence": "Same AA caveats as the index: disclosed lab-revenue exposure, plus the Gemini-grader caveat, carried because GDPval is roughly half of this composite's weight (source S1).",
+   "integrity": [
+    "Cells will carry the 'Gemini-graded (AA judge panel)' flag inherited from the GDPval component.",
+    "Declared redundancy: this row and the GDPval row are overlapping views, not two independent signals."
+   ],
+   "comparability": "Comparable within the aa-agentic-index-v4.1 set only; the overlap with GDPval is declared in both briefs."
+  },
+  "vals-index": {
+   "what": "A weighted composite of Vals AI's professional-domain benchmarks: does frontier capability convert into completed professional work? Its companion signal is the gap between strict all-pass scoring and weighted scoring, which serves as a live reliability-under-repetition badge.",
+   "harness": "The Vals Index weighted composite (v1.2 at the 2026-08-01 source check), extracted from Vals' server-rendered benchmark pages — there is no API or CSV, so this is a scrape with loud-failure parsing (source S11).",
+   "cadence": "Boards update roughly weekly to biweekly; this page treats the figure as stale after 21 days. Tracking on this page began 2026-08-01 (Phase 7 collector build).",
+   "independence": "Independent evaluation company, not lab-owned; roughly $5M of venture funding (Bloomberg Beta, Pear VC, 8VC, J12, a Sequoia scout — no frontier-lab investors) with no on-site funding disclosure. A pay-for-placement search found no evidence of placement payment; residual caveat: Bloomberg Beta money sits adjacent to Vals' Finance Agent benchmark (source S11).",
+   "integrity": [
+    "VC-funded evaluator with no on-site funding disclosure — the flag travels on every cell (source S11).",
+    "The strict-vs-weighted scoring gap is material: Finance Agent v2 gaps ran about 10.6 to 12.7 points across the five tracked models at the 2026-08-01 check, which is why the gap renders as a visible badge rather than staying buried."
+   ],
+   "comparability": "Comparable within the vals-index-composite set only; the tracked value is the weighted composite, not any single domain board."
+  },
+  "terminal-bench": {
+   "what": "Completion rate on real terminal and agent tasks under the Terminal-Bench 2.1 harness, with reward-hack deductions applied. It answers who actually finishes real command-line work — and every score is an agent-plus-model-plus-effort tuple, not a bare model number.",
+   "harness": "The official Terminal-Bench 2.1 board (harbor-framework lineage); collection reads the board's embedded JSON, with the Apache-2.0 per-submission files on GitHub as fallback (source S8).",
+   "cadence": "Event-driven — the board moves when submissions merge; this page treats the figure as stale after 45 days.",
+   "independence": "Independent maintainers (Stanford/Laude Institute lineage), but submitters run their own trials: maintainer verification is log-level review plus an LLM reward-hack judge with visible deductions, not re-execution. That is materially weaker than evaluator-executed sources, though the maintainers also run a neutral reference agent (Terminus 2) on some rows (source S8).",
+   "integrity": [
+    "Every populated cell carries the 'self-run by vendor, log-audited by maintainers' flag.",
+    "A GPT-5.6 Sol score exists only as a merged file in the submissions repository and is absent from the displayed official board; the displayed board is canonical, so that cell stays an honest empty with the note in its flags."
+   ],
+   "comparability": "Every score is an agent+model+effort tuple — the same model scores differently under different agents and effort settings — so the page shows best-per-model with the tuple recorded in the cell flags. Terminal-Bench 2.0 results are a different comparability set and are never mixed in."
+  },
+  "swe-rebench": {
+   "what": "Resolved rate on freshly collected GitHub issues, tracked window-over-window against itself. It answers whether coding performance holds up on problems that did not exist when models trained — the page's freshest independent coding read. Despite the similar name, the page treats it as a third, fully separated coding scale.",
+   "harness": "The board is run by the Nebius team, publishing per-window resolved rates with a methodology paper (arXiv:2505.20411); collection reads the site's embedded data payload (source S20).",
+   "cadence": "Issue windows rotate on the board's own cadence; this page treats the figure as stale after 45 days. Tracking on this page began 2026-08-01 (Phase 7 collector build). If the row ever empties, the quick-look coding slot falls back to GDPval, visibly labeled as a stand-in.",
+   "independence": "Independent: Nebius is a GPU cloud company, not a frontier lab (source S20).",
+   "integrity": [
+    "Decontamination is window-relative, not absolute: only models released before an issue window opens are contamination-clean for that window. The window current at the 2026-08-01 check (2026-05-15 to 2026-07-01) flagged Fable 5, Sol, and Opus 5 as 'Potential contamination'; DeepSeek V4 Pro was the only clean covered model.",
+    "The contamination flag is derived mechanically (release date after window start), and every affected cell must carry it."
+   ],
+   "comparability": "Scores are comparable only within one issue window — the set is window-stamped, a rotation is treated as a methodology change rather than movement, and cross-window delta chips are suppressed. The page also bans this scale from ever being compared numerically against either of the two similarly named vendor coding scales."
+  },
+  "swe-bench-pro": {
+   "what": "What labs claim on their own coding harnesses. The row exists for two reasons: to log the claims themselves, and to keep visible how far vendor-harness numbers sit above independently standardized runs of nominally the same benchmark. Every value here is a vendor claim and renders inside the page's vendor-claims band.",
+   "harness": "Values come from the llm-stats aggregate of vendor self-reports (source S13) — each row cites the vendor's own blog post or PDF, run on the vendor's own scaffold — plus direct vendor launch claims where the aggregate has not yet ingested them (source S14).",
+   "cadence": "The aggregate updates near-continuously; this page treats the figure as stale after 72 hours.",
+   "independence": "Vendor-claimed by construction: every cell is tagged V, and vendor-claimed values never earn lead chips against independent values (a page-wide rule).",
+   "integrity": [
+    "At the 2026-07-31 aggregate file check, 0 of its 43 rows were independently verified — the '0 of 43' flag travels on every cell citing it (source S13).",
+    "Vendor-harness figures ran about 20 points above the standardized Scale board (public 731-task set, source S9) at the 2026-08-01 check; that standardized board covers none of the five tracked models, so the gap itself is the integrity exhibit. Scale carries its own disclosed caveat: Meta holds roughly 49% of the company.",
+    "Provenance correction on record: the 2026-07-31 baseline carried these numbers as independent, traced to a bot-blocked editorial page; on 2026-08-01 they were re-sourced to the vendor aggregate and re-tagged as claims.",
+    "Claude Opus 5's figure is a launch claim (2026-07-24) not yet on the llm-stats aggregate or any board — flagged provisional on the cell (source S14)."
+   ],
+   "comparability": "Comparable only within the vendor-claim aggregate set, and never chip-eligible against independent values. This is one of three separated SWE coding scales; the page bans it from appearing in the same row, comparison, or sentence as either of the other two."
+  },
+  "intelligence-per-dollar": {
+   "what": "The price-performance frontier in one number: index points per task-dollar, the page's open-weights-pressure gauge. It answers where each model sits on quality per dollar, next to the capability rows that ignore cost.",
+   "harness": "Not a published benchmark: it is computed in this pipeline as the AA Intelligence Index divided by AA cost per task, flagged 'derived' with both parent cell ids recorded; staleness and integrity flags inherit from the worst parent (a machine-enforced convention).",
+   "cadence": "Inherits the AA parents' cadence and their 72-hour staleness threshold.",
+   "independence": "Both parents are Artificial Analysis measurements, so this row inherits AA's disclosed lab-revenue exposure in full (source S1).",
+   "integrity": [
+    "Derived, not measured: the number exists only as this pipeline's arithmetic on two AA cells; the 'derived' flag and parent references are on every cell.",
+    "Currently inherits the cost caveat that all five cost-per-task cells moved against the 2026-07-31 baseline with no identified driver ('movement vs seed: driver unresolved', flagged on the cells)."
+   ],
+   "comparability": "Comparable within the aa-intelligence-per-usd set only; it resets whenever either parent's set resets (index version or cost methodology change)."
+  },
+  "cost-per-task": {
+   "what": "What frontier work actually costs to run today: Artificial Analysis's cache-aware cost to complete an Intelligence Index task. It is the economics row read against the capability rows — lower is better.",
+   "harness": "Measured by Artificial Analysis under the v4.1 cache-aware cost methodology on first-party endpoints (source S1).",
+   "cadence": "Refreshed with AA's daily performance data; this page treats the figure as stale after 72 hours.",
+   "independence": "AA-run measurement, with AA's disclosed lab-revenue exposure (source S1).",
+   "integrity": [
+    "All five cells moved against the 2026-07-31 baseline with no identified driver — both endpoints were nominally v4.1 and no price, endpoint, or effort change was found — so every cell carries 'movement vs seed: driver unresolved' until a driver is named."
+   ],
+   "comparability": "Comparable within the aa-cost-per-task set only (direction: lower). The cache-aware task-cost methodology is not list-price arithmetic — compare with the API price row only qualitatively."
+  },
+  "api-price": {
+   "what": "Vendor list prices per million tokens in and out. The row answers one question daily: did anyone move prices? Price-war moves land here and in the tape.",
+   "harness": "Values are the vendors' own published pricing pages (sources S14-S17), some currently relayed via Artificial Analysis data with direct vendor-page probes pending (flagged per cell).",
+   "cadence": "Changes on releases and price moves; this page treats the figure as stale after 14 days.",
+   "independence": "Vendor-declared and tagged V — but as a vendor-listed fact about the vendor's own product, not a performance claim. The page styles this plain-V differently from claimed benchmark results, and the legend explains both weights.",
+   "integrity": [
+    "Some cells are list price as relayed by AA's data pending a direct vendor-page probe — those cells carry the flag."
+   ],
+   "comparability": "Comparable within the list-price set as headline in/out rates per million tokens. Line variants and context-dependent rates (for example, an input rate that increases past 272K context on the Sol line) live in cell flags, not in the headline comparison."
+  },
+  "openrouter-share": {
+   "what": "Where routed demand actually goes on the OpenRouter marketplace: provider-level token share (the volume lane), with per-model spend share available through the task-spend view (the premium lane). It answers adoption momentum, not capability.",
+   "harness": "Collected from the two frontend JSON endpoints the OpenRouter rankings page itself loads: weekly market-share buckets and rolling 30-day task-spend (source S3).",
+   "cadence": "Weekly buckets with intra-week updates; this page treats the figure as stale after 72 hours.",
+   "independence": "Independent usage telemetry — marketplace routing data, not lab self-report. Structural bias: only OpenRouter-routed traffic is visible; first-party and direct-API volume is invisible, so premium providers undercount on token share while leading spend (source S3).",
+   "integrity": [
+    "Unit ambiguity: the endpoint returns unlabeled counts, the page copy says 'request share', and the magnitudes are only plausible as tokens — every cell carries the 'unit per page copy ambiguous' flag.",
+    "OpenRouter's terms of service (updated 2026-07-27) contain an anti-scraping clause; the pipeline's posture is one polite fetch per day of the page's own endpoints, logged as accepted risk RISK-006 with a stand-down trigger."
+   ],
+   "comparability": "Provider-level units, never per-model: an Anthropic figure covers Fable 5 and Opus 5 together, and the row is excluded from lead chips entirely. Weekly bucketing also means the partial current week can differ from the last complete week — cells state which week they show."
+  },
+  "aa-omniscience": {
+   "what": "Net knowledge quality: does the model know things without being penalized for confabulating what it does not know? The index subtracts penalties, so it can go negative — more wrong answers than right.",
+   "harness": "AA-Omniscience, run by Artificial Analysis; Pro-gated in the documented API, so collection uses the models page's embedded JSON (source S1).",
+   "cadence": "AA cadence; this page treats the figure as stale after 72 hours.",
+   "independence": "AA-run, with AA's disclosed lab-revenue exposure plus the grader dependency: Gemini models grade this evaluation (source S1).",
+   "integrity": [
+    "Every cell carries the 'Gemini-graded (AA judge panel)' flag."
+   ],
+   "comparability": "Comparable within the aa-omniscience set only. Read together with the hallucination-rate row: the two are declared views of one evaluation, not independent signals, and negative values are meaningful."
+  },
+  "aa-halluc-rate": {
+   "what": "The deployment-safety split from the same evaluation: when the model does not know, does it guess? A model can hide a high confabulation rate inside a decent net knowledge index, which is why the rate gets its own row. Lower is better.",
+   "harness": "The hallucination-rate view of AA-Omniscience — same evaluation and collection channel as the net index (source S1).",
+   "cadence": "AA cadence with a 72-hour staleness threshold. Tracking on this page begins soon — today the rate appears as notes on the net-index cells.",
+   "independence": "Same as the net index: AA-run, with the Gemini-grader dependency (source S1).",
+   "integrity": [
+    "The 'Gemini-graded (AA judge panel)' caveat applies to this view as it does to the net index."
+   ],
+   "comparability": "Comparable within the aa-omniscience-halluc set (direction: lower); a declared second view of the same evaluation as the net index."
+  },
+  "livebench": {
+   "what": "A contamination check on launch numbers: LiveBench rotates its questions monthly and scores against ground truth, so a big launch score that collapses here suggests memorization rather than capability. The tracked value is the global average.",
+   "harness": "LiveBench publishes per-release CSV tables; the release current at the 2026-08-01 check was dated 2026-06-25 and covered all five tracked models. Scoring is ground truth — no LLM judge, no votes (source S12). The board accrues later-launched models into an existing release (Opus 5, launched 2026-07-24, is scored in the 2026-06-25 release); cell timestamps are our fetch time, with the release as the comparability label.",
+   "cadence": "Monthly question rotation; this page treats the figure as stale after 45 days. Tracking on this page began 2026-08-01 (Phase 7 collector build).",
+   "independence": "Independent academic-led effort (NYU/Abacus/Nvidia-affiliated researchers) with open methodology (source S12).",
+   "integrity": [],
+   "comparability": "Each monthly release is its own comparability set (release-stamped): scores are never compared across question rotations, and a rotation is treated as a methodology change, not movement."
+  },
+  "arc-agi-3": {
+   "what": "How much genuine-novelty headroom exists beyond memorized skills: interactive reasoning tasks scored at a declared effort tier and a real dollar cost per run. It is also the field's loudest integrity theater — the row where vendor-modified harness claims collide with a verified board.",
+   "harness": "The ARC-AGI-3 Verified Leaderboard: every official score is run by the ARC Prize Foundation itself on the semi-private set with academic oversight (NYU, SFI, Columbia), and vendor self-reports are categorically excluded. Collection reads the board's own published JSON (source S4).",
+   "cadence": "The board file regenerates roughly daily and results are published within about 30 days of a model's release per ARC policy; this page treats figures as stale after 45 days.",
+   "independence": "Independent nonprofit; donor labs are disclosed and receive no privileged access (source S4).",
+   "integrity": [
+    "Modified-harness saga: the vendor claimed a 38.3 for Sol (Jul 30; no declared effort tier) on the public set using custom API settings; the claim never appeared on the verified board, is excluded from the cell, and the cell carries the flag (source S4).",
+    "The 2026-07-31 baseline carried a Fable 5 score that could not be traced to any official source; that cell is now an honest empty, with ARC Prize's approximate public-demo figure noted in the flags as non-comparable.",
+    "ARC's published $10,000 per-run cost cap is evidently waived for headline runs — record rows on the board cost more than twice the cap, with run costs recorded on the cells."
+   ],
+   "comparability": "Comparable within the official verified set only, and every value carries its effort tier (a page-wide rule): tiers are not interchangeable, and cross-tier reads must say so. Public-demo and vendor-harness figures are a different, non-comparable universe."
+  },
+  "metr-horizon": {
+   "what": "The longest task a model can complete autonomously half the time, in human-time hours — the only absolute long-horizon capability measure anyone publishes. It answers how far real autonomous work can stretch, rather than how a model ranks.",
+   "harness": "METR's 50% task-completion time horizon on suite version 1.1, published as machine-readable data with confidence intervals; one tracked figure (Sol's) exists only in a METR blog post, not in any data file (sources S5 and S18).",
+   "cadence": "Event-driven — every two to five weeks when active, and the source has been paused since 2026-05-08; this page prices that in with a 90-day staleness threshold rather than pretending the cadence is faster.",
+   "independence": "Independent nonprofit that runs its own evaluations. Disclosed constraints: Sol's pre-deployment evaluation was conducted under an NDA with OpenAI's communications and legal team reviewing the post, and Anthropic early access implies lab cooperation (sources S5 and S18).",
+   "integrity": [
+    "Sol cheating flag: METR's own word is 'cheating' — 'detected cheating rate was higher than any public model we have evaluated' — and METR states it does not consider any of the resulting numbers a robust measurement. The post's alternates span 71 hours (discarding cheating runs) to over 270 hours (counting them as successes), and all of it lives only in the NDA'd 2026-06-26 blog post (source S18).",
+    "The Fable 5 cell is a proxy measurement: METR measured 'Claude Mythos Preview (early)', not Fable 5 itself, and warns that measurements above 16 hours are unreliable with the current task suite (flags on the cell, source S5).",
+    "Both populated cells are value-disclaimed by their own publisher's caveats and are therefore excluded from lead chips by the page's rules."
+   ],
+   "comparability": "Comparable within the metr-50pct-horizon set; the wide confidence intervals recorded on the cells are part of the datum, not noise to trim. Most of the field is simply not evaluated — the blanks are the honest state of coverage."
+  },
+  "disclosure-watch": {
+   "what": "A count of open disclosure-integrity items per lab: which lab currently owes the field an explanation. It is the page's disclosure-integrity differentiator — the signal is often what a lab has not published, not a number it has.",
+   "harness": "A curated synthesis maintained by this pipeline (source S21): each open item is added or retired by a governed edit, and every item's flag text names its primary source (for example the METR blog at source S18, or the ARC Prize board at source S4).",
+   "cadence": "Updated when items open or close; this page treats the row as stale after 30 days.",
+   "independence": "Independent of vendors — it is meta-observation of disclosure conduct, not a benchmark result (source S21). The 'withheld' classification itself is this pipeline's own timing inference — the absence post-dates the METR flag — recorded as curated judgment (S21), not vendor data.",
+   "integrity": [
+    "This is a curated row: human judgment selects the items. The mitigations are structural — every item names its primary source in the visible flag text, and changes happen only by governed edit or by an automated layer that may cite only facts already present in the day's data."
+   ],
+   "comparability": "A count of dated open items, not a score: cells compare only as more-or-fewer open questions, and each item stands on the named primary source in its flag."
+  },
+  "swe-bench-verified": {
+   "what": "Lab-published scores on the 500-task verified coding set. The score itself is close to saturated at the top of the field; the row is retained narrowly because who publishes and who withholds is the live signal — an empty cell here can say more than a number.",
+   "harness": "Vendor self-reports on vendor scaffolds, taken from vendor announcement and model pages (sources S14 and S17 for the currently populated cells); no independent run is involved.",
+   "cadence": "Moves only when a vendor discloses; this page treats the figure as stale after 14 days.",
+   "independence": "Vendor-claimed by construction: every cell is tagged V, renders in the vendor-claims band, and never competes for lead chips against independent values.",
+   "integrity": [
+    "Saturated near the ceiling on the 500-task set — the flag is on the cell — which is why this row is first out if the matrix ever needs a slot.",
+    "The Sol cell is 'withheld': not published after METR's record-gaming flag. The withholding itself is logged as an open disclosure-watch item.",
+    "Self-reports carry no independent verification; the cells say so in their flags."
+   ],
+   "comparability": "Comparable within the self-report set only. This is one of three separated SWE coding scales; the page bans it from appearing in the same row, comparison, or sentence as either of the other two."
+  },
+  "throughput-ttft": {
+   "what": "Operational speed: output throughput and time to first answer, measured as long-prompt medians. It was moved out of the matrix during metric selection as an operational tuning detail — useful context per model, not a daily race, price, adoption, or integrity decision.",
+   "harness": "Artificial Analysis performance measurements on first-party endpoints, long-prompt medians; where a model streams visible reasoning, time-to-first-answer includes that reasoning time and the cells note time-to-first-chunk separately (source S1, cell flags).",
+   "cadence": "Refreshed with AA's daily performance data; this page treats the figure as stale after 72 hours.",
+   "independence": "AA-run measurement, with AA's disclosed lab-revenue exposure (source S1).",
+   "integrity": [],
+   "comparability": "Comparable within the aa-throughput set. Compare time-to-first-answer carefully across models: for visible-reasoning models it includes the reasoning stream, which the cell flags call out."
+  },
+  "context-window": {
+   "what": "The maximum declared context length. It was moved out of the matrix during metric selection because the field has converged — all five tracked models sit in the ~1M-token class — so it differentiates nothing daily.",
+   "harness": "Vendor-declared windows as listed by Artificial Analysis's model data (source S1); the values are declarations, not measurements.",
+   "cadence": "Changes on releases; this page treats the figure as stale after 14 days.",
+   "independence": "Vendor-declared figures (tagged V) relayed through an independent listing — the number is the vendor's claim about its own product.",
+   "integrity": [],
+   "comparability": "Declared maximums in the context-window set; a declared window says nothing about quality of recall across it, and the page makes no such claim."
+  },
+  "deployment-terms": {
+   "what": "Deployment and data terms per model: what a customer agrees to when building on it. It lives in the model briefs because it changes rarely and requires manual curation.",
+   "harness": "Curated by hand from vendor terms pages; there is no automated collection for this row.",
+   "cadence": "Reviewed against a 30-day staleness threshold once curated; today the row is not yet curated.",
+   "independence": "Anything recorded here will be vendor-declared text, tagged accordingly.",
+   "integrity": [
+    "Not yet curated: all five cells are honest empties ('not published') awaiting grounded facts — the page never fills this row with guesses."
+   ],
+   "comparability": "Text terms, not scores: cells are read side by side, never ranked, and carry no chips."
+  }
+ },
+ "models": {
+  "fable-5": {
+   "release": "Anthropic's Claude Fable 5. The fresh-issue coding board's release data dates it to 2026-06-09 (source S20). Its long-horizon base was measured by METR under the name 'Claude Mythos Preview (early)' (source S5), recorded in this project's sources as the Fable base.",
+   "context_window": "Vendor-declared 1,000,000-token window as listed by Artificial Analysis (source S1) — the ~1M class shared by all five tracked models.",
+   "pricing": "The current vendor-declared list price (per million tokens in/out) is shown in the price row, sourced to Anthropic's pricing page (source S14); no variant pricing notes are recorded on the cell.",
+   "price_moves": "None recorded in the current tape window.",
+   "deployment_terms": "Not yet curated — the cell renders an honest 'not published' until a grounded fact lands.",
+   "coverage_gaps": "ARC-AGI-3 is empty with reason 'not published': Fable 5 has no verified score at any effort tier, and ARC Prize's approximate public-demo figure is recorded on the cell as non-comparable. The METR horizon cell is populated but is a proxy measurement of 'Claude Mythos Preview (early)', value-disclaimed and excluded from chips. When fresh-issue coding tracking begins, its cell will carry that board's 'Potential contamination' flag for the current window, because the release date falls after the window opened (source S20). Deployment terms read 'not published' pending curation (true of all five models)."
+  },
+  "opus-5": {
+   "release": "Anthropic's Claude Opus 5, launched 2026-07-24 — the launch-claim date recorded on its vendor coding claim (source S14), the release date in the fresh-issue board's data (source S20), and the day its ARC-AGI-3 record was set (source S4). The picker catalog lists Opus 4.8 as the line's direct predecessor.",
+   "context_window": "Vendor-declared 1,000,000-token window as listed by Artificial Analysis (source S1).",
+   "pricing": "The current vendor-declared list price is shown in the price row, sourced to Anthropic's pricing page (source S14); no variant pricing notes are recorded on the cell.",
+   "price_moves": "None recorded in the current tape window.",
+   "deployment_terms": "Not yet curated — the cell renders 'not published' until a grounded fact lands.",
+   "coverage_gaps": "Terminal-Bench 2.1: 'not published' — not on the displayed board (the nearest listed relative is predecessor Opus 4.8, a different model). METR horizon: 'not evaluated'. SWE-bench Verified: 'not published'. Its cell in the vendor coding-claims row is populated but provisional: a launch claim not yet ingested by the llm-stats aggregate or any board (flag on the cell, sources S13 and S14)."
+  },
+  "gpt-5-6-sol": {
+   "release": "OpenAI's GPT-5.6 Sol, released 2026-06-26 per the fresh-issue board's release data (source S20); METR's NDA'd pre-deployment post carries the same date (source S18). The line includes lower-priced variants Terra and Luna, which sit in the picker catalog as price-point siblings.",
+   "context_window": "Vendor-declared 1,000,000-token window as listed by Artificial Analysis (source S1).",
+   "pricing": "The current list price shown in the price row is vendor-declared, currently relayed via Artificial Analysis data with a direct vendor-page probe pending (flag on the cell; sources S1 and S15). The cell also records the line variants (Terra, Luna) and that the input rate increases past 272K context.",
+   "price_moves": "OpenAI cut Luna's list price to $0.20/$1.20 per million tokens on 2026-07-30 (tape entry, source S15).",
+   "deployment_terms": "Not yet curated — the cell renders 'not published' until a grounded fact lands.",
+   "coverage_gaps": "Terminal-Bench 2.1: 'not published' — a score exists only as a merged file in the submissions repository and is absent from the displayed official board, which is canonical (flag on the cell, source S8). SWE-bench Verified: 'withheld' — not published after METR's record-gaming flag; the withholding is one of the open items counted on Sol's disclosure-watch cell. Its ARC-AGI-3 and METR cells are populated but heavily flagged: the vendor's modified-harness claim is excluded from the verified ARC cell, and the METR figure is blog-only, NDA'd, and disclaimed by METR itself."
+  },
+  "kimi-k3": {
+   "release": "Moonshot AI's Kimi K3. No release date is recorded in this repository's sources — it is absent from the fresh-issue board whose data carries release dates (source S20). On Arena, its display name changed from kimi-k3 to kimi-k3-max around Jul 26 (source S2), and Artificial Analysis lists it as the #1 open-weights model at max effort (flag on its index cell, source S1).",
+   "context_window": "Vendor-declared 1,048,576 tokens as listed by Artificial Analysis (source S1) — nominally above the flat 1,000,000 the other four declare.",
+   "pricing": "The current vendor-declared list price is shown in the price row, relayed via Artificial Analysis data with a direct vendor-page probe pending (flag on the cell; sources S1 and S16).",
+   "price_moves": "None recorded in the current tape window.",
+   "deployment_terms": "Not yet curated — the cell renders 'not published' until a grounded fact lands.",
+   "coverage_gaps": "The widest gap set of the five. Terminal-Bench 2.1: 'not published'. Vendor coding-claims aggregate: 'not published' — no row for it on the aggregate (source S13). Self-reported verified-set coding row: 'not published'. ARC-AGI-3: 'not evaluated' — scored on the earlier ARC-AGI-1/2 boards only (flag on the cell). METR horizon: 'not evaluated'. OpenRouter provider share: 'not published' — Moonshot has sat below the top-9 authors since May, bucketed into 'others'; the cell notes that per-model spend is visible via the task-spend view instead (source S3). It is also absent from the fresh-issue coding board (source S20)."
+  },
+  "ds-v4-pro": {
+   "release": "DeepSeek's V4 Pro, released 2026-04-24 per the fresh-issue board's release data (source S20) — the only one of the five released before that board's current issue window opened, making it the window's only contamination-clean covered model. Line context: sibling DeepSeek V4 Flash 0731 debuted 2026-07-31 on the AA index (tape entry, source S1) and remains a watch item, not a catalog model.",
+   "context_window": "Vendor-declared 1,000,000-token window as listed by Artificial Analysis (source S1).",
+   "pricing": "The current vendor-declared list price is shown in the price row, relayed via Artificial Analysis data (source S1), with the vendor's unrounded figures noted on the cell; the vendor's own pages are at source S17.",
+   "price_moves": "None recorded in the current tape window.",
+   "deployment_terms": "Not yet curated — the cell renders 'not published' until a grounded fact lands.",
+   "coverage_gaps": "Terminal-Bench 2.1: 'not published' — the nearest DeepSeek datapoint is a V3.2-era score on the older 2.0 set, a different comparability set (source S8). ARC-AGI-3: 'not evaluated' — absent from the verified board entirely. METR horizon: 'not evaluated' — METR's DeepSeek coverage is V3-era only (source S5)."
+  }
+ },
+ "_preregistered": [
+  "aa-agentic-index",
+  "aa-halluc-rate"
+ ]
+}
