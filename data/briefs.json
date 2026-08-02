@@ -52,7 +52,7 @@
   "aa-agentic-index": {
    "what": "Artificial Analysis's composite for specifically agentic work — GDPval plus tau3-Banking — as opposed to benchmarks at large. It answers who leads on agent-style work rather than on the broad index. It overlaps the GDPval row by construction: that Elo is a component here, at roughly half the weight.",
    "harness": "An AA composite tied to the v4.1 generation (comparability set aa-agentic-index-v4.1), collected over the same source S1 channel as the other AA rows; all five tracked models carry the field in this pipeline's recorded test data.",
-   "cadence": "AA cadence with a 72-hour staleness threshold. Tracking on this page begins soon.",
+   "cadence": "AA cadence with a 72-hour staleness threshold. Tracking on this page began 2026-08-02 (row activated by the daily pipeline).",
    "independence": "Same AA caveats as the index: disclosed lab-revenue exposure, plus the Gemini-grader caveat, carried because GDPval is roughly half of this composite's weight (source S1).",
    "integrity": [
     "Cells will carry the 'Gemini-graded (AA judge panel)' flag inherited from the GDPval component.",
@@ -161,7 +161,7 @@
   "aa-halluc-rate": {
    "what": "The deployment-safety split from the same evaluation: when the model does not know, does it guess? A model can hide a high confabulation rate inside a decent net knowledge index, which is why the rate gets its own row. Lower is better.",
    "harness": "The hallucination-rate view of AA-Omniscience — same evaluation and collection channel as the net index (source S1).",
-   "cadence": "AA cadence with a 72-hour staleness threshold. Tracking on this page begins soon — today the rate appears as notes on the net-index cells.",
+   "cadence": "AA cadence with a 72-hour staleness threshold. Tracking on this page began 2026-08-02 (row activated by the daily pipeline) — today the rate appears as notes on the net-index cells.",
    "independence": "Same as the net index: AA-run, with the Gemini-grader dependency (source S1).",
    "integrity": [
     "The 'Gemini-graded (AA judge panel)' caveat applies to this view as it does to the net index."
@@ -291,8 +291,5 @@
    "coverage_gaps": "Terminal-Bench 2.1: 'not published' — the nearest DeepSeek datapoint is a V3.2-era score on the older 2.0 set, a different comparability set (source S8). ARC-AGI-3: 'not evaluated' — absent from the verified board entirely. METR horizon: 'not evaluated' — METR's DeepSeek coverage is V3-era only (source S5)."
   }
  },
- "_preregistered": [
-  "aa-agentic-index",
-  "aa-halluc-rate"
- ]
+ "_preregistered": []
 }
