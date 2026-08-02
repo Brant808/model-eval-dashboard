@@ -51,7 +51,13 @@ decisions, not omissions: each one traces to a gate objection.
   then push from a fresh session).
 - Reversal trigger: first successful push closes this risk.
 
-**Final status (2026-08-01, session close).** Exhausted every in-sandbox
+**CLOSED (2026-08-01).** Resolved by the human installing the Claude GitHub
+App with write access to this repository (HANDOFF §Phase 9 step 1, Option A).
+Push succeeded on the first post-grant attempt; branch on origin; PR #1 open:
+https://github.com/Brant808/model-eval-dashboard/pull/1. Remaining human
+steps (merge, Pages toggle, first dispatch) tracked in HANDOFF.
+
+**Superseded record of the blocked state:** Exhausted every in-sandbox
 avenue: git push retried with the full 2/4/8/16s ladder at every phase
 boundary and at close (403 every time, both owner casings), GitHub API
 writes 403 ("Resource not accessible by integration"), platform re-attach
