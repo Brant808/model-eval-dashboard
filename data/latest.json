@@ -2,7 +2,7 @@
  "schema_version": 1,
  "kind": "collected",
  "snapshot_date": "2026-08-03",
- "generated_at": "2026-08-03T15:25:38Z",
+ "generated_at": "2026-08-03T15:51:09Z",
  "note": "Collected snapshot (mechanical pipeline).",
  "models": {
   "fable-5": {
@@ -253,7 +253,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-index-v4.1",
     "stale": false,
@@ -264,7 +264,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-index-v4.1",
     "stale": false,
@@ -275,7 +275,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-index-v4.1",
     "stale": false,
@@ -286,7 +286,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-index-v4.1",
     "stale": false,
@@ -297,7 +297,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-index-v4.1",
     "stale": false,
@@ -310,7 +310,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S10",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
      "95% CI 159.02–165.23",
@@ -325,7 +325,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S10",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
      "95% CI 158.63–164.1",
@@ -340,7 +340,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S10",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
      "95% CI 159.12–165.2",
@@ -355,7 +355,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S10",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
      "95% CI 155.26–160.32",
@@ -370,7 +370,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S10",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "mixed-provenance composite (incl. OpenAI-funded FrontierMath)",
      "95% CI 147.4–150.97",
@@ -459,7 +459,7 @@
     "unit": "Elo",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -472,7 +472,7 @@
     "unit": "Elo",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -485,7 +485,7 @@
     "unit": "Elo",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -498,7 +498,7 @@
     "unit": "Elo",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -511,7 +511,7 @@
     "unit": "Elo",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -526,7 +526,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -539,7 +539,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -552,7 +552,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -565,7 +565,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -578,7 +578,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -593,7 +593,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S11",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "VC-funded evaluator, no on-site funding disclosure",
      "weighted composite (Vals Index)"
@@ -607,7 +607,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S11",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "VC-funded evaluator, no on-site funding disclosure",
      "weighted composite (Vals Index)"
@@ -621,7 +621,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S11",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "VC-funded evaluator, no on-site funding disclosure",
      "weighted composite (Vals Index)"
@@ -635,7 +635,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S11",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "VC-funded evaluator, no on-site funding disclosure",
      "weighted composite (Vals Index)"
@@ -649,7 +649,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S11",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "VC-funded evaluator, no on-site funding disclosure",
      "weighted composite (Vals Index)"
@@ -665,7 +665,7 @@
     "unit": "%",
     "tag": "I",
     "source_id": "S8",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "self-run by vendor, log-audited by maintainers",
      "agent+model+effort tuple: Claude Code, effort xhigh",
@@ -730,7 +730,7 @@
     "unit": "%",
     "tag": "I",
     "source_id": "S20",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "agent/effort variant: Fable 5 [high]",
      "±1.41 SEM",
@@ -745,7 +745,7 @@
     "unit": "%",
     "tag": "I",
     "source_id": "S20",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "agent/effort variant: Opus 5 [high]",
      "±1.35 SEM",
@@ -760,7 +760,7 @@
     "unit": "%",
     "tag": "I",
     "source_id": "S20",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "agent/effort variant: GPT-5.6 Sol [medium]",
      "±1.83 SEM",
@@ -787,7 +787,7 @@
     "unit": "%",
     "tag": "I",
     "source_id": "S20",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "agent/effort variant: DeepSeek-V4 Pro [high]",
      "±1.29 SEM"
@@ -803,7 +803,7 @@
     "unit": "%",
     "tag": "V",
     "source_id": "S13",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "aggregated vendor self-reports (0 of 43 verified)",
      "self-report source: https://www-cdn.anthropic.com/d00db56fa754a1b115b6dd7cb2e3c342ee809620.pdf"
@@ -830,7 +830,7 @@
     "unit": "%",
     "tag": "V",
     "source_id": "S13",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "aggregated vendor self-reports (0 of 43 verified)",
      "self-report source: https://openai.com/index/gpt-5-6/"
@@ -856,7 +856,7 @@
     "unit": "%",
     "tag": "V",
     "source_id": "S13",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "aggregated vendor self-reports (0 of 43 verified)",
      "self-report source: https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro"
@@ -872,7 +872,7 @@
     "unit": "index pts per task-USD",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "derived: aa-index (59.86) ÷ cost-per-task ($3.15)"
     ],
@@ -889,7 +889,7 @@
     "unit": "index pts per task-USD",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "derived: aa-index (60.69) ÷ cost-per-task ($2.34)"
     ],
@@ -906,7 +906,7 @@
     "unit": "index pts per task-USD",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "derived: aa-index (58.89) ÷ cost-per-task ($1.23)"
     ],
@@ -923,7 +923,7 @@
     "unit": "index pts per task-USD",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "derived: aa-index (57.11) ÷ cost-per-task ($0.86)"
     ],
@@ -940,7 +940,7 @@
     "unit": "index pts per task-USD",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "derived: aa-index (44.27) ÷ cost-per-task ($0.05)"
     ],
@@ -959,7 +959,7 @@
     "unit": "USD/task",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-cost-per-task",
     "stale": false,
@@ -970,7 +970,7 @@
     "unit": "USD/task",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-cost-per-task",
     "stale": false,
@@ -981,7 +981,7 @@
     "unit": "USD/task",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-cost-per-task",
     "stale": false,
@@ -992,7 +992,7 @@
     "unit": "USD/task",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-cost-per-task",
     "stale": false,
@@ -1003,7 +1003,7 @@
     "unit": "USD/task",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-cost-per-task",
     "stale": false,
@@ -1016,7 +1016,7 @@
     "unit": "USD/Mtok in/out",
     "tag": "V",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "list price as relayed by AA data"
     ],
@@ -1029,7 +1029,7 @@
     "unit": "USD/Mtok in/out",
     "tag": "V",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "list price as relayed by AA data"
     ],
@@ -1042,7 +1042,7 @@
     "unit": "USD/Mtok in/out",
     "tag": "V",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "list price as relayed by AA data"
     ],
@@ -1055,7 +1055,7 @@
     "unit": "USD/Mtok in/out",
     "tag": "V",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "list price as relayed by AA data"
     ],
@@ -1068,7 +1068,7 @@
     "unit": "USD/Mtok in/out",
     "tag": "V",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "list price as relayed by AA data"
     ],
@@ -1083,7 +1083,7 @@
     "unit": "% tokens",
     "tag": "I",
     "source_id": "S3",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "provider-level: Anthropic total, not per-model",
      "unit per page copy ambiguous (counts consistent with tokens)",
@@ -1098,7 +1098,7 @@
     "unit": "% tokens",
     "tag": "I",
     "source_id": "S3",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "provider-level: Anthropic total, not per-model",
      "unit per page copy ambiguous (counts consistent with tokens)",
@@ -1113,7 +1113,7 @@
     "unit": "% tokens",
     "tag": "I",
     "source_id": "S3",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "provider-level: OpenAI total, not per-model",
      "unit per page copy ambiguous (counts consistent with tokens)",
@@ -1140,7 +1140,7 @@
     "unit": "% tokens",
     "tag": "I",
     "source_id": "S3",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "provider-level: DeepSeek total, not per-model",
      "unit per page copy ambiguous (counts consistent with tokens)",
@@ -1157,7 +1157,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -1170,7 +1170,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -1183,7 +1183,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -1196,7 +1196,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -1209,7 +1209,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -1224,7 +1224,7 @@
     "unit": "%",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -1237,7 +1237,7 @@
     "unit": "%",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -1250,7 +1250,7 @@
     "unit": "%",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -1263,7 +1263,7 @@
     "unit": "%",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -1276,7 +1276,7 @@
     "unit": "%",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "Gemini-graded (AA judge panel)"
     ],
@@ -1291,7 +1291,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S12",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
     ],
@@ -1304,7 +1304,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S12",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
     ],
@@ -1317,7 +1317,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S12",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
     ],
@@ -1330,7 +1330,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S12",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
     ],
@@ -1343,7 +1343,7 @@
     "unit": "index",
     "tag": "I",
     "source_id": "S12",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "global average over 23 task columns, release 2026-06-25 (board accrues later-launched models into the release)"
     ],
@@ -1424,7 +1424,7 @@
     "unit": "hours",
     "tag": "I",
     "source_id": "S5",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "proxy-model measurement: value is for Claude Mythos Preview (early), not Fable 5 itself",
      "95% CI 8.5–55.1h",
@@ -1624,7 +1624,7 @@
     "unit": "s",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-throughput",
     "stale": false,
@@ -1635,7 +1635,7 @@
     "unit": "s",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-throughput",
     "stale": false,
@@ -1646,7 +1646,7 @@
     "unit": "s",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-throughput",
     "stale": false,
@@ -1657,7 +1657,7 @@
     "unit": "s",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-throughput",
     "stale": false,
@@ -1668,7 +1668,7 @@
     "unit": "s",
     "tag": "I",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [],
     "comparability_set": "aa-throughput",
     "stale": false,
@@ -1681,7 +1681,7 @@
     "unit": "tokens",
     "tag": "V",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "vendor-declared window as listed by AA"
     ],
@@ -1694,7 +1694,7 @@
     "unit": "tokens",
     "tag": "V",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "vendor-declared window as listed by AA"
     ],
@@ -1707,7 +1707,7 @@
     "unit": "tokens",
     "tag": "V",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "vendor-declared window as listed by AA"
     ],
@@ -1720,7 +1720,7 @@
     "unit": "tokens",
     "tag": "V",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "vendor-declared window as listed by AA"
     ],
@@ -1733,7 +1733,7 @@
     "unit": "tokens",
     "tag": "V",
     "source_id": "S1",
-    "retrieved_at": "2026-08-03T15:25:38Z",
+    "retrieved_at": "2026-08-03T15:51:09Z",
     "flags": [
      "vendor-declared window as listed by AA"
     ],
@@ -2256,17 +2256,17 @@
   "run_status": "collected",
   "judgment_layer": "off (mechanical)",
   "sources": {
-   "S1": "ok (fetched 2026-08-03T15:25:38Z)",
-   "S10": "ok (fetched 2026-08-03T15:25:38Z)",
-   "S11": "ok (fetched 2026-08-03T15:25:38Z)",
-   "S12": "ok (fetched 2026-08-03T15:25:38Z)",
-   "S13": "ok (fetched 2026-08-03T15:25:38Z)",
-   "S2": "ok (fetched 2026-08-03T15:25:38Z)",
-   "S20": "ok (fetched 2026-08-03T15:25:38Z)",
-   "S3": "ok (fetched 2026-08-03T15:25:38Z)",
-   "S4": "ok (fetched 2026-08-03T15:25:38Z)",
-   "S5": "ok (fetched 2026-08-03T15:25:38Z)",
-   "S8": "ok (fetched 2026-08-03T15:25:38Z)"
+   "S1": "ok (fetched 2026-08-03T15:51:09Z)",
+   "S10": "ok (fetched 2026-08-03T15:51:09Z)",
+   "S11": "ok (fetched 2026-08-03T15:51:09Z)",
+   "S12": "ok (fetched 2026-08-03T15:51:09Z)",
+   "S13": "ok (fetched 2026-08-03T15:51:09Z)",
+   "S2": "ok (fetched 2026-08-03T15:51:09Z)",
+   "S20": "ok (fetched 2026-08-03T15:51:09Z)",
+   "S3": "ok (fetched 2026-08-03T15:51:09Z)",
+   "S4": "ok (fetched 2026-08-03T15:51:09Z)",
+   "S5": "ok (fetched 2026-08-03T15:51:09Z)",
+   "S8": "ok (fetched 2026-08-03T15:51:09Z)"
   }
  },
  "default_trio": [
