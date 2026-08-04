@@ -24,11 +24,14 @@
 
 name: daily-refresh
 
+# PAUSED (2026-08-04, owner request): the cron schedule is removed, so nothing
+# runs automatically. The pipeline stays fully functional for on-demand use via
+# Actions -> daily-refresh -> Run workflow. To resume daily refreshes, restore
+# under `on:` the block:
+#   schedule:
+#     - cron: "30 12 * * *"   # 12:30 UTC = 05:30 Pacific (PDT)
+#     - cron: "15 13 * * *"   # idempotent retry against schedule drops
 on:
-  schedule:
-    # 12:30 UTC = 05:30 Pacific (PDT) — lands before the reader's morning.
-    - cron: "30 12 * * *"
-    - cron: "15 13 * * *"
   workflow_dispatch: {}
 
 permissions:
